@@ -1,0 +1,66 @@
+<div class="container">
+
+    <form [formGroup]="signupForm" enctype="multipart/form-data" *ngIf="regions !== []" (submit)="onSubmit()">
+        <!-- name and email -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group mb-4  mt-4">
+                    <input type="text" formControlName="firstName" class="form-control" id="firstName" value="firstName">                    
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group mb-4 mt-md-4">
+                    <input type="text" formControlName="lastName" class="form-control" id="lastName" value="lastName">                    
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group mb-4 mt-md-4">
+                    <input type="text" formControlName="email" class="form-control" id="email" value="email" [attr.disabled]="true">                    
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- department -->
+        <div class="row">
+            <div class="form-group mb-4">
+                <input type="text" formControlName="department" class="form-control" id="email" value="" placeholder="Department">                    
+            </div>
+        </div>
+
+
+        <!-- address -->
+        <div formGroupName="address">
+            <div class="form-group mb-4">
+                <select class="form-select" formControlName="region" id="inputGroupSelect01" (change)="filterProvinces($event)">
+                    <option selected disabled value="">Select Region</option>
+                    <option *ngFor="let region of regions" value="{{region.region_name}}">{{region.region_name}}</option>
+                </select>             
+            </div>
+            <div class="form-group mb-4">
+                <select class="form-select" formControlName="province" id="inputGroupSelect01" (change)="filterCities($event)">
+                    <option selected disabled value="">Select Province</option>
+                    <option *ngFor="let province of provinces" value="{{province.province_name}}">{{province.province_name}}</option>
+                </select>             
+            </div>
+            <div class="form-group mb-4">
+                <select class="form-select" formControlName="city" id="inputGroupSelect01" (change)="filterBarangays($event)">
+                    <option selected disabled value="">Select City</option>
+                    <option *ngFor="let city of cities" value="{{city.city_name}}">{{city.city_name}}</option>
+                </select>             
+            </div>
+            <div class="form-group mb-4">
+                <select class="form-select" formControlName="barangay" id="inputGroupSelect01">
+                    <option selected disabled value="">Select Barangay</option>
+                    <option *ngFor="let barangay of barangays" value="{{barangay.brgy_name}}">{{barangay.brgy_name}}</option>
+                </select>             
+            </div>
+            <div class="form-group mb-4">
+                <input type="text" formControlName="street" class="form-control" id="street" value="" placeholder="Street Address">         
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary float-end">Sign Up</button>
+    </form>
+
+</div>
