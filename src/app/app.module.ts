@@ -15,6 +15,7 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HomepageComponent } from './pages/homepage/homepage.component';
 import { SignupComponent } from './pages/signup/signup.component';
+import { Interceptor } from './interceptor';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,10 @@ import { SignupComponent } from './pages/signup/signup.component';
         }
       ]
     }
+  }, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: Interceptor,
+    multi: true
   }],
   bootstrap: [AppComponent]
 })
