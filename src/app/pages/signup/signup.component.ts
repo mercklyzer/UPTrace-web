@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SocialAuthService } from 'angularx-social-login';
+import { CookieService } from 'ngx-cookie';
 import { Barangay } from 'src/app/models/barangay.model';
 import { City } from 'src/app/models/city.model';
 import { Province } from 'src/app/models/province.model';
 import { Region } from 'src/app/models/region.model';
 import { AddressService } from 'src/app/services/address.service';
 import { UserService } from 'src/app/services/user.service';
+import { getFormValidationErrors } from 'src/app/utils/errorhandling';
 
 
 @Component({
@@ -15,6 +17,8 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
+  errorMessages:string[] = []
+
   name:string = ''
   firstName:string = ''
   lastName:string = ''
@@ -35,7 +39,8 @@ export class SignupComponent implements OnInit {
   constructor(
     private userService:UserService,
     private fb:FormBuilder,
-    private addressService:AddressService
+    private addressService:AddressService,
+    private cookieService:CookieService
   ) { }
 
   ngOnInit(): void {
@@ -45,18 +50,17 @@ export class SignupComponent implements OnInit {
     this.email = this.userService.email
 
     this.signupForm = this.fb.group({
-      firstName: [this.firstName],
-      lastName: [this.lastName],
-      email: [this.email],
+      email: [this.email, [Validators.required]],
+      contact_num: ['', [Validators.required]],
       
-      department: [''],
+      department: ['', [Validators.required]],
 
       address: this.fb.group({
-        region: [''],
-        province: [''],
-        city: [''],
-        barangay: [''],
-        street: ['']
+        region: ['', [Validators.required]],
+        province: ['', [Validators.required]],
+        city: ['', [Validators.required]],
+        barangay: ['', [Validators.required]],
+        street: ['', [Validators.required]]
       })
     })
 
@@ -64,7 +68,6 @@ export class SignupComponent implements OnInit {
     this.getAllProvinces()
     this.getAllCities()
     this.getAllBarangays()
-
   }
 
   getAllRegions(){
@@ -147,8 +150,28 @@ export class SignupComponent implements OnInit {
     })
   }
 
+  public get addressGroup():FormGroup{
+    return this.signupForm.get('address') as FormGroup
+  }
+
   onSubmit(){
-    console.log(this.signupForm.value);
+    this.errorMessages = getFormValidationErrors(this.signupForm)
+    this.errorMessages = this.errorMessages.concat(getFormValidationErrors(this.addressGroup))
+    
+    if(this.errorMessages.length === 0){
+      this.userService.signupUser(this.signupForm.value)
+      .subscribe((userResponse) => {
+        console.log(userResponse);
+        this.cookieService.put('Token', userResponse.token)
+      }, (err) => {
+        console.log(err);
+      })
+      console.log(this.signupForm.value);
+    }
+    else{
+      console.log(this.errorMessages);
+    }
+
   }
 
 
