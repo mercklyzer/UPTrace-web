@@ -7,6 +7,7 @@ import { City } from 'src/app/models/city.model';
 import { Province } from 'src/app/models/province.model';
 import { Region } from 'src/app/models/region.model';
 import { AddressService } from 'src/app/services/address.service';
+import { DepartmentService } from 'src/app/services/department.service';
 import { UserService } from 'src/app/services/user.service';
 import { getFormValidationErrors } from 'src/app/utils/errorhandling';
 
@@ -26,6 +27,8 @@ export class SignupComponent implements OnInit {
 
   signupForm!:FormGroup
 
+  departments:string[] = []
+
   regions:Region[] = []
 
   allProvinces:Province[] = []
@@ -40,6 +43,7 @@ export class SignupComponent implements OnInit {
     private userService:UserService,
     private fb:FormBuilder,
     private addressService:AddressService,
+    private deparmentService:DepartmentService,
     private cookieService:CookieService
   ) { }
 
@@ -64,10 +68,18 @@ export class SignupComponent implements OnInit {
       })
     })
 
+    this.getAllDepartments()
     this.getAllRegions()
     this.getAllProvinces()
     this.getAllCities()
     this.getAllBarangays()
+  }
+
+  getAllDepartments(){
+    this.deparmentService.getDepartments()
+    .subscribe((departments) => {
+      this.departments = departments
+    })
   }
 
   getAllRegions(){

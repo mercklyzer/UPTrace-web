@@ -23,7 +23,10 @@
         <!-- department -->
         <div class="row">
             <div class="form-group mb-4">
-                <input type="text" formControlName="department" class="form-control" id="email" value="" placeholder="Department">                    
+                <select class="form-select" formControlName="department">
+                    <option selected disabled value="">Select Department</option>
+                    <option *ngFor="let department of departments" value="{{department}}">{{department}}</option>
+                </select>                  
             </div>
         </div>
 
