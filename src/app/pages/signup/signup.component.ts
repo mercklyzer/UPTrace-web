@@ -183,10 +183,5 @@ export class SignupComponent implements OnInit {
     else{
       console.log(this.errorMessages);
     }
-
   }
-
-
-
-
 }
