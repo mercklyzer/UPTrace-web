@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
+import { GoogleService } from '../services/google.service';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -13,7 +14,8 @@ export class NavbarComponent implements OnInit {
   constructor(
     private socialAuthService: SocialAuthService,
     private router:Router,
-    private userService:UserService
+    private userService:UserService,
+    private googleService:GoogleService
   ) { }
 
   ngOnInit(): void {
@@ -27,7 +29,16 @@ export class NavbarComponent implements OnInit {
         this.userService.name = socialUser.name
         this.userService.email = socialUser.email
         
-        this.router.navigate(['/signup'])
+        this.googleService.idToken = socialUser.idToken
+        this.googleService.verifyUser({token: this.googleService.idToken})
+        .subscribe((res) => {
+          if(res.message === 'Okay'){
+            console.log(res);
+            this.router.navigate(['/signup'])
+          }
+        }, (err) => {
+          console.error(err.error)
+        })
       }
       );
   }
