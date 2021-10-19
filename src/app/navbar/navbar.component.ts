@@ -32,9 +32,12 @@ export class NavbarComponent implements OnInit {
         this.googleService.idToken = socialUser.idToken
         this.googleService.verifyUser({token: this.googleService.idToken})
         .subscribe((res) => {
-          if(res.message === 'Okay'){
+          if(res.message === 'signup'){
             console.log(res);
             this.router.navigate(['/signup'])
+          }
+          else if(res.message === 'login'){
+            console.log("GO TO LOGIN PAGE")
           }
         }, (err) => {
           console.error(err.error)
