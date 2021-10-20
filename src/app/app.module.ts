@@ -16,13 +16,15 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { HomepageComponent } from './pages/homepage/homepage.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { Interceptor } from './interceptor';
+import { RoomsComponent } from './pages/rooms/rooms.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     HomepageComponent,
-    SignupComponent
+    SignupComponent,
+    RoomsComponent
   ],
   imports: [
     BrowserModule,
