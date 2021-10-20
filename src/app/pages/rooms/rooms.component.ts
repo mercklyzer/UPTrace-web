@@ -16,6 +16,9 @@ export class RoomsComponent implements OnInit {
   buildings:Building[] = [];
   rooms:Room[] = [];
 
+  selectedBuildingId: number = 0;
+  selectedBuildingName: string = "";
+
   constructor(
     private fb:FormBuilder,
     private buildingService:BuildingService,
@@ -30,6 +33,8 @@ export class RoomsComponent implements OnInit {
     this.roomForm = this.fb.group({
       newRooms: this.fb.array([])
     });
+
+    this.getAllBuildings();
   }
 
   newRooms(): FormArray {
@@ -38,8 +43,10 @@ export class RoomsComponent implements OnInit {
 
   newRoom(): FormGroup {
     return this.fb.group({
-      roomName: "",
-      buildingName: this.buildingForm.value.selectedBuilding
+      // building_name: this.buildingForm.value.selectedBuilding,
+      building_name: this.selectedBuildingName,
+      room_name: "",
+      department: ""
     });
   }
 
@@ -50,6 +57,20 @@ export class RoomsComponent implements OnInit {
     });
   }
 
+  getAllRooms(buildingId: number) {
+    this.buildingService.getRooms(buildingId)
+    .subscribe((rooms) => {
+      this.rooms = rooms;
+      // console.log("rooms:", this.rooms);
+    });
+  }
+
+  setBuildingName(buildingId: number) {
+    let index = this.buildings.findIndex(x => x.building_id == buildingId);
+    // console.log("index:", index);
+    this.selectedBuildingName = this.buildings[index].building_name;
+  }
+
   addRoom() {
     this.newRooms().push(this.newRoom());
   }
@@ -58,13 +79,35 @@ export class RoomsComponent implements OnInit {
     this.newRooms().removeAt(i);
   }
 
-  onSubmitBuilding() {
+  onSelectBuilding(event: any) {
+    this.selectedBuildingId = event.target.value;
+    // console.log(this.selectedBuildingId);
+    this.getAllRooms(this.selectedBuildingId);
+    this.setBuildingName(this.selectedBuildingId);
+  }
 
+  onSubmitBuilding() {
+    let addBuildingRequestBody = {
+      building_name: this.buildingForm.value.newBuilding
+    };
+    // console.log(addBuildingRequestBody);
+
+    this.buildingService.addBuilding(addBuildingRequestBody)
+    .subscribe((response) => {
+      console.log(response);
+    }, (err) => {
+      console.log(err);
+    });
   }
 
   onSubmitRooms() {
-    console.log(this.roomForm.value);
-    // console.log(this.buildingForm.value.selectedBuilding);
+    console.log(this.roomForm.value.newRooms);
+    this.buildingService.addRoom(this.roomForm.value.newRooms, this.selectedBuildingId)
+    .subscribe((response) => {
+      console.log(response);
+    }, (err) => {
+      console.log(err);
+    });
   }
 
 }

@@ -1,5 +1,5 @@
 export interface Room {
-    id: number,
+    room_id: number,
     building_name: string,
     room_name: string,
     department: string,
