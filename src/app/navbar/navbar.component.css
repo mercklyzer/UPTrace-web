@@ -41,3 +41,7 @@
     font-weight: 500;
     padding: 0px 12px;
 }
+
+.nav-link {
+    color: var(--dark-green);
+}
