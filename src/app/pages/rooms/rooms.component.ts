@@ -10,6 +10,8 @@ import { BuildingService } from 'src/app/services/building.service';
   styleUrls: ['./rooms.component.css']
 })
 export class RoomsComponent implements OnInit {
+  errorMessages:string[] = [];
+
   buildingForm!:FormGroup;
   roomForm!:FormGroup;
 
@@ -18,6 +20,10 @@ export class RoomsComponent implements OnInit {
 
   selectedBuildingId: number = 0;
   selectedBuildingName: string = "";
+  isRoomFormSubmitted: boolean = false;
+
+  addBuildingMessage: string = "";
+  addRoomMessage: string = "";
 
   constructor(
     private fb:FormBuilder,
@@ -43,11 +49,17 @@ export class RoomsComponent implements OnInit {
 
   newRoom(): FormGroup {
     return this.fb.group({
-      // building_name: this.buildingForm.value.selectedBuilding,
-      building_name: this.selectedBuildingName,
-      room_name: "",
-      department: ""
+      // building_name: [this.selectedBuildingName, [Validators.required]],
+      room_name: ['', [Validators.required]]
     });
+  }
+
+  addRoom() {
+    this.newRooms().push(this.newRoom());
+  }
+
+  removeRoom(i: number) {
+    this.newRooms().removeAt(i);
   }
 
   getAllBuildings() {
@@ -61,27 +73,16 @@ export class RoomsComponent implements OnInit {
     this.buildingService.getRooms(buildingId)
     .subscribe((rooms) => {
       this.rooms = rooms;
-      // console.log("rooms:", this.rooms);
     });
   }
 
   setBuildingName(buildingId: number) {
     let index = this.buildings.findIndex(x => x.building_id == buildingId);
-    // console.log("index:", index);
     this.selectedBuildingName = this.buildings[index].building_name;
-  }
-
-  addRoom() {
-    this.newRooms().push(this.newRoom());
-  }
-
-  removeRoom(i: number) {
-    this.newRooms().removeAt(i);
   }
 
   onSelectBuilding(event: any) {
     this.selectedBuildingId = event.target.value;
-    // console.log(this.selectedBuildingId);
     this.getAllRooms(this.selectedBuildingId);
     this.setBuildingName(this.selectedBuildingId);
   }
@@ -90,24 +91,34 @@ export class RoomsComponent implements OnInit {
     let addBuildingRequestBody = {
       building_name: this.buildingForm.value.newBuilding
     };
-    // console.log(addBuildingRequestBody);
 
     this.buildingService.addBuilding(addBuildingRequestBody)
     .subscribe((response) => {
       console.log(response);
+      this.addBuildingMessage = "Successfully added building.";
     }, (err) => {
-      console.log(err);
+      console.error(err);
+      this.addBuildingMessage = `ERROR: ${err.error.error.message}`;
     });
   }
 
   onSubmitRooms() {
-    console.log(this.roomForm.value.newRooms);
-    this.buildingService.addRoom(this.roomForm.value.newRooms, this.selectedBuildingId)
-    .subscribe((response) => {
-      console.log(response);
-    }, (err) => {
-      console.log(err);
-    });
+    this.isRoomFormSubmitted = true;
+    // console.log("rooms to add:", this.roomForm.value.newRooms);
+
+    if(this.roomForm.valid) {
+      this.buildingService.addRoom(this.roomForm.value.newRooms, this.selectedBuildingId)
+      .subscribe((response) => {
+        console.log(response);
+        this.addRoomMessage = response;
+      }, (err) => {
+        console.error(err);
+      this.addBuildingMessage = `ERROR: ${err.error.error.message}`;
+      });
+    }
   }
 
+  refreshPage() {
+    location.reload();
+  }
 }

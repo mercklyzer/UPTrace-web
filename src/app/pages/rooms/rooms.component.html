@@ -23,7 +23,21 @@
             </div>
         </div>
 
-        <button *ngIf="buildingForm.value.newBuilding" type="submit" class="btn btn-primary float-end" [disabled]="!buildingForm.valid">Add Building</button>
+        <button *ngIf="buildingForm.value.newBuilding" type="submit" class="btn btn-primary float-end" [disabled]="!buildingForm.valid" data-bs-toggle="modal" data-bs-target="#addBuildingModal">Add Building</button>
+
+        <div class="modal fade" id="addBuildingModal" tabindex="-1" aria-labelledby="addBuildingModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="exampleModalLabel">Add Building Result</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="refreshPage()"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ addBuildingMessage }}
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
 
     <div *ngIf="buildingForm.value.selectedBuilding">
@@ -56,20 +70,35 @@
                     <tr *ngFor="let room of newRooms().controls; let i=index" [formGroupName]="i" class="mb-5">
                         <td>
                             <input type="text" formControlName="room_name" class="form-control" placeholder="Enter Room Name">
+                            <p class="errorMessage" *ngIf="newRooms().controls[i].get('room_name')?.errors?.required && (isRoomFormSubmitted || newRooms().controls[i]?.touched)">Please enter room name or remove this field if not needed.</p>
                         </td>
                         <td>
                             <button (click)="removeRoom(i)" class="btn btn-danger float-end">Remove</button>
                         </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="roomForm.value.newRooms.length > 0">
                         <td></td>
                         <td>
-                            <button type="submit" class="btn btn-primary float-end">Submit</button>
+                            <button type="submit" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#addRoomModal">Submit</button>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </form>
+
+        <div class="modal fade" id="addRoomModal" tabindex="-1" aria-labelledby="addRoomModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="exampleModalLabel">Add Room Result</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="refreshPage()"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ addRoomMessage }}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

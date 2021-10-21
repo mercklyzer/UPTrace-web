@@ -16,18 +16,18 @@ export class BuildingService {
   private url = "http://localhost:3000";
 
   getBuildings():Observable<Building[]>{
-    return this.http.get<Building[]>(`${this.url}/establishments`);
+    return this.http.get<Building[]>(`${this.url}/buildings`);
   }
 
   addBuilding(formData: any): Observable<any>{
-    return this.http.post<any>(`${this.url}/establishments`, formData)
+    return this.http.post<any>(`${this.url}/buildings`, formData)
   }
 
   getRooms(buildingId: number):Observable<Room[]>{
-    return this.http.get<Room[]>(`${this.url}/establishments/${buildingId}/rooms`);
+    return this.http.get<Room[]>(`${this.url}/buildings/${buildingId}/rooms`);
   }
 
   addRoom(formData: any, buildingId: number): Observable<any>{
-    return this.http.post<any>(`${this.url}/establishments/${buildingId}/rooms`, formData)
+    return this.http.post<any>(`${this.url}/buildings/${buildingId}/rooms`, formData)
   }
 }
