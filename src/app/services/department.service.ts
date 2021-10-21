@@ -14,6 +14,6 @@ export class DepartmentService {
   private url = 'http://localhost:3000'
 
   getDepartments(): Observable<string[]>{
-    return this.http.get<string[]>(`${this.url}/establishments/departments`)
+    return this.http.get<string[]>(`${this.url}/buildings/departments`)
   }
 }

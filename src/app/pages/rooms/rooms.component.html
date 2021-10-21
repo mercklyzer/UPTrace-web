@@ -1,0 +1,104 @@
+<div class="container">
+    <h2>Rooms</h2>
+
+    <h4>Select/Add Building</h4>
+    <form [formGroup]="buildingForm" (submit)="onSubmitBuilding()">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group mb-4">
+                    <label class="form-label">Select Building</label>
+                    <select class="form-select" formControlName="selectedBuilding" (change)="onSelectBuilding($event)">
+                        <option selected disabled value="">Select Building</option>
+                        <option *ngFor="let building of buildings" value="{{building.building_id}}">{{building.building_name}}</option>
+                    </select>                  
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="form-group mb-4">
+                        <label class="form-label">Add Building</label>
+                        <input type="text" class="form-control" id="newBuilding" formControlName="newBuilding">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button *ngIf="buildingForm.value.newBuilding" type="submit" class="btn btn-primary float-end" [disabled]="!buildingForm.valid" data-bs-toggle="modal" data-bs-target="#addBuildingModal">Add Building</button>
+
+        <div class="modal fade" id="addBuildingModal" tabindex="-1" aria-labelledby="addBuildingModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="exampleModalLabel">Add Building Result</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="refreshPage()"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ addBuildingMessage }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div *ngIf="buildingForm.value.selectedBuilding">
+        <h4 class="mt-5">View/Add Rooms</h4>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Room Name</th>
+                    <th scope="col">QR Code</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let room of rooms">
+                    <td>{{room.room_name}}</td>
+                    <td>{{room.qr_code}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <form [formGroup]="roomForm" (submit)="onSubmitRooms()">
+            <table class="table table-borderless" formArrayName="newRooms">
+                <thead>
+                    <tr class="mb-2">
+                        <th colspan="1">Add Rooms:</th>
+                        <th><button type="button" (click)="addRoom()" class="btn btn-primary float-end">Add Room</button></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let room of newRooms().controls; let i=index" [formGroupName]="i" class="mb-5">
+                        <td>
+                            <input type="text" formControlName="room_name" class="form-control" placeholder="Enter Room Name">
+                            <p class="errorMessage" *ngIf="newRooms().controls[i].get('room_name')?.errors?.required && (isRoomFormSubmitted || newRooms().controls[i]?.touched)">Please enter room name or remove this field if not needed.</p>
+                        </td>
+                        <td>
+                            <button (click)="removeRoom(i)" class="btn btn-danger float-end">Remove</button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="roomForm.value.newRooms.length > 0">
+                        <td></td>
+                        <td>
+                            <button type="submit" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#addRoomModal">Submit</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+
+        <div class="modal fade" id="addRoomModal" tabindex="-1" aria-labelledby="addRoomModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="exampleModalLabel">Add Room Result</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="refreshPage()"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ addRoomMessage }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
