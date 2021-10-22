@@ -3,7 +3,6 @@
         {{errorMessages[0]}}
     </div>
 
-
     <form [formGroup]="signupForm" enctype="multipart/form-data" *ngIf="regions !== []" (submit)="onSubmit()">
         <!-- email and contact number-->
         <div class="row">
@@ -64,5 +63,27 @@
 
         <button type="submit" class="btn btn-primary float-end">Sign Up</button>
     </form>
+    
+    <button type="submit" class="btn btn-primary float-end" id="triggerModal" #triggerModal data-bs-toggle="modal" data-bs-target="#signupModal" hidden>Submit</button>
 
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="exampleModalLabel">Data Privacy Agreement</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    UPTrace shall not disclose the personal information of users without their consent and shall only use this data for contact tracing. These are strictly implemented in compliance with the Philippine <a href="https://www.officialgazette.gov.ph/2012/08/15/republic-act-no-10173/">Data Privacy Act of 2012</a> to protect your right to data privacy. As provided by law, you may request to access, correct, erase, or block provided information in this form on reasonable grounds. <br><br>
+
+                    By clicking "I agree," you have carefully read, understood, and agreed to the said conditions, and you express your consent for UPTrace to process the personal data that you may submit without precluding your rights under the Data Privacy Act of 2012. As provided by law, you may request to access, correct, erase, or block provided information in this form on reasonable grounds. <br><br>
+
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur fringilla eget sapien vel porttitor. Phasellus interdum ex eget ultricies lobortis. Mauris mollis vehicula nisl id euismod. Proin sit amet venenatis lorem, a eleifend tortor. Proin semper tincidunt lacus eget ornare. Morbi porttitor risus ac odio placerat malesuada. In sed vulputate velit. Sed in mauris tincidunt, maximus libero a, faucibus ante. Curabitur quis fermentum mi.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="onAgree()">I agree</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
