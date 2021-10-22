@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SocialAuthService } from 'angularx-social-login';
 import { CookieService } from 'ngx-cookie';
@@ -11,13 +11,14 @@ import { DepartmentService } from 'src/app/services/department.service';
 import { UserService } from 'src/app/services/user.service';
 import { getFormValidationErrors } from 'src/app/utils/errorhandling';
 
-
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
+  @ViewChild('triggerModal') triggerModal!: ElementRef;
+
   errorMessages:string[] = []
 
   name:string = ''
@@ -170,18 +171,27 @@ export class SignupComponent implements OnInit {
     this.errorMessages = getFormValidationErrors(this.signupForm)
     this.errorMessages = this.errorMessages.concat(getFormValidationErrors(this.addressGroup))
     
+    if(this.errorMessages.length != 0){
+      console.log(this.errorMessages);
+    }
     if(this.errorMessages.length === 0){
-      this.userService.signupUser(this.signupForm.value)
-      .subscribe((userResponse) => {
-        console.log(userResponse);
-        this.cookieService.put('Token', userResponse.token)
-      }, (err) => {
-        console.log(err);
-      })
+      let signupModal: HTMLElement = this.triggerModal.nativeElement;
+      signupModal.click();
+
       console.log(this.signupForm.value);
     }
     else{
       console.log(this.errorMessages);
     }
+  }
+
+  onAgree() {
+    this.userService.signupUser(this.signupForm.value)
+    .subscribe((userResponse) => {
+      console.log(userResponse);
+      this.cookieService.put('Token', userResponse.token)
+    }, (err) => {
+      console.log(err);
+    })
   }
 }
