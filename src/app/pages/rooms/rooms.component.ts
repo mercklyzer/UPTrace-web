@@ -81,6 +81,17 @@ export class RoomsComponent implements OnInit {
     this.selectedBuildingName = this.buildings[index].building_name;
   }
 
+  downloadAllQRCodes(buildingId:number){
+    window.open(`http://localhost:3000/buildings/${buildingId}/rooms-pdf`)
+
+    // this.buildingService.getRoomsPdf(buildingId)
+    // .subscribe((res) => {
+    //   console.log(res);
+    // }, (err) => {
+    //   console.log(err);
+    // })
+  }
+
   onSelectBuilding(event: any) {
     this.selectedBuildingId = event.target.value;
     this.getAllRooms(this.selectedBuildingId);

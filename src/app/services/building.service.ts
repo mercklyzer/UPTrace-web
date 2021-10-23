@@ -27,6 +27,10 @@ export class BuildingService {
     return this.http.get<Room[]>(`${this.url}/buildings/${buildingId}/rooms`);
   }
 
+  getRoomsPdf(buildingId: number):Observable<any>{
+    return this.http.get<any>(`${this.url}/buildings/${buildingId}/rooms-pdf`);
+  }
+
   addRoom(formData: any, buildingId: number): Observable<any>{
     return this.http.post<any>(`${this.url}/buildings/${buildingId}/rooms`, formData)
   }
