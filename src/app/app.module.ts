@@ -8,6 +8,8 @@ import {
   SocialLoginModule
 } from 'angularx-social-login';
 
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
+
 import { CookieModule } from 'ngx-cookie';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -33,6 +35,7 @@ import { RoomsComponent } from './pages/rooms/rooms.component';
     ReactiveFormsModule,
     HttpClientModule,
     CookieModule.forRoot(),
+    ZXingScannerModule,
   ],
   providers: [{
     provide: 'SocialAuthServiceConfig',

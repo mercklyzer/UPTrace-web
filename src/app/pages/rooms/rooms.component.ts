@@ -124,7 +124,7 @@ export class RoomsComponent implements OnInit {
         this.addRoomMessage = response;
       }, (err) => {
         console.error(err);
-      this.addBuildingMessage = `ERROR: ${err.error.error.message}`;
+      this.addRoomMessage = `ERROR: ${err.error.error.message}`;
       });
     }
   }

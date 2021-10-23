@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { SocialAuthService } from 'angularx-social-login';
 import { CookieService } from 'ngx-cookie';
 import { Barangay } from 'src/app/models/barangay.model';
@@ -45,7 +46,8 @@ export class SignupComponent implements OnInit {
     private fb:FormBuilder,
     private addressService:AddressService,
     private deparmentService:DepartmentService,
-    private cookieService:CookieService
+    private cookieService:CookieService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -189,7 +191,8 @@ export class SignupComponent implements OnInit {
     this.userService.signupUser(this.signupForm.value)
     .subscribe((userResponse) => {
       console.log(userResponse);
-      this.cookieService.put('Token', userResponse.token)
+      this.cookieService.put('Token', userResponse.token);
+      this.router.navigate(['/']);
     }, (err) => {
       console.log(err);
     })
