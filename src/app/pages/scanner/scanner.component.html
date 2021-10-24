@@ -16,7 +16,7 @@
             <option *ngFor="let camera of camerasFound" value="{{camera}}">{{camera.label}}</option>
         </select>
 
-        <zxing-scanner #scanner (scanSuccess)="scanSuccessHandler($event)" (camerasFound)="camerasFoundHandler($event)"></zxing-scanner>
+        <zxing-scanner #scanner *ngIf="isScannerEnabled" (scanSuccess)="scanSuccessHandler($event)" (camerasFound)="camerasFoundHandler($event)"></zxing-scanner>
     </div>
 
     <div hidden>

@@ -18,7 +18,7 @@ export class ScannerComponent implements OnInit {
   @ViewChild('openModal') openModal!: ElementRef;
   @ViewChild('closeModal') closeModal!: ElementRef;
 
-  isScannerEnabled: boolean = false;
+  isScannerEnabled: boolean = true;
   isQRCodeValid: boolean = true;
   scannedRoomId: string = "";
   userToken: any;
@@ -39,6 +39,11 @@ export class ScannerComponent implements OnInit {
       this.decodedToken = jwt_decode(this.userToken);
       this.email = this.decodedToken.sub;
     }
+
+    this.router.events.subscribe((val) => {
+      this.scanner.scanStop();
+      this.scanner.enable = false;
+    });
   }
 
   camerasFoundHandler(cameras: any) {
@@ -63,6 +68,7 @@ export class ScannerComponent implements OnInit {
     .subscribe((response) => {
       console.log(response);
       this.isQRCodeValid = true;
+      this.isScannerEnabled = false;
       
       let openScanSuccessModal: HTMLElement = this.openModal.nativeElement;
       let closeScanSuccessModal: HTMLElement = this.closeModal.nativeElement;
@@ -71,7 +77,7 @@ export class ScannerComponent implements OnInit {
       setTimeout(() => {
         this.router.navigate(['/']);
         closeScanSuccessModal.click();
-      }, 5000);
+      }, 3000);
     }, (err) => {
       console.error(err);
       this.isQRCodeValid = false;
