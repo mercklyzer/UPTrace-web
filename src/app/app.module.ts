@@ -19,6 +19,7 @@ import { HomepageComponent } from './pages/homepage/homepage.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { Interceptor } from './interceptor';
 import { RoomsComponent } from './pages/rooms/rooms.component';
+import { ScannerComponent } from './pages/scanner/scanner.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { RoomsComponent } from './pages/rooms/rooms.component';
     NavbarComponent,
     HomepageComponent,
     SignupComponent,
-    RoomsComponent
+    RoomsComponent,
+    ScannerComponent
   ],
   imports: [
     BrowserModule,

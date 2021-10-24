@@ -34,7 +34,7 @@ export class NavbarComponent implements OnInit {
         .subscribe((res) => {
           if(res.message === 'signup'){
             console.log(res);
-            this.router.navigate(['/signup'])
+            this.router.navigate(['/signup']);
           }
           else if(res.message === 'login'){
             console.log("GO TO LOGIN PAGE")

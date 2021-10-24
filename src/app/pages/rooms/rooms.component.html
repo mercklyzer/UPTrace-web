@@ -29,7 +29,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h6 class="modal-title" id="exampleModalLabel">Add Building Result</h6>
+                        <h6 class="modal-title">Add Building Result</h6>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="refreshPage()"></button>
                     </div>
                     <div class="modal-body">
@@ -86,13 +86,13 @@
             </table>
         </form>
 
-        <button class="btn btn-primary float-end" (click)="downloadAllQRCodes(selectedBuildingId)">Download All QR Codes</button>
+        <button *ngIf="rooms.length > 0" class="btn btn-primary float-end" (click)="downloadAllQRCodes(selectedBuildingId)">Download All QR Codes</button>
 
         <div class="modal fade" id="addRoomModal" tabindex="-1" aria-labelledby="addRoomModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h6 class="modal-title" id="exampleModalLabel">Add Room Result</h6>
+                        <h6 class="modal-title">Add Room Result</h6>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="refreshPage()"></button>
                     </div>
                     <div class="modal-body">
