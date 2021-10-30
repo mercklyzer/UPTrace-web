@@ -9,6 +9,7 @@ import {
 } from 'angularx-social-login';
 
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { DpDatePickerModule } from 'ng2-date-picker';
 
 import { CookieModule } from 'ngx-cookie';
 
@@ -38,6 +39,7 @@ import { ScannerComponent } from './pages/scanner/scanner.component';
     HttpClientModule,
     CookieModule.forRoot(),
     ZXingScannerModule,
+    DpDatePickerModule,
   ],
   providers: [{
     provide: 'SocialAuthServiceConfig',
