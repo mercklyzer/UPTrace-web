@@ -21,7 +21,7 @@ export class Interceptor implements HttpInterceptor {
 
         // call the next interceptor if there is any
         return next.handle(cloneReq).pipe(
-            retry(2)
+            retry(1)
         );
   }
 }

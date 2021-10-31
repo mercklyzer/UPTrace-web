@@ -11,6 +11,7 @@ export class UserService {
   lastName:string = ''
   name:string = ''
   email:string = ''
+  role:string = ''
   
   constructor(
     private http: HttpClient
