@@ -3,11 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SocialAuthService } from 'angularx-social-login';
 import { CookieService } from 'ngx-cookie';
-import { Barangay } from 'src/app/models/barangay.model';
-import { City } from 'src/app/models/city.model';
-import { Province } from 'src/app/models/province.model';
-import { Region } from 'src/app/models/region.model';
-import { AddressService } from 'src/app/services/address.service';
 import { DepartmentService } from 'src/app/services/department.service';
 import { UserService } from 'src/app/services/user.service';
 import { getFormValidationErrors } from 'src/app/utils/errorhandling';
@@ -33,11 +28,6 @@ export class SignupComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // this.name = this.userService.name
-    // this.firstName = this.userService.firstName
-    // this.lastName = this.userService.lastName
-    // this.email = this.userService.email
-
     this.signupForm = this.fb.group({
       name: [''],
       email: [''],
@@ -59,11 +49,13 @@ export class SignupComponent implements OnInit {
     return ''
   }
 
-  updateFromCookie(){
+  updateFromService(){
+    // get data from user service to be more secure
+
     this.signupForm.patchValue({
-      role: this.cookieService.get('Role'),
-      name: this.cookieService.get('Name'),
-      email: this.cookieService.get('Email')
+      role: this.userService.user['role'],
+      name: this.userService.user['name'],
+      email: this.userService.user['email']
     })
   }
 
@@ -90,6 +82,7 @@ export class SignupComponent implements OnInit {
     .subscribe((userResponse) => {
       console.log(userResponse);
       this.cookieService.put('Token', userResponse.token);
+      this.userService.user = {...this.userService.user, ...userResponse.user}
       this.router.navigate(['/']);
     }, (err) => {
       console.log(err);

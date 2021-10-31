@@ -21,29 +21,4 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  loginWithGoogle(){
-    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID)
-      .then((socialUser) => {
-        this.userService.firstName = socialUser.firstName
-        this.userService.lastName = socialUser.lastName
-        this.userService.name = socialUser.name
-        this.userService.email = socialUser.email
-        
-        this.googleService.idToken = socialUser.idToken
-        this.googleService.verifyUser({token: this.googleService.idToken})
-        .subscribe((res) => {
-          if(res.message === 'signup'){
-            console.log(res);
-            this.router.navigate(['/signup']);
-          }
-          else if(res.message === 'login'){
-            console.log("GO TO LOGIN PAGE")
-          }
-        }, (err) => {
-          console.error(err.error)
-        })
-      }
-      );
-  }
-
 }

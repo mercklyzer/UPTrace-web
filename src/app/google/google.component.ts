@@ -30,18 +30,19 @@ export class GoogleComponent implements OnInit {
     
     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID)
       .then((socialUser) => {
-        this.userService.firstName = socialUser.firstName
-        this.userService.lastName = socialUser.lastName
-        this.userService.name = socialUser.name
-        this.userService.email = socialUser.email
-        
+       
         this.googleService.idToken = socialUser.idToken
         this.googleService.verifyUser({token: this.googleService.idToken})
         .subscribe((res) => {
 
-          this.cookieService.put('Role', res.role)
-          this.cookieService.put('Email', res.email)
-          this.cookieService.put('Name', `${this.userService.firstName} ${this.userService.lastName}`)
+          // store in user service for more security
+          this.userService.user['role'] = res.role
+          this.userService.user['email'] = res.email
+          this.userService.user['name'] = `${socialUser.firstName} ${socialUser.lastName}`
+
+          // this.cookieService.put('Role', res.role)
+          // this.cookieService.put('Email', res.email)
+          // this.cookieService.put('Name', `${socialUser.firstName} ${socialUser.lastName}`)
 
           if(res.message === 'signup'){
             console.log(res);

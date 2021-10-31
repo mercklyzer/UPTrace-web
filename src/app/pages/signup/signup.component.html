@@ -8,7 +8,7 @@
 
             <div class="mb-4" *ngIf="signupForm.value.role === 'ordinary'">
                 Are you a UPHS Contact Tracer or a HeLO? Signup using GMAIL.
-                <app-google (googleEmit)="updateFromCookie()"></app-google>
+                <app-google (googleEmit)="updateFromService()">Sign Up Using Gmail</app-google>
             </div>
 
             <form [formGroup]="signupForm" enctype="multipart/form-data" (submit)="onSubmit()">
