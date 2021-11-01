@@ -26,7 +26,6 @@ export class GoogleComponent implements OnInit {
   }
 
   loginWithGoogle(){
-    console.log("login");
     
     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID)
       .then((socialUser) => {
@@ -34,23 +33,20 @@ export class GoogleComponent implements OnInit {
         this.googleService.idToken = socialUser.idToken
         this.googleService.verifyUser({token: this.googleService.idToken})
         .subscribe((res) => {
-
-          // store in user service for more security
-          this.userService.user['role'] = res.role
-          this.userService.user['email'] = res.email
-          this.userService.user['name'] = `${socialUser.firstName} ${socialUser.lastName}`
-
-          // this.cookieService.put('Role', res.role)
-          // this.cookieService.put('Email', res.email)
-          // this.cookieService.put('Name', `${socialUser.firstName} ${socialUser.lastName}`)
-
+          console.log(res);
           if(res.message === 'signup'){
+            this.userService.user['role'] = res.role
+            this.userService.user['email'] = res.email
+            this.userService.user['name'] = `${socialUser.firstName} ${socialUser.lastName}`
+
             console.log(res);
             this.googleEmit.emit();
-            // this.router.navigate(['/signup']);
           }
+
           else if(res.message === 'login'){
             console.log("GO TO LOGIN PAGE")
+            this.cookieService.put('Token', res.token);
+            this.router.navigate(['/']);
           }
         }, (err) => {
           console.error(err.error)

@@ -8,7 +8,15 @@ import { User } from '../models/user.model';
 })
 export class UserService {
 
-  user!:User
+  user:User = {
+    name: '',
+    contact_num: '',
+    email: '',
+    contact_start_time: '',
+    contact_end_time: '',
+    way_of_interview: '',
+    role: ''
+  }
  
   constructor(
     private http: HttpClient
