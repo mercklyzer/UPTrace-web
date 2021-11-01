@@ -59,9 +59,18 @@ export class SignupComponent implements OnInit {
     })
   }
 
+  verifyTime(){
+    if (this.signupForm.get('start_time')?.value >= this.signupForm.get('end_time')?.value){
+      console.log("time error");
+      return 'Preferred contact start time should be earlier than preferred contact end time.'
+    }
+    return ''
+  }
+
   onSubmit(){
     this.errorMessages = getFormValidationErrors(this.signupForm)
     this.verifyPassword()? this.errorMessages.push(this.verifyPassword()) : ''
+    this.verifyTime()? this.errorMessages.push(this.verifyTime()) : ''
     
     if(this.errorMessages.length != 0){
       console.log(this.errorMessages);
