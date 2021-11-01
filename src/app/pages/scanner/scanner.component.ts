@@ -58,8 +58,8 @@ export class ScannerComponent implements OnInit {
   scanSuccessHandler(result: string) {
     this.scannedRoomId = result;
     
+    // no need to add email since we will be using contact number which can be derived from the token once sent to the server
     let log = {
-      email: this.email,
       scan_date: moment().format("YYYY-MM-DD HH:mm:ss"),
       room_id: this.scannedRoomId
     };
