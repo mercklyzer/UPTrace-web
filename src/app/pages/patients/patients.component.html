@@ -1,0 +1,54 @@
+<div class="container">
+    <h2>Patients</h2>
+
+    <form [formGroup]="filterForm">
+        <div class="row">
+            <div class="col-md-3">
+                <select class="form-select" formControlName="status_filter">
+                    <option value="All" selected>All</option>
+                    <option value="Suspected">Suspected</option>
+                    <option value="Disclosed Positive">Disclosed Positive</option>
+                    <option value="Confirmed Positive">Confirmed Positive</option>
+                    <option value="Confirmed Negative">Confirmed Negative</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <dp-date-picker theme="dp-material" formControlName="date_filter" [config]="datePickerConfig" [placeholder]="datePlaceholder"></dp-date-picker>
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-primary" (click)="onSubmit()">Submit Filter</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Contact Number</th>
+                    <th scope="col">Preferred Contact Time</th>
+                    <th scope="col">Preferred Way of Interview</th>
+                    <th scope="col">Close Contacts</th>
+                    <th scope="col">Whereabouts</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Contact Tracer</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>09515726137</td>
+                    <td>2:30 PM - 4:00 PM</td>
+                    <td>All at once</td>
+                    <td>
+                        <button type="button" class="btn btn-primary">View Close Contacts</button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-primary">View Whereabouts</button>
+                    </td>
+                    <td>DISCLOSED POSITIVE</td>
+                    <td>Claudette Joy Y. Celoso</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

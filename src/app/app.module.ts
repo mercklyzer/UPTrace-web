@@ -21,6 +21,10 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { Interceptor } from './interceptor';
 import { RoomsComponent } from './pages/rooms/rooms.component';
 import { ScannerComponent } from './pages/scanner/scanner.component';
+import { PatientsComponent } from './pages/patients/patients.component';
+import { CloseContactsComponent } from './pages/close-contacts/close-contacts.component';
+import { WhereaboutsComponent } from './pages/whereabouts/whereabouts.component';
+import { ExcelService } from './services/excel.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +33,10 @@ import { ScannerComponent } from './pages/scanner/scanner.component';
     HomepageComponent,
     SignupComponent,
     RoomsComponent,
-    ScannerComponent
+    ScannerComponent,
+    PatientsComponent,
+    CloseContactsComponent,
+    WhereaboutsComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +63,8 @@ import { ScannerComponent } from './pages/scanner/scanner.component';
     provide: HTTP_INTERCEPTORS,
     useClass: Interceptor,
     multi: true
-  }],
+  },
+  ExcelService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
