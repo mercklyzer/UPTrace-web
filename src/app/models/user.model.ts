@@ -1,9 +1,9 @@
-import { Address } from "./address.model";
-
 export interface User {
-    firstName: string,
-    lastName: string,
+    name: string,
+    contact_num: string,
     email: string,
-    department: string,
-    address: Address
+    contact_start_time: string,
+    contact_end_time: string,
+    way_of_interview: string,
+    role: string
 }

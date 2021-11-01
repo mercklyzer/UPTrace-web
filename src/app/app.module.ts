@@ -25,6 +25,8 @@ import { PatientsComponent } from './pages/patients/patients.component';
 import { CloseContactsComponent } from './pages/close-contacts/close-contacts.component';
 import { WhereaboutsComponent } from './pages/whereabouts/whereabouts.component';
 import { ExcelService } from './services/excel.service';
+import { GoogleComponent } from './google/google.component';
+import { LoginComponent } from './pages/login/login.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { ExcelService } from './services/excel.service';
     ScannerComponent,
     PatientsComponent,
     CloseContactsComponent,
-    WhereaboutsComponent
+    WhereaboutsComponent,
+    GoogleComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

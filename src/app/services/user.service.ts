@@ -7,11 +7,9 @@ import { User } from '../models/user.model';
   providedIn: 'root'
 })
 export class UserService {
-  firstName:string = ''
-  lastName:string = ''
-  name:string = ''
-  email:string = ''
-  
+
+  user!:User
+ 
   constructor(
     private http: HttpClient
   ) { }
@@ -20,6 +18,10 @@ export class UserService {
 
   signupUser(formData:any): Observable<any>{
     return this.http.post<any>(`${this.url}/users`,formData)
+  }
+
+  loginUser(formData:any): Observable<{token: any, user:User}>{
+    return this.http.post<{token: any, user:User}>(`${this.url}/users/login`,formData)
   }
 
 
