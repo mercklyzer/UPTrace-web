@@ -85,6 +85,7 @@ export class SignupComponent implements OnInit {
       this.userService.user = {...this.userService.user, ...userResponse.user}
       this.router.navigate(['/']);
     }, (err) => {
+      this.errorMessages.push(err.error.error.message)
       console.log(err);
     })
   }
