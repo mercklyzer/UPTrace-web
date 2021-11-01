@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { CookieService } from 'ngx-cookie';
+import { PatientService } from 'src/app/services/patient.service';
 import * as moment from 'moment';
 import jwt_decode from 'jwt-decode';
 
@@ -24,6 +25,7 @@ export class HomepageComponent implements OnInit {
   constructor(
     private cookieService:CookieService,
     private fb:FormBuilder,
+    private patientService:PatientService
   ) { }
 
   ngOnInit(): void {
@@ -34,7 +36,7 @@ export class HomepageComponent implements OnInit {
     }
 
     this.reportForm = this.fb.group({
-      symptomatic: ['', [Validators.required]],
+      condition: ['', [Validators.required]],
       onset_date: ['', [Validators.required]],
       disclosure_date: ['', [Validators.required]],
       status: ['', [Validators.required]]
@@ -49,9 +51,9 @@ export class HomepageComponent implements OnInit {
   onClickButton(status: string): void {
     this.reportForm.controls['status'].setValue(status);
     
-    if(status === "SUSPECTED") {
+    if(status === "suspected") {
       this.buttonClicked = "I suspect to be positive";
-    } else if(status === "DISCLOSED POSITIVE") {
+    } else if(status === "disclosed positive") {
       this.buttonClicked = "I tested positive";
     }
   }
@@ -63,14 +65,20 @@ export class HomepageComponent implements OnInit {
   onSubmit(): void {
     this.isReportFormSubmitted = true;
 
-    this.reportForm.controls['disclosure_date'].setValue(moment().format("YYYY-MM-DD"));
+    this.reportForm.controls['disclosure_date'].setValue(moment().unix());
 
-    if(this.reportForm.value.symptomatic == "0") {
+    if(this.reportForm.value.condition == "asymptomatic") {
       this.reportForm.controls['onset_date'].setValue(moment().format("YYYY-MM-DD"));
     }
 
     if(this.reportForm.valid) {
       console.log("valid form");
+      this.patientService.addPatient(this.reportForm.value)
+      .subscribe((response) => {
+        console.log(response);
+      }, (err) => {
+        console.error(err);
+      });
     } else {
       console.log("invalid form");
     }
