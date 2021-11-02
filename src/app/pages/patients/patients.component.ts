@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import * as moment from 'moment';
 import { PatientService } from 'src/app/services/patient.service';
+import { Patient } from 'src/app/models/patient.model';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-patients',
@@ -12,7 +13,7 @@ import { PatientService } from 'src/app/services/patient.service';
 export class PatientsComponent implements OnInit {
   filterForm!: FormGroup;
   datePlaceholder: string = moment().format("YYYY-MM-DD");
-  patients: any[] = [];
+  patients: Patient[] = [];
 
   constructor(
     private fb:FormBuilder,
@@ -50,7 +51,7 @@ export class PatientsComponent implements OnInit {
     }
   }
 
-  onChangeStatus(event: any, patient: any) {
+  onChangeStatus(event: any, patient: Patient) {
     let formData = {
       status: event.target.value
     };
@@ -58,7 +59,7 @@ export class PatientsComponent implements OnInit {
     this.editPatient(patient, formData);
   }
 
-  onChangeContactTracer(event: any, patient: any) {
+  onChangeContactTracer(event: any, patient: Patient) {
     const formData = {
       contactTracer: event.target.value
     }
@@ -68,7 +69,7 @@ export class PatientsComponent implements OnInit {
     this.editPatient(patient, formData);
   }
 
-  editPatient(patient: any, formData: any) {
+  editPatient(patient: Patient, formData: any) {
     this.patientService.editPatient(patient.contact_num, patient.disclosure_date, formData)
     .subscribe((response) => {
       console.log(response);

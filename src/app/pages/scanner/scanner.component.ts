@@ -60,7 +60,8 @@ export class ScannerComponent implements OnInit {
     
     // no need to add email since we will be using contact number which can be derived from the token once sent to the server
     let log = {
-      scan_date: moment().format("YYYY-MM-DD HH:mm:ss"),
+      // scan_date: moment().format("YYYY-MM-DD HH:mm:ss"),
+      scan_date: moment().unix(),
       room_id: this.scannedRoomId
     };
 

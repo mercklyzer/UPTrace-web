@@ -21,7 +21,16 @@ export class PatientService {
     return this.http.get<any>(`${this.url}/patients?date=${formData.date_filter}&status=${formData.status_filter}`);
   }
 
+  getPatient(contactNum: string): Observable<any>{
+    return this.http.get<any>(`${this.url}/patients/${contactNum}`);
+  }
+
   editPatient(contactNum: string, disclosureDate: any, formData: any): Observable<any>{
     return this.http.put<any>(`${this.url}/patients/${contactNum}/dates/${disclosureDate}`, formData);
   }
+
+  getWhereabouts(contactNum: string): Observable<any>{
+    return this.http.get<any>(`${this.url}/patients/${contactNum}/whereabouts`);
+  }
+  
 }

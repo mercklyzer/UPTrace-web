@@ -1,8 +1,10 @@
 <div class="container">
     <h2>Whereabouts</h2>
-    <h4>09515726137</h4>
+    <h4>User with contact number {{ patientContactNum }}</h4>
 
-    <div class="table-responsive">
+    <p *ngIf="!patientExists">Patient does not exist or patient is not reported to be (possibly) positive for COVID-19.</p>
+    
+    <div class="table-responsive" *ngIf="patientExists">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -12,10 +14,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>UP Alumni Engineers Centennial Health</td>
-                    <td>Lecture Hall</td>
-                    <td>10/31/21 17:00 PM</td>
+                <tr *ngFor="let whereabout of whereabouts">
+                    <td>{{ whereabout.building_name }}</td>
+                    <td>{{ whereabout.room_name }}</td>
+                    <td>{{ convertDateTime(whereabout.scan_date) }}</td>
                 </tr>
             </tbody>
         </table>
