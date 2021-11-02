@@ -1,0 +1,27 @@
+<div class="container">
+    <h2>Whereabouts</h2>
+    <h4>User with contact number {{ patientContactNum }}</h4>
+
+    <button type="button" class="btn btn-primary d-block mb-2" (click)="exportAsXLSX()" *ngIf="whereabouts">Export as Excel Workbook</button>
+
+    <p *ngIf="!patientExists">Patient does not exist or patient is not reported to be (possibly) positive for COVID-19.</p>
+    
+    <div class="table-responsive" *ngIf="patientExists">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Building Name</th>
+                    <th scope="col">Room name</th>
+                    <th scope="col">Date and Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let whereabout of whereabouts">
+                    <td>{{ whereabout.building_name }}</td>
+                    <td>{{ whereabout.room_name }}</td>
+                    <td>{{ convertDateTime(whereabout.scan_date) }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

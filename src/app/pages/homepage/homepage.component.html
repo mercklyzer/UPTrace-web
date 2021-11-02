@@ -1,5 +1,7 @@
 <div class="container">
-    <button *ngIf="userToken" class="btn btn-primary" routerLink="/scanner">Scan QR Code</button>
+    <button *ngIf="userToken" type="button" class="btn btn-primary d-block mb-2" routerLink="/scanner">Scan QR Code</button>
+    <button *ngIf="userToken" type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#reportModal" (click)="onClickButton('suspected')" [disabled]="isUserPositive">I suspect to be positive</button>
+    <button *ngIf="userToken" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reportModal" (click)="onClickButton('disclosed positive')" [disabled]="isUserPositive">I tested positive</button>
     <section>
         <h1>Some Title</h1>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo doloremque laboriosam impedit vel ea facere iusto quo praesentium saepe soluta.</p>
@@ -8,4 +10,38 @@
         <h1>Some Title</h1>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium assumenda id, reprehenderit minima ipsam quidem, nemo veritatis sint ut perferendis nostrum temporibus fugiat qui dolorem vel fugit repellendus labore ipsa suscipit dolorum, adipisci aut totam omnis. Voluptas voluptatibus saepe magnam, magni possimus quibusdam! Quo dignissimos eos necessitatibus ut facilis et.</p>
     </section>
+</div>
+
+<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">{{ buttonClicked }}</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="reportForm">
+                    <div class="form-group mb-4">
+                        <label class="form-label">Do you have symptoms?</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" value="symptomatic" id="yes" formControlName="condition">
+                            <label class="form-check-label" for="yes">Yes</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" value="asymptomatic" id="no" formControlName="condition" (click)="resetOnsetDate()">
+                            <label class="form-check-label" for="no">No</label>
+                        </div>
+                    </div>
+                    <div *ngIf="this.reportForm.value.condition == 'symptomatic'" class="form-group mb-4">
+                        <label class="form-label">When did your symptoms start? (Onset Date)</label>
+                        <dp-date-picker theme="dp-material" formControlName="onset_date" [config]="datePickerConfig"></dp-date-picker>
+                        <p class="errorMessage" *ngIf="this.reportForm.value.condition == 'symptomatic' && !this.reportForm.value.onset_date && isReportFormSubmitted">Please select onset date.</p>
+                    </div>
+                </form> 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+            </div>
+        </div>
+    </div>
 </div>

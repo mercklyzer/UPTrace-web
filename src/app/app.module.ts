@@ -9,6 +9,7 @@ import {
 } from 'angularx-social-login';
 
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { DpDatePickerModule } from 'ng2-date-picker';
 
 import { CookieModule } from 'ngx-cookie';
 
@@ -20,6 +21,10 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { Interceptor } from './interceptor';
 import { RoomsComponent } from './pages/rooms/rooms.component';
 import { ScannerComponent } from './pages/scanner/scanner.component';
+import { PatientsComponent } from './pages/patients/patients.component';
+import { CloseContactsComponent } from './pages/close-contacts/close-contacts.component';
+import { WhereaboutsComponent } from './pages/whereabouts/whereabouts.component';
+import { ExcelService } from './services/excel.service';
 import { GoogleComponent } from './google/google.component';
 import { LoginComponent } from './pages/login/login.component';
 
@@ -31,6 +36,9 @@ import { LoginComponent } from './pages/login/login.component';
     SignupComponent,
     RoomsComponent,
     ScannerComponent,
+    PatientsComponent,
+    CloseContactsComponent,
+    WhereaboutsComponent,
     GoogleComponent,
     LoginComponent
   ],
@@ -42,6 +50,7 @@ import { LoginComponent } from './pages/login/login.component';
     HttpClientModule,
     CookieModule.forRoot(),
     ZXingScannerModule,
+    DpDatePickerModule,
   ],
   providers: [{
     provide: 'SocialAuthServiceConfig',
@@ -58,7 +67,8 @@ import { LoginComponent } from './pages/login/login.component';
     provide: HTTP_INTERCEPTORS,
     useClass: Interceptor,
     multi: true
-  }],
+  },
+  ExcelService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
