@@ -1,9 +1,12 @@
 <div class="container">
     <h2>Close Contacts</h2>
-    <h4>09515726137</h4>
+    <h4>User with contact number {{ patientContactNum }}</h4>
 
-    <button (click)="exportAsXLSX()">Export</button>
-    <div class="table-responsive">
+    <button type="button" class="btn btn-primary d-block mb-2" (click)="exportAsXLSX()" *ngIf="closeContacts">Export as Excel Workbook</button>
+
+    <p *ngIf="!patientExists">Patient does not exist or patient is not reported to be (possibly) positive for COVID-19.</p>
+
+    <div class="table-responsive" *ngIf="patientExists">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -14,11 +17,11 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>09515726137</td>
-                    <td>2:30 PM - 4:00 PM</td>
-                    <td>All at once</td>
-                    <td>High</td>
+                <tr *ngFor="let closeContact of closeContacts">
+                    <td>{{ closeContact.contact_num }}</td>
+                    <td>{{ closeContact.contact_start_time }} - {{ closeContact.contact_end_time }}</td>
+                    <td>{{ closeContact.way_of_interview }}</td>
+                    <td [class.high-exposure]="closeContact.exposure_level == 'high'">{{ closeContact.exposure_level | titlecase }}</td>
                 </tr>
             </tbody>
         </table>

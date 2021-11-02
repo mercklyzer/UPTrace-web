@@ -14,10 +14,11 @@ import jwt_decode from 'jwt-decode';
 export class HomepageComponent implements OnInit {
   userToken: any;
   decodedToken: any;
-  contactNumber: string = "";
+  contactNum: string = "";
 
   reportForm!: FormGroup;
 
+  isUserPositive: boolean = false;
   isReportFormSubmitted: boolean = false;
 
   buttonClicked: string = "";
@@ -32,7 +33,8 @@ export class HomepageComponent implements OnInit {
     this.userToken = this.cookieService.get('Token');
     if(this.userToken) {
       this.decodedToken = jwt_decode(this.userToken);
-      // this.contactNumber = this.decodedToken.sub;
+      // console.log("this.decodedToken:", this.decodedToken.user.contact_num);
+      this.checkIfUserIsNegative(this.decodedToken.user.contact_num);
     }
 
     this.reportForm = this.fb.group({
@@ -76,6 +78,7 @@ export class HomepageComponent implements OnInit {
       this.patientService.addPatient(this.reportForm.value)
       .subscribe((response) => {
         console.log(response);
+        location.reload();
       }, (err) => {
         console.error(err);
       });
@@ -84,6 +87,18 @@ export class HomepageComponent implements OnInit {
     }
 
     console.log(this.reportForm.value);
+  }
+
+  checkIfUserIsNegative(contactNum: string): void {
+    this.patientService.checkIfUserIsNegative(contactNum)
+    .subscribe((patientRecords) => {
+      console.log(patientRecords);
+      if(patientRecords.length > 0) {
+        this.isUserPositive = true;
+      }
+    }, (err) => {
+      console.error(err);
+    });
   }
 
 }

@@ -16,8 +16,8 @@ const routes: Routes = [
   {path: 'rooms', component:RoomsComponent, pathMatch: 'full'},
   {path: 'scanner', component:ScannerComponent, pathMatch: 'full'},
   {path: 'patients', component:PatientsComponent, pathMatch: 'full'},
-  {path: 'patients/:patientContactNum/whereabouts', component:WhereaboutsComponent},
-  {path: 'patients/:patientContactNum/close-contacts', component:CloseContactsComponent},
+  {path: 'patients/:patientContactNum/dates/:disclosureDate/whereabouts', component:WhereaboutsComponent},
+  {path: 'patients/:patientContactNum/dates/:disclosureDate/close-contacts', component:CloseContactsComponent},
 ];
 
 @NgModule({

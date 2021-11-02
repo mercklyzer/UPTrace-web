@@ -2,6 +2,8 @@
     <h2>Whereabouts</h2>
     <h4>User with contact number {{ patientContactNum }}</h4>
 
+    <button type="button" class="btn btn-primary d-block mb-2" (click)="exportAsXLSX()" *ngIf="whereabouts">Export as Excel Workbook</button>
+
     <p *ngIf="!patientExists">Patient does not exist or patient is not reported to be (possibly) positive for COVID-19.</p>
     
     <div class="table-responsive" *ngIf="patientExists">
