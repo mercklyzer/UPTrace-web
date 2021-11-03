@@ -27,6 +27,8 @@ import { WhereaboutsComponent } from './pages/whereabouts/whereabouts.component'
 import { ExcelService } from './services/excel.service';
 import { GoogleComponent } from './google/google.component';
 import { LoginComponent } from './pages/login/login.component';
+import { LogoutGuardService } from './services/guards/logout-guard.service';
+import { DummyComponent } from './dummy/dummy.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ import { LoginComponent } from './pages/login/login.component';
     CloseContactsComponent,
     WhereaboutsComponent,
     GoogleComponent,
-    LoginComponent
+    LoginComponent,
+    DummyComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +55,9 @@ import { LoginComponent } from './pages/login/login.component';
     ZXingScannerModule,
     DpDatePickerModule,
   ],
-  providers: [{
+  providers: [
+    LogoutGuardService,
+    {
     provide: 'SocialAuthServiceConfig',
     useValue: {
       autoLogin: true, //keeps the user signed in

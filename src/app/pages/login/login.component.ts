@@ -42,6 +42,7 @@ export class LoginComponent implements OnInit {
         console.log(userResponse);
         this.cookieService.put('Token', userResponse.token);
         this.userService.user = {...this.userService.user, ...userResponse.user}
+        console.log(this.userService.user);
         this.router.navigate(['/']);
       }, (err) => {
         this.errorMessages.push(err.error.error.message)

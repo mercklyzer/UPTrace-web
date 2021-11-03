@@ -29,9 +29,9 @@ export class SignupComponent implements OnInit {
 
   ngOnInit(): void {
     this.signupForm = this.fb.group({
-      name: [''],
-      email: [''],
-      role: ['ordinary', Validators.required],
+      name: [this.userService.unregisteredUser['name']],
+      email: [this.userService.unregisteredUser['email']],
+      role: [this.userService.unregisteredUser['role']? this.userService.unregisteredUser['role'] : 'ordinary', Validators.required],
 
       contact_num: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
@@ -53,9 +53,9 @@ export class SignupComponent implements OnInit {
     // get data from user service to be more secure
 
     this.signupForm.patchValue({
-      role: this.userService.user['role'],
-      name: this.userService.user['name'],
-      email: this.userService.user['email']
+      role: this.userService.unregisteredUser['role'],
+      name: this.userService.unregisteredUser['name'],
+      email: this.userService.unregisteredUser['email']
     })
   }
 
@@ -92,6 +92,16 @@ export class SignupComponent implements OnInit {
       console.log(userResponse);
       this.cookieService.put('Token', userResponse.token);
       this.userService.user = {...this.userService.user, ...userResponse.user}
+
+
+      let cleanValues = {
+        name: '',
+        email: '',
+        role: ''
+      }
+
+      this.userService.unregisteredUser = {...this.userService.unregisteredUser, ...cleanValues}
+
       this.router.navigate(['/']);
     }, (err) => {
       this.errorMessages.push(err.error.error.message)

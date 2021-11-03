@@ -2,13 +2,20 @@
     <div class="container-fluid">
       <span class="navbar-brand mb-0 h1 brand" routerLink="/">UPTrace</span>
 
-      <a class="nav-link" routerLink="/rooms">Rooms</a>
-      <a class="nav-link" routerLink="/patients">Patients</a>
+      <ng-container *ngIf="user"> 
+        <a class="nav-link" *ngIf="user.role === 'helo'" routerLink="/rooms">Rooms</a>
+        <a class="nav-link" *ngIf="user.role === 'uphs'" routerLink="/patients">Patients</a>
 
-      <div class="right">
-        <a class="nav-link" routerLink="/signup">Sign Up</a>
-        <a class="nav-link" routerLink="/login">Log In</a>
-      </div>
+        <div class="right">
+          <a class="nav-link" *ngIf="user.role === ''" routerLink="/signup">Sign Up</a>
+          <a class="nav-link" *ngIf="user.role === ''" routerLink="/login">Log In</a>
+          <a class="nav-link" *ngIf="user.role !== ''" (click)="onLogOut()" style="cursor: pointer;">Log Out</a>
+        </div>
+      </ng-container>
+
+
+
+
 
     </div>
   </nav>

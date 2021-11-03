@@ -5,6 +5,8 @@ import { CookieService } from 'ngx-cookie';
 import { PatientService } from 'src/app/services/patient.service';
 import * as moment from 'moment';
 import jwt_decode from 'jwt-decode';
+import { User } from 'src/app/models/user.model';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-homepage',
@@ -12,8 +14,7 @@ import jwt_decode from 'jwt-decode';
   styleUrls: ['./homepage.component.css']
 })
 export class HomepageComponent implements OnInit {
-  userToken: any;
-  decodedToken: any;
+  user!:User
   contactNum: string = "";
 
   reportForm!: FormGroup;
@@ -25,17 +26,13 @@ export class HomepageComponent implements OnInit {
 
   constructor(
     private cookieService:CookieService,
+    private userService:UserService,
     private fb:FormBuilder,
     private patientService:PatientService
   ) { }
 
   ngOnInit(): void {
-    this.userToken = this.cookieService.get('Token');
-    if(this.userToken) {
-      this.decodedToken = jwt_decode(this.userToken);
-      // console.log("this.decodedToken:", this.decodedToken.user.contact_num);
-      this.checkIfUserIsNegative(this.decodedToken.user.contact_num);
-    }
+    this.user = this.userService.user
 
     this.reportForm = this.fb.group({
       condition: ['', [Validators.required]],

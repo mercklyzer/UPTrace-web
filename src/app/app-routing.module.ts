@@ -8,16 +8,22 @@ import { PatientsComponent } from './pages/patients/patients.component';
 import { CloseContactsComponent } from './pages/close-contacts/close-contacts.component';
 import { WhereaboutsComponent } from './pages/whereabouts/whereabouts.component';
 import { LoginComponent } from './pages/login/login.component';
+import { LogoutGuardService } from './services/guards/logout-guard.service';
+import { DummyComponent } from './dummy/dummy.component';
+import { HeloGuardService } from './services/guards/helo-guard.service';
+import { UphsGuardService } from './services/guards/uphs-guard.service';
+import { LoginGuardService } from './services/guards/login-guard.service';
 
 const routes: Routes = [
   {path: '', component: HomepageComponent, pathMatch:'full'},
-  {path: 'signup', component:SignupComponent, pathMatch: 'full'},
-  {path: 'login', component:LoginComponent, pathMatch: 'full'},
-  {path: 'rooms', component:RoomsComponent, pathMatch: 'full'},
-  {path: 'scanner', component:ScannerComponent, pathMatch: 'full'},
-  {path: 'patients', component:PatientsComponent, pathMatch: 'full'},
-  {path: 'patients/:patientContactNum/dates/:disclosureDate/whereabouts', component:WhereaboutsComponent},
-  {path: 'patients/:patientContactNum/dates/:disclosureDate/close-contacts', component:CloseContactsComponent},
+  {path: 'dummy', component: DummyComponent, pathMatch:'full'},
+  {path: 'signup', component:SignupComponent, canActivate: [LogoutGuardService], pathMatch: 'full'},
+  {path: 'login', component:LoginComponent, canActivate: [LogoutGuardService], pathMatch: 'full'},
+  {path: 'rooms', component:RoomsComponent, canActivate:[HeloGuardService], pathMatch: 'full'},
+  {path: 'scanner', component:ScannerComponent, canActivate:[LoginGuardService], pathMatch: 'full'},
+  {path: 'patients', component:PatientsComponent, canActivate:[UphsGuardService], pathMatch: 'full'},
+  {path: 'patients/:patientContactNum/dates/:disclosureDate/whereabouts', canActivate:[UphsGuardService], component:WhereaboutsComponent},
+  {path: 'patients/:patientContactNum/dates/:disclosureDate/close-contacts', canActivate:[UphsGuardService], component:CloseContactsComponent},
 ];
 
 @NgModule({

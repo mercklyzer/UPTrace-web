@@ -35,17 +35,19 @@ export class GoogleComponent implements OnInit {
         .subscribe((res) => {
           console.log(res);
           if(res.message === 'signup'){
-            this.userService.user['role'] = res.role
-            this.userService.user['email'] = res.email
-            this.userService.user['name'] = `${socialUser.firstName} ${socialUser.lastName}`
+            this.userService.unregisteredUser['role'] = res.role
+            this.userService.unregisteredUser['email'] = res.email
+            this.userService.unregisteredUser['name'] = `${socialUser.firstName} ${socialUser.lastName}`
 
             console.log(res);
             this.googleEmit.emit();
+            this.router.navigate(['/signup']);
           }
 
           else if(res.message === 'login'){
             console.log("GO TO LOGIN PAGE")
             this.cookieService.put('Token', res.token);
+            this.userService.user = {...this.userService.user, ...res.user}
             this.router.navigate(['/']);
           }
         }, (err) => {

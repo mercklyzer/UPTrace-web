@@ -1,7 +1,7 @@
 <div class="container">
-    <button *ngIf="userToken" type="button" class="btn btn-primary d-block mb-2" routerLink="/scanner">Scan QR Code</button>
-    <button *ngIf="userToken" type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#reportModal" (click)="onClickButton('suspected')" [disabled]="isUserPositive">I suspect to be positive</button>
-    <button *ngIf="userToken" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reportModal" (click)="onClickButton('disclosed positive')" [disabled]="isUserPositive">I tested positive</button>
+    <button *ngIf="user.role !== ''" type="button" class="btn btn-primary d-block mb-2" routerLink="/scanner">Scan QR Code</button>
+    <button *ngIf="user.role !== ''" type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#reportModal" (click)="onClickButton('suspected')" [disabled]="isUserPositive">I suspect to be positive</button>
+    <button *ngIf="user.role !== ''" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reportModal" (click)="onClickButton('disclosed positive')" [disabled]="isUserPositive">I tested positive</button>
     <section>
         <h1>Some Title</h1>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo doloremque laboriosam impedit vel ea facere iusto quo praesentium saepe soluta.</p>
