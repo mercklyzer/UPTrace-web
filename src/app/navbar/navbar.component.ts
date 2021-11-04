@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
 import { User } from '../models/user.model';
@@ -11,6 +11,9 @@ import {filter} from 'rxjs/operators';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  @ViewChild('collapseBtn') collapse!:ElementRef;
+
+
   user!:User
   url = ''
 
@@ -19,6 +22,10 @@ export class NavbarComponent implements OnInit {
     private cookieService:CookieService,
     private router:Router
   ) { }
+
+  toggleCollapse(){
+    this.collapse.nativeElement.click()
+  }
 
   ngOnInit(): void {
     this.router.events.pipe(
@@ -38,6 +45,7 @@ export class NavbarComponent implements OnInit {
   }
 
   onLogOut():void{
+    this.collapse.nativeElement.click()
     this.cookieService.removeAll()
 
     if(this.url === '/'){

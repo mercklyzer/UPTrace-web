@@ -1,3 +1,8 @@
+.navbar-container{
+    display: flex;
+}
+
+
 .brand{
     color: var(--dark-green);
     cursor: pointer;
