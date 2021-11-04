@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user.model';
 import { Subscription } from 'rxjs';
+import { CookieService } from 'ngx-cookie';
 
 @Component({
   selector: 'app-patients',
@@ -25,13 +26,13 @@ export class PatientsComponent implements OnInit, OnDestroy {
   constructor(
     private fb:FormBuilder,
     private patientService:PatientService,
-    private userService:UserService,
+    private cookieService:CookieService,
   ) { }
 
   ngOnInit(): void {
-    this.user = this.userService.user;
+    this.user = JSON.parse(this.cookieService.get('User'));
     console.log(this.user);
-    this.contactTracer = this.userService.user.name;
+    this.contactTracer = this.user.name;
     console.log(this.contactTracer);
     this.filterForm = this.fb.group({
       status_filter: ["all", [Validators.required]],
