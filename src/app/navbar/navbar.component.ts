@@ -26,7 +26,7 @@ export class NavbarComponent implements OnInit {
       .subscribe((receivedEvent) => {
         if(receivedEvent instanceof NavigationEnd){
           this.url = receivedEvent.url;
-          this.user = this.userService.user
+          this.user = this.cookieService.get('User')? JSON.parse(this.cookieService.get('User')) : ''
         }
       });
   }
@@ -39,15 +39,7 @@ export class NavbarComponent implements OnInit {
 
   onLogOut():void{
     this.cookieService.removeAll()
-    this.userService.user = {
-      name: '',
-      contact_num: '',
-      email: '',
-      contact_start_time: '',
-      contact_end_time: '',
-      way_of_interview: '',
-      role: ''
-    }
+
     if(this.url === '/'){
       this.redirectTo('/')
     }

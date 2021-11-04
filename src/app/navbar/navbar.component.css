@@ -3,6 +3,10 @@
     cursor: pointer;
 }
 
+.brand img{
+    max-height: 50px;
+}
+
 .right{
     display: flex;
 }

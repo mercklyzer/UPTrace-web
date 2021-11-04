@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SocialAuthService } from 'angularx-social-login';
 import { CookieService } from 'ngx-cookie';
+import { User } from 'src/app/models/user.model';
 import { DepartmentService } from 'src/app/services/department.service';
 import { UserService } from 'src/app/services/user.service';
 import { getFormValidationErrors } from 'src/app/utils/errorhandling';
@@ -19,6 +20,9 @@ export class SignupComponent implements OnInit {
 
   signupForm!:FormGroup
 
+  user!:User
+  unregisteredUser!:User
+
 
   constructor(
     private userService:UserService,
@@ -28,10 +32,13 @@ export class SignupComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.unregisteredUser = this.cookieService.get('Unregistered User')? JSON.parse(this.cookieService.get('Unregistered User')) : ''
+
+
     this.signupForm = this.fb.group({
-      name: [this.userService.unregisteredUser['name']],
-      email: [this.userService.unregisteredUser['email']],
-      role: [this.userService.unregisteredUser['role']? this.userService.unregisteredUser['role'] : 'ordinary', Validators.required],
+      name: [this.unregisteredUser['name']],
+      email: [this.unregisteredUser['email']],
+      role: [this.unregisteredUser['role']? this.unregisteredUser['role'] : 'ordinary', Validators.required],
 
       contact_num: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
@@ -50,13 +57,17 @@ export class SignupComponent implements OnInit {
   }
 
   updateFromService(){
-    // get data from user service to be more secure
+    this.unregisteredUser = JSON.parse(this.cookieService.get('Unregistered User'))
 
     this.signupForm.patchValue({
-      role: this.userService.unregisteredUser['role'],
-      name: this.userService.unregisteredUser['name'],
-      email: this.userService.unregisteredUser['email']
+      role: this.unregisteredUser['role'],
+      name: this.unregisteredUser['name'],
+      email: this.unregisteredUser['email']
     })
+  }
+
+  updateGoogleError(error:string){
+    this.errorMessages.push(error)
   }
 
   verifyTime(){
@@ -91,16 +102,8 @@ export class SignupComponent implements OnInit {
     .subscribe((userResponse) => {
       console.log(userResponse);
       this.cookieService.put('Token', userResponse.token);
-      this.userService.user = {...this.userService.user, ...userResponse.user}
-
-
-      let cleanValues = {
-        name: '',
-        email: '',
-        role: ''
-      }
-
-      this.userService.unregisteredUser = {...this.userService.unregisteredUser, ...cleanValues}
+      this.cookieService.put('User', JSON.stringify(userResponse.user))
+      this.cookieService.remove('Unregisterd User')
 
       this.router.navigate(['/']);
     }, (err) => {

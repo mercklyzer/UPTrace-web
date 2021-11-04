@@ -30,6 +30,10 @@ export class LoginComponent implements OnInit {
     })
   }
 
+  updateGoogleError(error:string){
+    this.errorMessages.push(error)
+  }
+
   onSubmit(){
     this.errorMessages = getFormValidationErrors(this.loginForm)
     
@@ -41,8 +45,7 @@ export class LoginComponent implements OnInit {
       .subscribe((userResponse) => {
         console.log(userResponse);
         this.cookieService.put('Token', userResponse.token);
-        this.userService.user = {...this.userService.user, ...userResponse.user}
-        console.log(this.userService.user);
+        this.cookieService.put('User', JSON.stringify(userResponse.user))
         this.router.navigate(['/']);
       }, (err) => {
         this.errorMessages.push(err.error.error.message)

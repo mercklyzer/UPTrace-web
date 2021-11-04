@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie';
 import { UserService } from '../user.service';
 
 @Injectable({
@@ -8,11 +9,12 @@ import { UserService } from '../user.service';
 export class UphsGuardService {
   constructor(
     private router:Router,
-    private userService:UserService
+    private cookieService:CookieService
   ) { }
 
+
   canActivate():boolean {
-    if(this.userService.user.role === 'uphs'){
+    if(JSON.parse(this.cookieService.get('User')).role === 'uphs'){
       return true
     }
     else{

@@ -8,7 +8,7 @@
 
             <div class="mb-4">
                 Are you a UPHS Contact Tracer or a HeLO? Signup using GMAIL.
-                <app-google>Log In Using Gmail</app-google>
+                <app-google (googleError)="updateGoogleError($event)">Log In Using Gmail</app-google>
             </div>
 
             <form [formGroup]="loginForm" enctype="multipart/form-data" (submit)="onSubmit()">

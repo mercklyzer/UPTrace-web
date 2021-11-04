@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie';
 import { UserService } from '../user.service';
 
 @Injectable({
@@ -8,11 +9,11 @@ import { UserService } from '../user.service';
 export class LoginGuardService {
   constructor(
     private router:Router,
-    private userService:UserService
+    private cookieService:CookieService
   ) { }
 
   canActivate():boolean {
-    if(this.userService.user.role !== ''){
+    if(this.cookieService.get('User')){
       return true
     }
     else{

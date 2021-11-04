@@ -32,7 +32,7 @@ export class HomepageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.user = this.userService.user
+    this.user = this.cookieService.get('User')? JSON.parse(this.cookieService.get('User')) : ''
 
     this.reportForm = this.fb.group({
       condition: ['', [Validators.required]],

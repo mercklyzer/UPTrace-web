@@ -12,12 +12,12 @@ import { UserService } from '../services/user.service';
 })
 export class GoogleComponent implements OnInit {
   @Output() googleEmit = new EventEmitter<any>()
+  @Output() googleError = new EventEmitter<any>()
 
 
   constructor(
     private socialAuthService: SocialAuthService,
     private router:Router,
-    private userService:UserService,
     private googleService:GoogleService,
     private cookieService:CookieService
   ) { }
@@ -35,9 +35,14 @@ export class GoogleComponent implements OnInit {
         .subscribe((res) => {
           console.log(res);
           if(res.message === 'signup'){
-            this.userService.unregisteredUser['role'] = res.role
-            this.userService.unregisteredUser['email'] = res.email
-            this.userService.unregisteredUser['name'] = `${socialUser.firstName} ${socialUser.lastName}`
+
+            let unregisteredUser = {
+              role: res.role,
+              email: res.email,
+              name: socialUser.firstName + ' ' + socialUser.lastName
+            }
+
+            this.cookieService.put('Unregistered User', JSON.stringify(unregisteredUser))
 
             console.log(res);
             this.googleEmit.emit();
@@ -47,10 +52,12 @@ export class GoogleComponent implements OnInit {
           else if(res.message === 'login'){
             console.log("GO TO LOGIN PAGE")
             this.cookieService.put('Token', res.token);
-            this.userService.user = {...this.userService.user, ...res.user}
+            this.cookieService.put('User', JSON.stringify(res.user))
+
             this.router.navigate(['/']);
           }
         }, (err) => {
+          this.googleError.emit(err.error.error)
           console.error(err.error)
         })
       }
