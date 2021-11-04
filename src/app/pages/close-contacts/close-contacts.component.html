@@ -2,7 +2,7 @@
     <h2>Close Contacts</h2>
     <h4>User with contact number {{ patientContactNum }}</h4>
 
-    <button type="button" class="btn btn-primary d-block mb-2" (click)="exportAsXLSX()" *ngIf="closeContacts">Export as Excel Workbook</button>
+    <button type="button" class="btn btn-primary d-block mb-2 green-btn" (click)="exportAsXLSX()" *ngIf="closeContacts">Export as Excel Workbook</button>
 
     <p *ngIf="!patientExists">Patient does not exist or patient is not reported to be (possibly) positive for COVID-19.</p>
 

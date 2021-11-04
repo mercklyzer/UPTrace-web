@@ -1,11 +1,13 @@
-h2 {
-    color: var(--maroon);
+.green-btn{
+    background-color: var(--dark-green);
+    border: 2px solid var(--dark-green);
 }
 
-h4 {
-    color: var(--dark-green)
+.maroon-btn{
+    background-color: var(--maroon);
+    border: 2px solid var(--maroon);
 }
 
-.errorMessage {
-    color: red;
+.green-btn:hover, .maroon-btn:hover{
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), -1px 2px 4px rgba(0, 0, 0, .5);
 }
