@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
+import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
 import { getFormValidationErrors } from 'src/app/utils/errorhandling';
 
@@ -10,7 +11,8 @@ import { getFormValidationErrors } from 'src/app/utils/errorhandling';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
+  private subscriptions = new Subscription();
 
   constructor(
     private userService:UserService,
@@ -33,6 +35,10 @@ export class LoginComponent implements OnInit {
   updateGoogleError(error:string){
     this.errorMessages.push(error)
   }
+  
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
 
   onSubmit(){
     this.errorMessages = getFormValidationErrors(this.loginForm)
@@ -41,7 +47,7 @@ export class LoginComponent implements OnInit {
       console.log(this.errorMessages);
     }
     else{
-      this.userService.loginUser(this.loginForm.value)
+      this.subscriptions.add(this.userService.loginUser(this.loginForm.value)
       .subscribe((userResponse) => {
         console.log(userResponse);
         this.cookieService.put('Token', userResponse.token);
@@ -50,7 +56,7 @@ export class LoginComponent implements OnInit {
       }, (err) => {
         this.errorMessages.push(err.error.error.message)
         console.log(err);
-      })
+      }))
     }
   }
 }

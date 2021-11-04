@@ -1,19 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { PatientService } from 'src/app/services/patient.service';
 import { ExcelService } from 'src/app/services/excel.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-close-contacts',
   templateUrl: './close-contacts.component.html',
   styleUrls: ['./close-contacts.component.css']
 })
-export class CloseContactsComponent implements OnInit {
+export class CloseContactsComponent implements OnInit, OnDestroy {
   patientContactNum: string = "";
   patientDisclosureDate: string = "";
   patientExists: boolean = true;
   closeContacts: any[] = [];
+  
+  private subscriptions = new Subscription();
 
   constructor(
     private route: ActivatedRoute,
@@ -28,8 +31,12 @@ export class CloseContactsComponent implements OnInit {
     this.checkIfPatientExists();
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
   checkIfPatientExists(): void {
-    this.patientService.getPatient(this.patientContactNum, this.patientDisclosureDate)
+    this.subscriptions.add(this.patientService.getPatient(this.patientContactNum, this.patientDisclosureDate)
     .subscribe((patient) => {
       if(patient === null) {
         this.patientExists = false;
@@ -40,18 +47,18 @@ export class CloseContactsComponent implements OnInit {
     }, (err) => {
       console.error(err);
       this.patientExists = false;
-    });
+    }));
   }
 
   getCloseContacts(): void {
-    this.patientService.getCloseContacts(this.patientContactNum, this.patientDisclosureDate)
+    this.subscriptions.add(this.patientService.getCloseContacts(this.patientContactNum, this.patientDisclosureDate)
     .subscribe((closeContacts) => {
       this.closeContacts = closeContacts;
       console.log("close contacts:", this.closeContacts);
     }, (err) => {
       console.error(err);
       this.patientExists = false;
-    });
+    }));
   }
 
   exportAsXLSX():void {

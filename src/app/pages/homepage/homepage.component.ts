@@ -1,19 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { CookieService } from 'ngx-cookie';
 import { PatientService } from 'src/app/services/patient.service';
 import * as moment from 'moment';
-import jwt_decode from 'jwt-decode';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
+import { Subscription } from 'rxjs';
+import { CookieService } from 'ngx-cookie';
 
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.css']
 })
-export class HomepageComponent implements OnInit {
+export class HomepageComponent implements OnInit, OnDestroy {
   user!:User
   contactNum: string = "";
 
@@ -24,9 +24,10 @@ export class HomepageComponent implements OnInit {
 
   buttonClicked: string = "";
 
+  private subscriptions = new Subscription();
+  
   constructor(
     private cookieService:CookieService,
-    private userService:UserService,
     private fb:FormBuilder,
     private patientService:PatientService
   ) { }
@@ -40,6 +41,10 @@ export class HomepageComponent implements OnInit {
       disclosure_date: ['', [Validators.required]],
       status: ['', [Validators.required]]
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   datePickerConfig = {
@@ -72,13 +77,13 @@ export class HomepageComponent implements OnInit {
 
     if(this.reportForm.valid) {
       console.log("valid form");
-      this.patientService.addPatient(this.reportForm.value)
+      this.subscriptions.add(this.patientService.addPatient(this.reportForm.value)
       .subscribe((response) => {
         console.log(response);
         location.reload();
       }, (err) => {
         console.error(err);
-      });
+      }));
     } else {
       console.log("invalid form");
     }
@@ -87,15 +92,14 @@ export class HomepageComponent implements OnInit {
   }
 
   checkIfUserIsNegative(contactNum: string): void {
-    this.patientService.checkIfUserIsNegative(contactNum)
+    this.subscriptions.add(this.patientService.checkIfUserIsNegative(contactNum)
     .subscribe((patientRecords) => {
-      console.log(patientRecords);
       if(patientRecords.length > 0) {
         this.isUserPositive = true;
       }
     }, (err) => {
       console.error(err);
-    });
+    }));
   }
 
 }
