@@ -1,5 +1,6 @@
 <div class="container">
     <h2>Patients</h2>
+    <h4>Filter</h4>
 
     <form [formGroup]="filterForm">
         <div class="row">
@@ -15,12 +16,13 @@
             <div class="col-md-3 mb-2">
                 <dp-date-picker theme="dp-material" formControlName="date_filter" [config]="datePickerConfig" [placeholder]="datePlaceholder" class="date-picker"></dp-date-picker>
             </div>
-            <div class="col-md-3 mb-2">
-                <button type="button" class="btn btn-primary green-btn" (click)="getPatients()">Submit Filter</button>
+            <div class="col-md-6 mb-2">
+                <button type="button" class="btn btn-primary green-btn float-end" (click)="getPatients()">Submit Filter</button>
             </div>
         </div>
     </form>
 
+    <h4 class="mt-3">List of Patients</h4>
     <div class="table-responsive mt-2">
         <table class="table table-striped">
             <thead>
