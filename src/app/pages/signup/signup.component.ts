@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SocialAuthService } from 'angularx-social-login';
 import { CookieService } from 'ngx-cookie';
+import { Subscription } from 'rxjs';
 import { DepartmentService } from 'src/app/services/department.service';
 import { UserService } from 'src/app/services/user.service';
 import { getFormValidationErrors } from 'src/app/utils/errorhandling';
@@ -12,13 +13,14 @@ import { getFormValidationErrors } from 'src/app/utils/errorhandling';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, OnDestroy {
   @ViewChild('triggerModal') triggerModal!: ElementRef;
 
   errorMessages:string[] = []
 
   signupForm!:FormGroup
 
+  private subscriptions = new Subscription();
 
   constructor(
     private userService:UserService,
@@ -40,6 +42,10 @@ export class SignupComponent implements OnInit {
       end_time: ['', [Validators.required]],
       way_of_interview: ['One at a time', [Validators.required]],
     })
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   verifyPassword():string{
@@ -87,7 +93,7 @@ export class SignupComponent implements OnInit {
   }
 
   onAgree() {
-    this.userService.signupUser(this.signupForm.value)
+    this.subscriptions.add(this.userService.signupUser(this.signupForm.value)
     .subscribe((userResponse) => {
       console.log(userResponse);
       this.cookieService.put('Token', userResponse.token);
@@ -106,6 +112,6 @@ export class SignupComponent implements OnInit {
     }, (err) => {
       this.errorMessages.push(err.error.error.message)
       console.log(err);
-    })
+    }))
   }
 }

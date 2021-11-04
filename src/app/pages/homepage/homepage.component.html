@@ -31,6 +31,7 @@
                             <input class="form-check-input" type="radio" value="asymptomatic" id="no" formControlName="condition" (click)="resetOnsetDate()">
                             <label class="form-check-label" for="no">No</label>
                         </div>
+                        <p class="errorMessage" *ngIf="!reportForm.value.condition && isReportFormSubmitted">Please select "Yes" if you have symptoms and "No" otherwise.</p>
                     </div>
                     <div *ngIf="this.reportForm.value.condition == 'symptomatic'" class="form-group mb-4">
                         <label class="form-label">When did your symptoms start? (Onset Date)</label>

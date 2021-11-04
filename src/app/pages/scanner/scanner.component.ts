@@ -1,19 +1,18 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { LogService } from 'src/app/services/log.service';
 import { Camera } from 'src/app/models/camera.model';
 
-import { CookieService } from 'ngx-cookie';
-import jwt_decode from 'jwt-decode';
 import * as moment from 'moment';
 import { ZXingScannerComponent } from '@zxing/ngx-scanner';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-scanner',
   templateUrl: './scanner.component.html',
   styleUrls: ['./scanner.component.css']
 })
-export class ScannerComponent implements OnInit {
+export class ScannerComponent implements OnInit, OnDestroy {
   @ViewChild('scanner', { static: false }) scanner!: ZXingScannerComponent;
   @ViewChild('openModal') openModal!: ElementRef;
   @ViewChild('closeModal') closeModal!: ElementRef;
@@ -21,29 +20,26 @@ export class ScannerComponent implements OnInit {
   isScannerEnabled: boolean = true;
   isQRCodeValid: boolean = true;
   scannedRoomId: string = "";
-  userToken: any;
-  decodedToken: any;
-  email: string = "";
   camerasFound: Camera[] = [];
   desiredCamera: any;
 
+  private subscriptions = new Subscription();
+
   constructor(
-    private cookieService:CookieService,
     private logService:LogService,
     private router:Router,
   ) { }
 
   ngOnInit(): void {
-    this.userToken = this.cookieService.get('Token');
-    if(this.userToken) {
-      this.decodedToken = jwt_decode(this.userToken);
-      this.email = this.decodedToken.sub;
-    }
-
+    // Stop scanning when the user goes to a different page
     this.router.events.subscribe((val) => {
       this.scanner.scanStop();
       this.scanner.enable = false;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   camerasFoundHandler(cameras: any) {
@@ -60,12 +56,11 @@ export class ScannerComponent implements OnInit {
     
     // no need to add email since we will be using contact number which can be derived from the token once sent to the server
     let log = {
-      // scan_date: moment().format("YYYY-MM-DD HH:mm:ss"),
       scan_date: moment().unix(),
       room_id: this.scannedRoomId
     };
 
-    this.logService.addLog(log)
+    this.subscriptions.add(this.logService.addLog(log)
     .subscribe((response) => {
       console.log(response);
       this.isQRCodeValid = true;
@@ -82,7 +77,7 @@ export class ScannerComponent implements OnInit {
     }, (err) => {
       console.error(err);
       this.isQRCodeValid = false;
-    });
+    }));
   }
 
 }

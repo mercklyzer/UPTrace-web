@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { Building } from 'src/app/models/building.model';
 import { Room } from 'src/app/models/room.model';
 import { BuildingService } from 'src/app/services/building.service';
@@ -9,7 +10,7 @@ import { BuildingService } from 'src/app/services/building.service';
   templateUrl: './rooms.component.html',
   styleUrls: ['./rooms.component.css']
 })
-export class RoomsComponent implements OnInit {
+export class RoomsComponent implements OnInit, OnDestroy {
   errorMessages:string[] = [];
 
   buildingForm!:FormGroup;
@@ -24,6 +25,8 @@ export class RoomsComponent implements OnInit {
 
   addBuildingMessage: string = "";
   addRoomMessage: string = "";
+
+  private subscriptions = new Subscription();
 
   constructor(
     private fb:FormBuilder,
@@ -43,13 +46,16 @@ export class RoomsComponent implements OnInit {
     this.getAllBuildings();
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
   newRooms(): FormArray {
     return this.roomForm.get("newRooms") as FormArray;
   }
 
   newRoom(): FormGroup {
     return this.fb.group({
-      // building_name: [this.selectedBuildingName, [Validators.required]],
       room_name: ['', [Validators.required]]
     });
   }
@@ -63,17 +69,17 @@ export class RoomsComponent implements OnInit {
   }
 
   getAllBuildings() {
-    this.buildingService.getBuildings()
+    this.subscriptions.add(this.buildingService.getBuildings()
     .subscribe((buildings) => {
       this.buildings = buildings;
-    });
+    }));
   }
 
   getAllRooms(buildingId: number) {
-    this.buildingService.getRooms(buildingId)
+    this.subscriptions.add(this.buildingService.getRooms(buildingId)
     .subscribe((rooms) => {
       this.rooms = rooms;
-    });
+    }));
   }
 
   setBuildingName(buildingId: number) {
@@ -103,14 +109,14 @@ export class RoomsComponent implements OnInit {
       building_name: this.buildingForm.value.newBuilding
     };
 
-    this.buildingService.addBuilding(addBuildingRequestBody)
+    this.subscriptions.add(this.buildingService.addBuilding(addBuildingRequestBody)
     .subscribe((response) => {
       console.log(response);
       this.addBuildingMessage = "Successfully added building.";
     }, (err) => {
       console.error(err);
       this.addBuildingMessage = `ERROR: ${err.error.error.message}`;
-    });
+    }));
   }
 
   onSubmitRooms() {
@@ -118,14 +124,14 @@ export class RoomsComponent implements OnInit {
     // console.log("rooms to add:", this.roomForm.value.newRooms);
 
     if(this.roomForm.valid) {
-      this.buildingService.addRoom(this.roomForm.value.newRooms, this.selectedBuildingId)
+      this.subscriptions.add(this.buildingService.addRoom(this.roomForm.value.newRooms, this.selectedBuildingId)
       .subscribe((response) => {
         console.log(response);
         this.addRoomMessage = response;
       }, (err) => {
         console.error(err);
       this.addRoomMessage = `ERROR: ${err.error.error.message}`;
-      });
+      }));
     }
   }
 
