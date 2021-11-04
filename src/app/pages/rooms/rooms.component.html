@@ -48,12 +48,14 @@
                 <tr>
                     <th scope="col">Room Name</th>
                     <th scope="col">QR Code</th>
+                    <th scope="col">Added By</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let room of rooms">
                     <td>{{room.room_name}}</td>
                     <td>{{room.qr_code}}</td>
+                    <td>{{room.added_by}}</td>
                 </tr>
             </tbody>
         </table>
@@ -69,7 +71,18 @@
                 <tbody>
                     <tr *ngFor="let room of newRooms().controls; let i=index" [formGroupName]="i" class="mb-5">
                         <td>
-                            <input type="text" formControlName="room_name" class="form-control" placeholder="Enter Room Name">
+                            <div class="row">
+                                <div class="col">
+                                    <input type="text" formControlName="room_name" class="form-control" placeholder="Enter Room Name">
+                                </div>
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" formControlName="is_entrance" id="is_entrance">
+                                        <label class="form-check-label" for="is_entrance"> Is entrance?</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <p class="errorMessage" *ngIf="newRooms().controls[i].get('room_name')?.errors?.required && (isRoomFormSubmitted || newRooms().controls[i]?.touched)">Please enter room name or remove this field if not needed.</p>
                         </td>
                         <td>
