@@ -1,3 +1,5 @@
+// https://github.com/zxing-js/ngx-scanner/blob/master/projects/zxing-scanner-demo/src/app/app.component.html
+
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { LogService } from 'src/app/services/log.service';
@@ -23,6 +25,11 @@ export class ScannerComponent implements OnInit, OnDestroy {
   camerasFound: Camera[] = [];
   desiredCamera: any;
 
+  // start of debug
+  availableDevices: MediaDeviceInfo[] = [];
+  deviceCurrent?: MediaDeviceInfo;
+  deviceSelected:string = ''
+
   private subscriptions = new Subscription();
 
   constructor(
@@ -42,13 +49,31 @@ export class ScannerComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  camerasFoundHandler(cameras: any) {
-    this.camerasFound = cameras;
+  onCamerasFound(devices: MediaDeviceInfo[]) {
+    this.availableDevices = devices
+  }
+
+  onDeviceSelectChange(selected: any) {
+    const selectedStr = selected.target.value || '';
+    if (this.deviceSelected === selectedStr) { return; }
+    this.deviceSelected = selectedStr;
+    const device = this.availableDevices.find(x => x.deviceId === selected.target.value);
+    this.deviceCurrent = device || undefined;
+  }
+
+  onDeviceChange(device: MediaDeviceInfo) {
+    const selectedStr = device?.deviceId || '';
+    if (this.deviceSelected === selectedStr) { return; }
+    this.deviceSelected = selectedStr;
+    this.deviceCurrent = device || undefined;
   }
 
   changeCamera(event: any) {
+    console.log(event.target.value);
     this.desiredCamera = event.target.value;
-    this.scanner.device = this.desiredCamera;
+    // this.selectedDevice = this.scanner.getDeviceById(selectedValue)
+
+    // this.scanner.device = this.desiredCamera;
   }
 
   scanSuccessHandler(result: string) {

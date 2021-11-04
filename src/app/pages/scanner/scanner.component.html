@@ -11,12 +11,12 @@
         </div>
 
         <label class="form-label">Change camera:</label>
-        <select class="form-select mb-3" (change)="changeCamera($event)">
+        <select [value]="deviceSelected" class="form-select mb-3" (change)="onDeviceSelectChange($event)">
             <option selected disabled value="">Select Camera</option>
-            <option *ngFor="let camera of camerasFound" value="{{camera}}">{{camera.label}}</option>
+            <option *ngFor="let device of availableDevices" [value]="device.deviceId">{{device.label}}</option>
         </select>
 
-        <zxing-scanner #scanner *ngIf="isScannerEnabled" (scanSuccess)="scanSuccessHandler($event)" (camerasFound)="camerasFoundHandler($event)"></zxing-scanner>
+        <zxing-scanner #scanner *ngIf="isScannerEnabled" [device]="deviceCurrent" (scanSuccess)="scanSuccessHandler($event)" (deviceChange)="onDeviceChange($event)" (camerasFound)="onCamerasFound($event)"></zxing-scanner>
     </div>
 
     <div hidden>
