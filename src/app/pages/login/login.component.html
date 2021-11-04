@@ -4,35 +4,30 @@
     </div>
 
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-5 my-form">
 
-            <div class="mb-4">
-                Are you a UPHS Contact Tracer or a HeLO? Signup using GMAIL.
+            <div class="mb-4 login-text">
+                Are you a UPHS Contact Tracer or a HeLO? Login using GMAIL.
                 <app-google (googleError)="updateGoogleError($event)">Log In Using Gmail</app-google>
             </div>
 
             <form [formGroup]="loginForm" enctype="multipart/form-data" (submit)="onSubmit()">
-                
-                <div class="row">
-                    <div class="col-md-6">
-
-                        <!-- contact number -->
-                        <div class="form-group mb-4 mt-md-4">
-                            <input type="tel" formControlName="contact_num" class="form-control" placeholder="Contact Number" pattern="[0-9]{11}">                    
-                            <small class="form-text text-muted">Format: 09XXXXXXXXX</small>
-                        </div>
-
-                        <!-- password -->
-                        <div class="form-group mb-4 mt-md-4">
-                            <input type="password" formControlName="password" class="form-control" placeholder="Password">                    
-                        </div>
-                    </div>
+                <!-- contact number -->
+                <div class="form-group mb-4 ">
+                    <input type="tel" formControlName="contact_num" class="form-control my-input" placeholder="Contact Number" pattern="[0-9]{11}">                    
+                    <small class="form-text text-muted">Format: 09XXXXXXXXX</small>
                 </div>
-                <button type="submit" class="btn btn-primary">Log In</button>
+
+                <!-- password -->
+                <div class="form-group mb-4 mt-md-4">
+                    <input type="password" formControlName="password" class="form-control my-input" placeholder="Password">                    
+                </div>
+
+                <button type="submit" class="btn btn-primary my-btn">Log In</button>
             </form>
         </div>
-        <div class="col-md-7">
-            LET US FIGHT COVID TOGETHER!
+        <div class="col-md-7 caption-container">
+            <span class="caption">LET US FIGHT COVID TOGETHER!</span>
         </div>
     </div>
 
