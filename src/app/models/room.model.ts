@@ -3,5 +3,7 @@ export interface Room {
     building_name: string,
     room_name: string,
     department: string,
-    qr_code: string
+    qr_code: string,
+    is_entrance: number,
+    added_by: string
 }

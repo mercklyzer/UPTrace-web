@@ -56,7 +56,8 @@ export class RoomsComponent implements OnInit, OnDestroy {
 
   newRoom(): FormGroup {
     return this.fb.group({
-      room_name: ['', [Validators.required]]
+      room_name: ['', [Validators.required]],
+      is_entrance: [false, [Validators.required]]
     });
   }
 
@@ -121,7 +122,7 @@ export class RoomsComponent implements OnInit, OnDestroy {
 
   onSubmitRooms() {
     this.isRoomFormSubmitted = true;
-    // console.log("rooms to add:", this.roomForm.value.newRooms);
+    console.log("rooms to add:", this.roomForm.value.newRooms);
 
     if(this.roomForm.valid) {
       this.subscriptions.add(this.buildingService.addRoom(this.roomForm.value.newRooms, this.selectedBuildingId)

@@ -35,6 +35,10 @@ export class HomepageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.user = this.cookieService.get('User')? JSON.parse(this.cookieService.get('User')) : ''
 
+    if(this.user) {
+      this.checkIfUserIsNegative(this.user.contact_num);
+    }
+
     this.reportForm = this.fb.group({
       condition: ['', [Validators.required]],
       onset_date: ['', [Validators.required]],
@@ -94,6 +98,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
   checkIfUserIsNegative(contactNum: string): void {
     this.subscriptions.add(this.patientService.checkIfUserIsNegative(contactNum)
     .subscribe((patientRecords) => {
+      console.log("patientRecords:", patientRecords);
       if(patientRecords.length > 0) {
         this.isUserPositive = true;
       }
