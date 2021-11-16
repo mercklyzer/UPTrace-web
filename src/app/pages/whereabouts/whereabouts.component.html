@@ -19,7 +19,7 @@
                 <tr *ngFor="let whereabout of whereabouts">
                     <td>{{ whereabout.building_name }}</td>
                     <td>{{ whereabout.room_name }}</td>
-                    <td>{{ convertDateTime(whereabout.scan_date) }}</td>
+                    <td>{{ whereabout.scan_date }}</td>
                 </tr>
             </tbody>
         </table>

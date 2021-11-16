@@ -16,7 +16,7 @@ export class WhereaboutsComponent implements OnInit, OnDestroy {
   patientContactNum: string = "";
   patientDisclosureDate: string = "";
   patientExists: boolean = true;
-  whereabouts: Whereabout[] = [];
+  whereabouts: any[] = [];
 
   private subscriptions = new Subscription();
 
@@ -56,6 +56,9 @@ export class WhereaboutsComponent implements OnInit, OnDestroy {
     this.subscriptions.add(this.patientService.getWhereabouts(this.patientContactNum, this.patientDisclosureDate)
     .subscribe((whereabouts) => {
       this.whereabouts = whereabouts;
+      this.whereabouts.forEach((whereabout) => {
+        whereabout.scan_date = this.convertDateTime(whereabout.scan_date);
+      });
       console.log("whereabouts:", this.whereabouts);
     }, (err) => {
       console.error(err);
