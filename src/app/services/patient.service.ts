@@ -21,7 +21,11 @@ export class PatientService {
     return this.http.get<any>(`${this.url}/patients?date=${formData.date_filter}&status=${formData.status_filter}`);
   }
 
-  getPatient(contactNum: string, disclosureDate: string): Observable<any>{
+  getPatientByContactNum(contactNum: string): Observable<any>{
+    return this.http.get<any>(`${this.url}/patients/${contactNum}`);
+  }
+
+  getPatientByContactNumAndDisclosureDate(contactNum: string, disclosureDate: string): Observable<any>{
     return this.http.get<any>(`${this.url}/patients/${contactNum}/dates/${disclosureDate}`);
   }
 
@@ -38,7 +42,7 @@ export class PatientService {
   }
 
   checkIfUserIsNegative(contactNum: string): Observable<any>{
-    return this.http.get<any>(`${this.url}/patients/${contactNum}`);
+    return this.http.get<any>(`${this.url}/patients/${contactNum}/status`);
   }
   
 }

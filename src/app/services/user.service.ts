@@ -22,5 +22,4 @@ export class UserService {
     return this.http.post<{token: any, user:User}>(`${this.url}/users/login`,formData)
   }
 
-
 }

@@ -38,7 +38,7 @@ export class WhereaboutsComponent implements OnInit, OnDestroy {
   }
 
   checkIfPatientExists(): void {
-    this.subscriptions.add(this.patientService.getPatient(this.patientContactNum, this.patientDisclosureDate)
+    this.subscriptions.add(this.patientService.getPatientByContactNumAndDisclosureDate(this.patientContactNum, this.patientDisclosureDate)
     .subscribe((patient) => {
       if(patient === null) {
         this.patientExists = false;
