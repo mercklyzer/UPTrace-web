@@ -11,7 +11,7 @@
                 <app-google (googleEmit)="updateFromService()" (googleError)="updateGoogleError($event)">Sign Up Using Gmail</app-google>
             </div>
 
-            <form [formGroup]="signupForm" enctype="multipart/form-data" (submit)="onSubmit()">
+            <form [formGroup]="signupForm" enctype="multipart/form-data" (submit)="generateOtp()">
                 <!-- name -->
                 <div class="form-group mb-4 mt-md-4" *ngIf="signupForm.value.name">
                     <input type="text" formControlName="name" class="form-control my-input" [value]="signupForm.value.name" [attr.disabled]="true">                    

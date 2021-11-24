@@ -84,6 +84,24 @@ export class SignupComponent implements OnInit, OnDestroy {
     return ''
   }
 
+  generateOtp(){
+    this.errorMessages = getFormValidationErrors(this.signupForm)
+    this.verifyPassword()? this.errorMessages.push(this.verifyPassword()) : ''
+    this.verifyTime()? this.errorMessages.push(this.verifyTime()) : ''
+
+    if(this.errorMessages.length !== 0){
+      console.log(this.errorMessages);
+    }
+
+    if(this.errorMessages.length === 0){
+      this.userService.generateOtp(this.signupForm.value)
+      .subscribe(res => {
+          console.log(res);
+      })
+    }
+
+  }
+
   onSubmit(){
     this.errorMessages = getFormValidationErrors(this.signupForm)
     this.verifyPassword()? this.errorMessages.push(this.verifyPassword()) : ''

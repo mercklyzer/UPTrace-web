@@ -14,6 +14,10 @@ export class UserService {
 
   private url = 'http://localhost:3000'
 
+  generateOtp(formData:any): Observable<any>{
+    return this.http.post<any>(`${this.url}/users/generate-otp`,formData)
+  }
+
   signupUser(formData:any): Observable<any>{
     return this.http.post<any>(`${this.url}/users`,formData)
   }
