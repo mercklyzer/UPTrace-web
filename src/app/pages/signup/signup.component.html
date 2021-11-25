@@ -11,50 +11,62 @@
                 <app-google (googleEmit)="updateFromService()" (googleError)="updateGoogleError($event)">Sign Up Using Gmail</app-google>
             </div>
 
-            <form [formGroup]="signupForm" enctype="multipart/form-data" (submit)="generateOtp()">
-                <!-- name -->
-                <div class="form-group mb-4 mt-md-4" *ngIf="signupForm.value.name">
-                    <input type="text" formControlName="name" class="form-control my-input" [value]="signupForm.value.name" [attr.disabled]="true">                    
-                </div>
+            <form [formGroup]="signupForm" enctype="multipart/form-data" (submit)="onSubmit()">
 
-                <!-- role -->
-                <div class="form-group mb-4 mt-md-4" *ngIf="signupForm.value.role !== 'ordinary'">
-                    <input type="text" formControlName="role" class="form-control my-input" [value]="signupForm.value.role" [attr.disabled]="true">                    
-                </div>
 
-                <!-- contact number -->
-                <div class="form-group mb-4 mt-md-4">
-                    <input type="tel" formControlName="contact_num" class="form-control my-input" placeholder="Contact Number" pattern="[0-9]{11}">                    
-                    <small class="form-text text-muted">Format: 09XXXXXXXXX</small>
-                </div>
-
-                <!-- password -->
-                <div class="form-group mb-4 mt-md-4">
-                    <input type="password" formControlName="password" class="form-control my-input" placeholder="Password">                    
-                </div>
-                <div class="form-group mb-4 mt-md-4">
-                    <input type="password" formControlName="confirm_password" class="form-control my-input" placeholder="Confirm Password">                    
-                </div>
-
-                <!-- contact time -->
-                <div class="form-group mb-4 mt-md-4">
-                    <label>Preferred Contact Time:</label>
-                    <div class>
-                        <label>Start Time:</label>
-                        <input type="time" formControlName="start_time" class="form-control my-input">                
-                        <label>End Time: </label>    
-                        <input type="time" formControlName="end_time" class="form-control my-input">                    
+                <ng-container *ngIf="!showOtpForm">
+                    
+                    <!-- name -->
+                    <div class="form-group mb-4 mt-md-4" *ngIf="signupForm.value.name">
+                        <input type="text" formControlName="name" class="form-control my-input" [value]="signupForm.value.name" [attr.disabled]="true">                    
                     </div>
-                </div>
+    
+                    <!-- role -->
+                    <div class="form-group mb-4 mt-md-4" *ngIf="signupForm.value.role !== 'ordinary'">
+                        <input type="text" formControlName="role" class="form-control my-input" [value]="signupForm.value.role" [attr.disabled]="true">                    
+                    </div>
+    
+                    <!-- contact number -->
+                    <div class="form-group mb-4 mt-md-4">
+                        <input type="tel" formControlName="contact_num" class="form-control my-input" placeholder="Contact Number" pattern="[0-9]{11}">                    
+                        <small class="form-text text-muted">Format: 09XXXXXXXXX</small>
+                    </div>
+    
+                    <!-- password -->
+                    <div class="form-group mb-4 mt-md-4">
+                        <input type="password" formControlName="password" class="form-control my-input" placeholder="Password">                    
+                    </div>
+                    <div class="form-group mb-4 mt-md-4">
+                        <input type="password" formControlName="confirm_password" class="form-control my-input" placeholder="Confirm Password">                    
+                    </div>
+    
+                    <!-- contact time -->
+                    <div class="form-group mb-4 mt-md-4">
+                        <label>Preferred Contact Time:</label>
+                        <div class>
+                            <label>Start Time:</label>
+                            <input type="time" formControlName="start_time" class="form-control my-input">                
+                            <label>End Time: </label>    
+                            <input type="time" formControlName="end_time" class="form-control my-input">                    
+                        </div>
+                    </div>
+    
+                    <!-- interview -->
+                    <div class="form-group mb-4 mt-md-4">
+                        <label>Preferred Way of Interview:</label>
+                        <select class="form-select my-input" formControlName="way_of_interview">
+                            <option value="One at a time" >One at a time</option>
+                            <option value="All at once">All at once</option>
+                        </select>  
+                    </div>
+                </ng-container>
 
-                <!-- interview -->
-                <div class="form-group mb-4 mt-md-4">
-                    <label>Preferred Way of Interview:</label>
-                    <select class="form-select my-input" formControlName="way_of_interview">
-                        <option value="One at a time" >One at a time</option>
-                        <option value="All at once">All at once</option>
-                    </select>  
+                <div *ngIf="showOtpForm" class="form-group mb-4 mt-md-4">
+                    <input type="text" formControlName="otp" class="form-control my-input" placeholder="OTP" pattern="[0-9]{6}" required>                    
+                    <small class="form-text text-muted">Format: XXXXXX</small>
                 </div>
+                
+
                 <button type="submit" class="btn btn-primary my-btn">Sign Up</button>
             </form>
             

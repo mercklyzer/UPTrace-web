@@ -18,6 +18,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   @ViewChild('triggerModal') triggerModal!: ElementRef;
 
   errorMessages:string[] = []
+  showOtpForm:boolean = false
 
   signupForm!:FormGroup
 
@@ -48,6 +49,8 @@ export class SignupComponent implements OnInit, OnDestroy {
       start_time: ['', [Validators.required]],
       end_time: ['', [Validators.required]],
       way_of_interview: ['One at a time', [Validators.required]],
+
+      otp: ['']
     })
   }
 
@@ -85,10 +88,6 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   generateOtp(){
-    this.errorMessages = getFormValidationErrors(this.signupForm)
-    this.verifyPassword()? this.errorMessages.push(this.verifyPassword()) : ''
-    this.verifyTime()? this.errorMessages.push(this.verifyTime()) : ''
-
     if(this.errorMessages.length !== 0){
       console.log(this.errorMessages);
     }
@@ -96,7 +95,16 @@ export class SignupComponent implements OnInit, OnDestroy {
     if(this.errorMessages.length === 0){
       this.userService.generateOtp(this.signupForm.value)
       .subscribe(res => {
-          console.log(res);
+        this.showOtpForm = true
+        console.log(res);
+      }, err => {
+        console.log(err.error.error.message);
+        if(err.error.error.message === 'You can request again after 5 minutes.'){
+          this.showOtpForm = true
+        }
+        else{
+          this.errorMessages.push(err.error.error.message)
+        }
       })
     }
 
@@ -107,13 +115,20 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.verifyPassword()? this.errorMessages.push(this.verifyPassword()) : ''
     this.verifyTime()? this.errorMessages.push(this.verifyTime()) : ''
     
-    if(this.errorMessages.length != 0){
+    if(this.errorMessages.length !== 0){
       console.log(this.errorMessages);
     }
     if(this.errorMessages.length === 0){
-      let signupModal: HTMLElement = this.triggerModal.nativeElement;
-      signupModal.click();
 
+      console.log(this.signupForm.get('otp')?.value);
+
+        if(this.signupForm.get('otp')?.value === ''){
+          this.generateOtp()
+        }
+        else{
+          let signupModal: HTMLElement = this.triggerModal.nativeElement;
+          signupModal.click();
+        }
       console.log(this.signupForm.value);
     }
     else{
