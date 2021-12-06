@@ -68,7 +68,7 @@
                         <option value="confirmed positive" [hidden]="searchedPatient.status == 'confirmed positive' || searchedPatient.status == 'confirmed negative'">Confirmed Positive</option>
                         <option value="confirmed negative" [hidden]="searchedPatient.status == 'confirmed negative'">Confirmed Negative</option>
                     </select>
-                    <button [hidden]="searchedPatient.status == 'suspected' || searchedPatient.status == 'confirmed positive'" type="button" class="btn btn-primary maroon-btn" data-bs-toggle="modal" data-bs-target="#reportModal">Set as Positive</button>
+                    <button [hidden]="searchedPatient.status == 'suspected' || searchedPatient.status == 'disclosed positive' || searchedPatient.status == 'confirmed positive'" type="button" class="btn btn-primary maroon-btn" data-bs-toggle="modal" data-bs-target="#reportModal">Set as Positive</button>
                 </td>
                 <td *ngIf="searchedPatient.contact_tracer">Contacted by {{ searchedPatient.contact_tracer }}</td>
                 <td *ngIf="!searchedPatient.contact_tracer">
