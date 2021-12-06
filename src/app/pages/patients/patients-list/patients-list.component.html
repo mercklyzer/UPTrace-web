@@ -1,0 +1,116 @@
+<p>{{tabSelected}}</p>
+
+<div class="table-responsive mt-2">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Contact Number</th>
+                <th scope="col">Preferred Contact Time</th>
+                <th scope="col">Preferred Way of Interview</th>
+                <th scope="col">Close Contacts</th>
+                <th scope="col">Whereabouts</th>
+                <th scope="col" *ngIf="tabSelected === 'search'">Disclosure Date</th>
+                <th scope="col">Status</th>
+                <th scope="col">Contacted?</th>
+            </tr>
+        </thead>
+
+        <p *ngIf="patients.length == 0 && tabSelected === 'filter'" class='mt-2'>No patients.</p>
+
+        <p *ngIf="!searchedPatient && tabSelected === 'search'" class='mt-2'>No patients.</p>
+
+        <tbody *ngIf="tabSelected === 'filter'">
+            <tr *ngFor="let patient of patients">
+                <td>{{ patient.contact_num }}</td>
+                <td>{{ patient.contact_start_time }} - {{ patient.contact_end_time }}</td>
+                <td>{{ patient.way_of_interview }}</td>
+                <td>
+                    <button type="button" class="btn btn-primary maroon-btn" routerLink="/patients/{{ patient.contact_num }}/dates/{{ patient.disclosure_date }}/close-contacts">View Close Contacts</button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-primary maroon-btn" routerLink="/patients/{{ patient.contact_num }}/dates/{{ patient.disclosure_date }}/whereabouts">View Whereabouts</button>
+                </td>
+                <td>
+                    <select class="form-select" (change)="onChangeStatus($event, patient)">
+                        <option value="patient.status" selected disabled>{{ patient.status | titlecase }}</option>
+                        <option value="confirmed positive" [hidden]="patient.status == 'confirmed positive' || patient.status == 'confirmed negative'">Confirmed Positive</option>
+                        <option value="confirmed negative" [hidden]="patient.status == 'confirmed negative'">Confirmed Negative</option>
+                    </select>
+                </td>
+                <td *ngIf="patient.contact_tracer">Contacted by {{ patient.contact_tracer }}<span *ngIf="patient.contact_tracer === user.name"> (You)</span></td>
+                <td *ngIf="!patient.contact_tracer">
+                    <input class="form-check-input" type="checkbox" id="contacted" (click)="onChangeContactTracer($event, patient)">
+                    <label class="form-check-label" for="contacted">I contacted this patient</label>
+                </td>
+            </tr>
+        </tbody>
+
+        <tbody *ngIf="tabSelected === 'search' && searchedPatient">
+            <tr>
+                <td>{{ searchedPatient.contact_num }}</td>
+                <td>{{ searchedPatient.contact_start_time }} - {{ searchedPatient.contact_end_time }}</td>
+                <td>{{ searchedPatient.way_of_interview }}</td>
+                <td>
+                    <button [disabled]="!searchedPatient.status" type="button" class="btn btn-primary maroon-btn" routerLink="/patients/{{ searchedPatient.contact_num }}/dates/{{ searchedPatient.disclosure_date }}/close-contacts">View Close Contacts</button>
+                </td>
+                <td>
+                    <button [disabled]="!searchedPatient.status" type="button" class="btn btn-primary maroon-btn" routerLink="/patients/{{ searchedPatient.contact_num }}/dates/{{ searchedPatient.disclosure_date }}/whereabouts">View Whereabouts</button>
+                </td>
+                <td *ngIf="searchedPatient.disclosure_date">{{ convertDateTime(searchedPatient.disclosure_date) }}</td>
+                <td *ngIf="!searchedPatient.disclosure_date">N/A</td>
+                <td>
+                    <div *ngIf="!searchedPatient.status">
+                        Negative
+                    </div>
+                    <select *ngIf="searchedPatient.status" class="form-select" (change)="onChangeStatus($event, searchedPatient)">
+                        <option *ngIf="searchedPatient.status" value="searchedPatient.status" selected disabled>{{ searchedPatient.status | titlecase }}</option>
+                        <option *ngIf="!searchedPatient.status" value="Negative" selected disabled>Negative</option>
+                        <option value="confirmed positive" [hidden]="searchedPatient.status == 'confirmed positive' || searchedPatient.status == 'confirmed negative'">Confirmed Positive</option>
+                        <option value="confirmed negative" [hidden]="searchedPatient.status == 'confirmed negative'">Confirmed Negative</option>
+                    </select>
+                    <button [hidden]="searchedPatient.status == 'suspected' || searchedPatient.status == 'confirmed positive'" type="button" class="btn btn-primary maroon-btn" data-bs-toggle="modal" data-bs-target="#reportModal">Set as Positive</button>
+                </td>
+                <td *ngIf="searchedPatient.contact_tracer">Contacted by {{ searchedPatient.contact_tracer }}</td>
+                <td *ngIf="!searchedPatient.contact_tracer">
+                    <input class="form-check-input" type="checkbox" id="contacted" (click)="onChangeContactTracer($event, searchedPatient)" [disabled]="!searchedPatient.status || searchedPatient.status === 'confirmed negative'">
+                    <label class="form-check-label" for="contacted">I contacted this user/patient</label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Set user as positive</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="reportForm">
+                    <div class="form-group mb-4">
+                        <label class="form-label">Does the user have symptoms?</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" value="symptomatic" id="yes" formControlName="condition">
+                            <label class="form-check-label" for="yes">Yes</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" value="asymptomatic" id="no" formControlName="condition" (click)="resetOnsetDate()">
+                            <label class="form-check-label" for="no">No</label>
+                        </div>
+                        <p class="errorMessage" *ngIf="!reportForm.value.condition && isReportFormSubmitted">Please select "Yes" if you have symptoms and "No" otherwise.</p>
+                    </div>
+                    <div *ngIf="this.reportForm.value.condition == 'symptomatic'" class="form-group mb-4">
+                        <label class="form-label">When did the user's symptoms start? (Onset Date)</label>
+                        <dp-date-picker theme="dp-material" formControlName="onset_date" [config]="datePickerConfig"></dp-date-picker>
+                        <p class="errorMessage" *ngIf="this.reportForm.value.condition == 'symptomatic' && !this.reportForm.value.onset_date && isReportFormSubmitted">Please select onset date.</p>
+                    </div>
+                </form> 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary green-btn" (click)="addPatient()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>

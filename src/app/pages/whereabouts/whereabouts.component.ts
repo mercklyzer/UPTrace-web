@@ -16,7 +16,7 @@ export class WhereaboutsComponent implements OnInit, OnDestroy {
   patientContactNum: string = "";
   patientDisclosureDate: string = "";
   patientExists: boolean = true;
-  whereabouts: any[] = [];
+  whereabouts: Whereabout[] = [];
 
   private subscriptions = new Subscription();
 

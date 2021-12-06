@@ -11,13 +11,3 @@
 .green-btn:hover, .maroon-btn:hover{
     box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), -1px 2px 4px rgba(0, 0, 0, .5);
 }
-
-.nav-link {
-    cursor: pointer;
-    color: black;
-}
-
-.nav-link.active {
-    color: var(--maroon);
-    font-weight: bold;
-}

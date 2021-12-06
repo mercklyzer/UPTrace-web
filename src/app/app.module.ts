@@ -29,6 +29,7 @@ import { GoogleComponent } from './google/google.component';
 import { LoginComponent } from './pages/login/login.component';
 import { LogoutGuardService } from './services/guards/logout-guard.service';
 import { DummyComponent } from './dummy/dummy.component';
+import { PatientsListComponent } from './pages/patients/patients-list/patients-list.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { DummyComponent } from './dummy/dummy.component';
     WhereaboutsComponent,
     GoogleComponent,
     LoginComponent,
-    DummyComponent
+    DummyComponent,
+    PatientsListComponent
   ],
   imports: [
     BrowserModule,

@@ -3,6 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 
 import { PatientService } from 'src/app/services/patient.service';
 import { ExcelService } from 'src/app/services/excel.service';
+
+import { CloseContact } from 'src/app/models/close-contact.model';
+
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -14,7 +17,7 @@ export class CloseContactsComponent implements OnInit, OnDestroy {
   patientContactNum: string = "";
   patientDisclosureDate: string = "";
   patientExists: boolean = true;
-  closeContacts: any[] = [];
+  closeContacts: CloseContact[] = [];
   
   private subscriptions = new Subscription();
 
