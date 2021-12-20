@@ -23,10 +23,10 @@
                 <td>{{ patient.contact_start_time }} - {{ patient.contact_end_time }}</td>
                 <td>{{ patient.way_of_interview }}</td>
                 <td>
-                    <button type="button" class="btn btn-primary maroon-btn" routerLink="/patients/{{ patient.contact_num }}/dates/{{ patient.disclosure_date }}/close-contacts">View Close Contacts</button>
+                    <a type="button" class="btn btn-primary maroon-btn" routerLink="/patients/{{ patient.contact_num }}/dates/{{ patient.disclosure_date }}/close-contacts" target="_blank">View Close Contacts</a>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-primary maroon-btn" routerLink="/patients/{{ patient.contact_num }}/dates/{{ patient.disclosure_date }}/whereabouts">View Whereabouts</button>
+                    <a type="button" class="btn btn-primary maroon-btn" routerLink="/patients/{{ patient.contact_num }}/dates/{{ patient.disclosure_date }}/whereabouts" target="_blank">View Whereabouts</a>
                 </td>
                 <td>
                     <select class="form-select" (change)="onChangeStatus($event, patient)">
@@ -49,10 +49,10 @@
                 <td>{{ searchedPatient.contact_start_time }} - {{ searchedPatient.contact_end_time }}</td>
                 <td>{{ searchedPatient.way_of_interview }}</td>
                 <td>
-                    <button [disabled]="!searchedPatient.status" type="button" class="btn btn-primary maroon-btn" routerLink="/patients/{{ searchedPatient.contact_num }}/dates/{{ searchedPatient.disclosure_date }}/close-contacts">View Close Contacts</button>
+                    <a [class.disabled]="!searchedPatient.status" type="button" class="btn btn-primary maroon-btn" routerLink="/patients/{{ searchedPatient.contact_num }}/dates/{{ searchedPatient.disclosure_date }}/close-contacts" target="_blank">View Close Contacts</a>
                 </td>
                 <td>
-                    <button [disabled]="!searchedPatient.status" type="button" class="btn btn-primary maroon-btn" routerLink="/patients/{{ searchedPatient.contact_num }}/dates/{{ searchedPatient.disclosure_date }}/whereabouts">View Whereabouts</button>
+                    <a [class.disabled]="!searchedPatient.status" type="button" class="btn btn-primary maroon-btn" routerLink="/patients/{{ searchedPatient.contact_num }}/dates/{{ searchedPatient.disclosure_date }}/whereabouts" target="_blank">View Whereabouts</a>
                 </td>
                 <td *ngIf="searchedPatient.disclosure_date">{{ convertDateTime(searchedPatient.disclosure_date) }}</td>
                 <td *ngIf="!searchedPatient.disclosure_date">N/A</td>

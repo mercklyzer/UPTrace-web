@@ -4,7 +4,7 @@ export interface Patient {
     contact_end_time: string,
     way_of_interview: string,
     condition: string,
-    onset_date: string,
+    onset_date: number,
     disclosure_date: number,
     status: string,
     contact_tracer: string

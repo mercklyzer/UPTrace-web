@@ -14,7 +14,7 @@
         <h4 class="mt-3">Filter</h4>
         <form [formGroup]="filterForm">
             <div class="row">
-                <div class="col-md-2 mb-2">
+                <div class="col-md-3 mb-2">
                     <select class="form-select" formControlName="status_filter">
                         <option value="all" selected>All</option>
                         <option value="suspected">Suspected</option>
@@ -26,17 +26,21 @@
                 <div class="col-md-3 mb-2">
                     <dp-date-picker theme="dp-material" formControlName="date_filter" [config]="datePickerConfig" [placeholder]="datePlaceholder"></dp-date-picker>
                 </div>
-                <div class="col-md-4 mb-2">
+                
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-2">
                     <input class="form-check-input me-2" type="checkbox" id="show-assigned-patients" formControlName="show_assigned_patients_filter">
                     <label class="form-check-label" for="show-assigned-patients">Only show patients assigned to me</label>
                 </div>
-                <div class="col-md-3 mb-2">
+                <div class="col-md-6 mb-2">
                     <button type="button" class="btn btn-primary green-btn float-end" (click)="getPatients()">Submit Filter</button>
                 </div>
             </div>
         </form>
 
         <h4 class="mt-3">List of Patients</h4>
+        <button type="button" class="btn btn-primary d-block mb-2 green-btn" (click)="exportAsXLSX()" *ngIf="patients.length !== 0">Export as Excel Workbook</button>
         <app-patients-list [patients]="patients" [tabSelected]="'filter'"></app-patients-list>
     </div>
 

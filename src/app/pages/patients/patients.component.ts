@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { PatientService } from 'src/app/services/patient.service';
+import { ExcelService } from 'src/app/services/excel.service';
 import { Patient } from 'src/app/models/patient.model';
 import { User } from 'src/app/models/user.model';
 
@@ -19,6 +20,7 @@ export class PatientsComponent implements OnInit, OnDestroy {
   searchForm!: FormGroup;
 
   datePlaceholder: string = moment().format("YYYY-MM-DD");
+  dateFiltered: string = "";
   patients: Patient[] = [];
   searchedPatient!: Patient | null;
 
@@ -34,6 +36,7 @@ export class PatientsComponent implements OnInit, OnDestroy {
     private fb:FormBuilder,
     private patientService:PatientService,
     private cookieService:CookieService,
+    private excelService:ExcelService
   ) { }
 
   ngOnInit(): void {
@@ -65,11 +68,12 @@ export class PatientsComponent implements OnInit, OnDestroy {
 
   getPatients(): void {
     console.log("filter form:", this.filterForm.value);
+    this.dateFiltered = this.filterForm.value.date_filter;
     if(this.filterForm.valid) {
       console.log("valid filter form");
       this.subscriptions.add(this.patientService.getPatients(this.filterForm.value)
       .subscribe((patients) => {
-        console.log(patients);
+        console.log("patients:", patients);
         this.patients = patients;
       }, (err) => {
         console.error(err);
@@ -106,5 +110,24 @@ export class PatientsComponent implements OnInit, OnDestroy {
 
   onChangeTab(state: boolean): void {
     this.isFilterTabSelected = state;
+  }
+
+  convertDate(unixTime: number): any {
+    return moment.unix(unixTime).format("MM/DD/YYYY");
+  }
+
+  convertDateTime(unixTime: number): any {
+    return moment.unix(unixTime).format("MM/DD/YYYY HH:mm");
+  }
+
+  exportAsXLSX(): void {
+    let patientsCopy = this.patients;
+    
+    // Convert disclosure_date and onset_date from bigint format to readable dates
+    patientsCopy.filter((patient: Patient) => {
+      patient.disclosure_date = this.convertDateTime(patient.disclosure_date);
+      patient.onset_date = this.convertDate(patient.onset_date);
+    });
+    this.excelService.exportAsExcelFile(patientsCopy, `${this.dateFiltered}_patients`);
   }
 }

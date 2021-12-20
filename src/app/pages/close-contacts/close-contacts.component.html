@@ -14,6 +14,7 @@
                     <th scope="col">Preferred Contact Time</th>
                     <th scope="col">Preferred Way of Interview</th>
                     <th scope="col">Type of Exposure</th>
+                    <th scope="col">Exposure Details</th>
                 </tr>
             </thead>
 
@@ -25,6 +26,11 @@
                     <td>{{ closeContact.contact_start_time }} - {{ closeContact.contact_end_time }}</td>
                     <td>{{ closeContact.way_of_interview }}</td>
                     <td [class.high-exposure]="closeContact.exposure_type == 'same room'">{{ closeContact.exposure_type | titlecase }}</td>
+                    <td>
+                        <ul *ngFor="let entry of closeContact.exposure_details">
+                            <li>{{ entry }}</li>
+                        </ul>
+                    </td>
                 </tr>
             </tbody>
         </table>

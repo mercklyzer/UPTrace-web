@@ -64,8 +64,12 @@ export class CloseContactsComponent implements OnInit, OnDestroy {
     }));
   }
 
-  exportAsXLSX():void {
-    this.excelService.exportAsExcelFile(this.closeContacts, `${this.patientContactNum}_close_contacts`);
-  }
+  exportAsXLSX(): void {
+    let closeContactsCopy = this.closeContacts;
+    closeContactsCopy.forEach((close_contact) => {
+      close_contact.exposure_details = close_contact.exposure_details.join(', ');
+    });
 
+    this.excelService.exportAsExcelFile(closeContactsCopy, `${this.patientContactNum}_close_contacts`);
+  }
 }
