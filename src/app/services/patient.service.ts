@@ -18,7 +18,7 @@ export class PatientService {
   }
 
   getPatients(formData: any): Observable<any>{
-    return this.http.get<any>(`${this.url}/patients?date=${formData.date_filter}&status=${formData.status_filter}`);
+    return this.http.get<any>(`${this.url}/patients?date=${formData.date_filter}&status=${formData.status_filter}&showAssignedPatients=${formData.show_assigned_patients_filter}`);
   }
 
   getPatientByContactNum(contactNum: string): Observable<any>{

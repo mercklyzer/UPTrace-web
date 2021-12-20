@@ -43,7 +43,8 @@ export class PatientsComponent implements OnInit, OnDestroy {
     
     this.filterForm = this.fb.group({
       status_filter: ["all", [Validators.required]],
-      date_filter: [this.datePlaceholder, [Validators.required]]
+      date_filter: [this.datePlaceholder, [Validators.required]],
+      show_assigned_patients_filter: [false, [Validators.required]]
     });
 
     this.searchForm = this.fb.group({
@@ -63,6 +64,7 @@ export class PatientsComponent implements OnInit, OnDestroy {
   };
 
   getPatients(): void {
+    console.log("filter form:", this.filterForm.value);
     if(this.filterForm.valid) {
       console.log("valid filter form");
       this.subscriptions.add(this.patientService.getPatients(this.filterForm.value)
