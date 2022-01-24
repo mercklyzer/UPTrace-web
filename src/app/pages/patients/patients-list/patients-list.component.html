@@ -31,7 +31,7 @@
                     <a type="button" class="btn btn-primary maroon-btn" routerLink="/patients/{{ patient.contact_num }}/dates/{{ patient.disclosure_date }}/close-contacts" target="_blank"><i class="fas fa-users me-1"></i>View Close Contacts</a>
                 </td>
                 <td>
-                    <a type="button" class="btn btn-primary maroon-btn" routerLink="/patients/{{ patient.contact_num }}/dates/{{ patient.disclosure_date }}/whereabouts" target="_blank"><i class="fas fa-map-marker-alt me-1"></i>View Whereabouts</a>
+                    <a type="button" class="btn btn-primary green-btn" routerLink="/patients/{{ patient.contact_num }}/dates/{{ patient.disclosure_date }}/whereabouts" target="_blank"><i class="fas fa-map-marker-alt me-1"></i>View Whereabouts</a>
                 </td>
                 <td *ngIf="patient.contact_tracer">Contacted by {{ patient.contact_tracer }}<span *ngIf="patient.contact_tracer === user.name"> (You)</span></td>
                 <td *ngIf="!patient.contact_tracer">
