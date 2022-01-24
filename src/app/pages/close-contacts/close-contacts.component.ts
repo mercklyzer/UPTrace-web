@@ -17,6 +17,7 @@ export class CloseContactsComponent implements OnInit, OnDestroy {
   patientContactNum: string = "";
   patientDisclosureDate: string = "";
   patientExists: boolean = true;
+  isRefreshing: boolean = false;
   closeContacts: CloseContact[] = [];
   
   private subscriptions = new Subscription();
@@ -54,6 +55,7 @@ export class CloseContactsComponent implements OnInit, OnDestroy {
   }
 
   getCloseContacts(): void {
+    this.isRefreshing = true;
     this.subscriptions.add(this.patientService.getCloseContacts(this.patientContactNum, this.patientDisclosureDate)
     .subscribe((closeContacts) => {
       this.closeContacts = closeContacts;
@@ -62,6 +64,7 @@ export class CloseContactsComponent implements OnInit, OnDestroy {
       console.error(err);
       this.patientExists = false;
     }));
+    this.isRefreshing = false;
   }
 
   exportAsXLSX(): void {

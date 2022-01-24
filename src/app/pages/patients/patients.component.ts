@@ -29,6 +29,7 @@ export class PatientsComponent implements OnInit, OnDestroy {
   
   isFilterTabSelected: boolean = true;
   isSearchFormSubmitted: boolean = false;
+  isRefreshing: boolean = false;
 
   private subscriptions = new Subscription();
 
@@ -67,6 +68,7 @@ export class PatientsComponent implements OnInit, OnDestroy {
   };
 
   getPatients(): void {
+    this.isRefreshing = true;
     console.log("filter form:", this.filterForm.value);
     this.dateFiltered = this.filterForm.value.date_filter;
     if(this.filterForm.valid) {
@@ -81,6 +83,7 @@ export class PatientsComponent implements OnInit, OnDestroy {
     } else {
       console.log("invalid filter form");
     }
+    this.isRefreshing = false;
   }
 
   searchUser(): void {

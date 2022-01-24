@@ -3,13 +3,15 @@
         <thead>
             <tr>
                 <th scope="col">Contact Number</th>
-                <th scope="col">Preferred Contact Time</th>
-                <th scope="col">Preferred Way of Interview</th>
+                <!-- <th scope="col">Preferred Contact Time</th>
+                <th scope="col">Preferred Way of Interview</th> -->
+                <th scope="col">Condition</th>
                 <th scope="col">Close Contacts</th>
                 <th scope="col">Whereabouts</th>
                 <th scope="col" *ngIf="tabSelected === 'search'">Disclosure Date</th>
                 <th scope="col">Status</th>
                 <th scope="col">Contacted?</th>
+                <th scope="col">More Information</th>
             </tr>
         </thead>
 
@@ -20,8 +22,9 @@
         <tbody *ngIf="tabSelected === 'filter'">
             <tr *ngFor="let patient of patients">
                 <td>{{ patient.contact_num }}</td>
-                <td>{{ patient.contact_start_time }} - {{ patient.contact_end_time }}</td>
-                <td>{{ patient.way_of_interview }}</td>
+                <!-- <td>{{ patient.contact_start_time }} - {{ patient.contact_end_time }}</td>
+                <td>{{ patient.way_of_interview }}</td> -->
+                <td>{{ patient.condition | titlecase }}</td>
                 <td>
                     <a type="button" class="btn btn-primary maroon-btn" routerLink="/patients/{{ patient.contact_num }}/dates/{{ patient.disclosure_date }}/close-contacts" target="_blank">View Close Contacts</a>
                 </td>
@@ -39,6 +42,10 @@
                 <td *ngIf="!patient.contact_tracer">
                     <input class="form-check-input" type="checkbox" id="contacted" (click)="onChangeContactTracer($event, patient)">
                     <label class="form-check-label" for="contacted">I contacted this patient</label>
+                    <!-- <button type="button" class="btn btn-primary maroon-btn" data-bs-toggle="modal" data-bs-target="#confirmModal">I contacted this patient</button> -->
+                </td>
+                <td>
+                    <a type="button" class="btn btn-primary maroon-btn" (click)="setPatientClicked(patient)" data-bs-toggle="modal" data-bs-target="#moreInfoModal">View More</a>
                 </td>
             </tr>
         </tbody>
@@ -78,6 +85,7 @@
     </table>
 </div>
 
+<!-- Modal for setting user as positive -->
 <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -109,6 +117,50 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary green-btn" (click)="addPatient()">Submit</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for "I contacted this patient" confirmation -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Are you sure?</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you've contacted this patient?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary green-btn" (click)="addPatient()">Yes</button>
+                <button type="button" class="btn btn-secondary maroon-btn" (click)="addPatient()">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for viewing more information about a patient -->
+<div class="modal fade" id="moreInfoModal" tabindex="-1" aria-labelledby="moreInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" *ngIf="patientClicked">
+            <div class="modal-header">
+                <h6 class="modal-title">User with contact number {{ patientClicked.contact_num }}</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><b>Contact Number:</b> {{ patientClicked.contact_num }}</p>
+                <p><b>Preferred Contact Time:</b> {{ patientClicked.contact_start_time }} - {{ patientClicked.contact_end_time }}</p>
+                <p><b>Preferred Way of Interview:</b> {{ patientClicked.way_of_interview }}</p>
+                <p><b>Condition:</b> {{ patientClicked.condition | titlecase }}</p>
+                <p *ngIf="patientClicked.condition === 'symptomatic'"><b>Onset Date:</b> {{ convertDate(patientClicked.onset_date) }}</p>
+                <p><b>Disclosure Date and Time:</b> {{ convertDateTime(patientClicked.disclosure_date) }}</p>
+                <p><b>Status:</b> {{ patientClicked.status | titlecase }}</p>
+                <p><b>Assigned Contact Tracer: </b><span *ngIf="patientClicked.contact_tracer">{{ patientClicked.contact_tracer }}</span><span *ngIf="!patientClicked.contact_tracer">None</span></p>
+            </div>
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-primary green-btn" (click)="addPatient()">Submit</button>
+            </div> -->
         </div>
     </div>
 </div>

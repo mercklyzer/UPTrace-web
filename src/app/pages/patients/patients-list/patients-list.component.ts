@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { PatientService } from 'src/app/services/patient.service';
@@ -18,11 +18,14 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   @Input() patients: Patient[] = [];
   @Input() searchedPatient!: Patient | null;
   @Input() tabSelected!: string;
+  @Output() getPatients: EventEmitter<any> = new EventEmitter();
   
   reportForm!: FormGroup;
 
   user!: User;
 
+  patientContacted!: Patient;
+  patientClicked!: Patient;
   contactTracer: string = "";
   datePlaceholder: string = moment().format("YYYY-MM-DD");
   
@@ -121,7 +124,8 @@ export class PatientsListComponent implements OnInit, OnDestroy {
     this.subscriptions.add(this.patientService.editPatient(patient.contact_num, patient.disclosure_date, formData)
     .subscribe((response) => {
       console.log(response);
-      location.reload();
+      // location.reload(); // Do not refresh whole page, just update the table using the event emitter below
+      this.getPatients.emit();
     }, (err) => {
       console.error(err);
     }));
@@ -129,5 +133,14 @@ export class PatientsListComponent implements OnInit, OnDestroy {
 
   convertDateTime(unixTime: number): any {
     return moment.unix(unixTime).format("MM/DD/YYYY HH:mm");
+  }
+
+  convertDate(unixTime: number): any {
+    return moment.unix(unixTime).format("MM/DD/YYYY");
+  }
+
+  setPatientClicked(patient: Patient): any {
+    this.patientClicked = patient;
+    console.log("set patient clicked to:", this.patientClicked);
   }
 }
