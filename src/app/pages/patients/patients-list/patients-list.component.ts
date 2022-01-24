@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { PatientService } from 'src/app/services/patient.service';
@@ -19,6 +19,7 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   @Input() searchedPatient!: Patient | null;
   @Input() tabSelected!: string;
   @Output() getPatients: EventEmitter<any> = new EventEmitter();
+  @ViewChild('closeConfirmModal') closeConfirmModal!: ElementRef;
   
   reportForm!: FormGroup;
 
@@ -27,6 +28,7 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   patientContacted!: Patient;
   patientClicked!: Patient;
   contactTracer: string = "";
+  errorMessage: string = "";
   datePlaceholder: string = moment().format("YYYY-MM-DD");
   
   isReportFormSubmitted: boolean = false;
@@ -78,12 +80,20 @@ export class PatientsListComponent implements OnInit, OnDestroy {
     this.editPatient(patient, formData);
   }
 
-  onChangeContactTracer(event: any, patient: Patient) {
-    const formData = {
-      contactTracer: event.target.value
-    }
+  onClickCheckbox() {
+    console.log("checkbox is clicked");
+    let closeConfirmModal: HTMLElement = this.closeConfirmModal.nativeElement;
+    closeConfirmModal.click();
+  }
 
-    this.editPatient(patient, formData);
+  onChangeContactTracer(event: any) {
+    console.log("on change contact tracer clicked");
+    const formData = {
+      // contactTracer: event.target.value
+      contactTracer: this.contactTracer
+    };
+
+    this.editPatient(this.patientClicked, formData);
   }
 
   addPatient() {
@@ -121,13 +131,20 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   }
 
   editPatient(patient: Patient, formData: any) {
+    console.log("inside edit patient");
+    console.log("formData:", formData);
+
     this.subscriptions.add(this.patientService.editPatient(patient.contact_num, patient.disclosure_date, formData)
     .subscribe((response) => {
       console.log(response);
-      // location.reload(); // Do not refresh whole page, just update the table using the event emitter below
-      this.getPatients.emit();
+      this.closeModalAndRefresh();
     }, (err) => {
-      console.error(err);
+      console.error(err.error.error.message);
+      this.errorMessage = err.error.error.message;
+      setTimeout(() => {
+        this.closeModalAndRefresh();
+     }, 5000);
+      
     }));
   }
 
@@ -142,5 +159,14 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   setPatientClicked(patient: Patient): any {
     this.patientClicked = patient;
     console.log("set patient clicked to:", this.patientClicked);
+  }
+
+  closeModalAndRefresh(): any {
+    console.log("inside close modal and refresh");
+    let closeConfirmModal: HTMLElement = this.closeConfirmModal.nativeElement;
+    closeConfirmModal.click();
+    this.errorMessage = "";
+    // location.reload(); // Do not refresh whole page, just update the table using the event emitter below
+    this.getPatients.emit();
   }
 }
