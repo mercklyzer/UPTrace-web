@@ -1,4 +1,8 @@
-<div class="table-responsive mt-2">
+<div *ngIf="isLoading" class="text-center">
+    <img  src="../../../assets/images/loading.gif" alt="loading-gif">
+</div>
+
+<div *ngIf="!isLoading" class="table-responsive mt-2">
     <table class="table table-striped">
         <thead>
             <tr>

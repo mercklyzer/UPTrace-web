@@ -53,3 +53,12 @@
         line-height: 40px;
     }
 }
+
+.link-label {
+    cursor: pointer;
+    color: #525960;
+}
+
+.link-label:hover {
+    color: var(--maroon);
+}

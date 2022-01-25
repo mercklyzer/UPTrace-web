@@ -2,6 +2,7 @@
     <h2>Rooms</h2>
 
     <h4>Select/Add Building</h4>
+
     <form [formGroup]="buildingForm" (submit)="onSubmitBuilding()">
         <div class="row">
             <div class="col-md-6">
@@ -30,10 +31,15 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h6 class="modal-title">Add Building Result</h6>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="refreshPage()"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="reloadBuildings()"></button>
                     </div>
                     <div class="modal-body">
-                        {{ addBuildingMessage }}
+                        <div *ngIf="isLoadingMessage" class="text-center">
+                            <img  src="../../../assets/images/loading.gif" alt="loading-gif">
+                        </div>
+                        <div *ngIf="!isLoadingMessage">
+                            {{ addBuildingMessage }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -42,9 +48,13 @@
 
     <div *ngIf="buildingForm.value.selectedBuilding">
         <h4 class="mt-5">View/Add Rooms</h4>
-        <button *ngIf="rooms.length > 0" class="btn btn-primary mb-3 green-btn" (click)="downloadAllQRCodes(selectedBuildingId)">Download All QR Codes</button>
-
-        <div class="table-responsive">
+        <button *ngIf="rooms.length > 0 && !isLoadingRooms" class="btn btn-primary mb-3 green-btn" (click)="downloadAllQRCodes(selectedBuildingId)">Download All QR Codes</button>
+        
+        <div *ngIf="isLoadingRooms" class="text-center">
+            <img  src="../../../assets/images/loading.gif" alt="loading-gif">
+        </div>
+        
+        <div *ngIf="!isLoadingRooms" class="table-responsive">
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -63,7 +73,7 @@
             </table>
         </div>
 
-        <form [formGroup]="roomForm" (submit)="onSubmitRooms()">
+        <form *ngIf="!isLoadingRooms" [formGroup]="roomForm" (submit)="onSubmitRooms()">
             <table class="table table-borderless" formArrayName="newRooms">
                 <thead>
                     <tr class="mb-2">
@@ -107,10 +117,15 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h6 class="modal-title">Add Room Result</h6>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="refreshPage()"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="reloadRooms()"></button>
                     </div>
                     <div class="modal-body">
-                        {{ addRoomMessage }}
+                        <div *ngIf="isLoadingMessage" class="text-center">
+                            <img  src="../../../assets/images/loading.gif" alt="loading-gif">
+                        </div>
+                        <div *ngIf="!isLoadingMessage">
+                            {{ addRoomMessage }}
+                        </div>
                     </div>
                 </div>
             </div>

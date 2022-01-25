@@ -1,14 +1,42 @@
 <div class="container">
-    <button *ngIf="user" type="button" class="btn btn-primary d-block mt-2 mb-2 green-btn" routerLink="/scanner">Scan QR Code</button>
-    <button *ngIf="user" type="button" class="btn btn-primary me-2 maroon-btn" data-bs-toggle="modal" data-bs-target="#reportModal" (click)="onClickButton('suspected')" [disabled]="isUserPositive">I suspect to be positive</button>
-    <button *ngIf="user" type="button" class="btn btn-primary maroon-btn" data-bs-toggle="modal" data-bs-target="#reportModal" (click)="onClickButton('disclosed positive')" [disabled]="isUserPositive">I tested positive</button>
-    <section class="mt-2">
-        <h1>Some Title</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo doloremque laboriosam impedit vel ea facere iusto quo praesentium saepe soluta.</p>
+    <div class="text-center">
+        <button *ngIf="user" type="button" class="btn btn-primary mt-2 mb-2 green-btn" routerLink="/scanner">Scan QR Code</button>
+    </div>
+    <div class="text-center">
+        <button *ngIf="user" type="button" class="btn btn-primary me-2 maroon-btn" data-bs-toggle="modal" data-bs-target="#reportModal" (click)="onClickButton('suspected')" [disabled]="isUserPositive">I suspect to be positive</button>
+        <button *ngIf="user" type="button" class="btn btn-primary maroon-btn" data-bs-toggle="modal" data-bs-target="#reportModal" (click)="onClickButton('disclosed positive')" [disabled]="isUserPositive">I tested positive</button>
+        <small *ngIf="isUserPositive" class="d-block text-muted mt-2">The buttons above will only be enabled once a contact tracer has confirmed that you are negative for COVID-19.</small>
+    </div>
+    <section class="mt-4 mb-5 text-center">
+        <h1>UPTrace</h1>
+        <p class="lead mt-3"><strong>UPTrace</strong> is a contact tracing application for the University of the Philippines Diliman that uses <strong>QR codes</strong>. It aims to be easy to use, accurate, accessible and available to the majority, effective, and to address issues on security and privacy.</p>
+        <p class="lead">UPTrace is compliant with the Philippine Data Privacy Act of 2012 as explained in this <a class="link-label" data-bs-toggle="modal" data-bs-target="#signupModal">Data Privacy Statement</a>.</p>
     </section>
-    <section>
-        <h1>Some Title</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium assumenda id, reprehenderit minima ipsam quidem, nemo veritatis sint ut perferendis nostrum temporibus fugiat qui dolorem vel fugit repellendus labore ipsa suscipit dolorum, adipisci aut totam omnis. Voluptas voluptatibus saepe magnam, magni possimus quibusdam! Quo dignissimos eos necessitatibus ut facilis et.</p>
+    <section class="text-center">
+        <h3>How it works</h3>
+        <div class="row mt-3 mb-3">
+            <div class="col-md-4">
+                <p style="font-size: 5rem">
+                    <i class="fas fa-qrcode fa-lg"></i>
+                </p>
+                <h4>1. Scan</h4>
+                <p class="lead">Scan QR codes posted in <strong>every entrance and room</strong> that you enter.</p>
+            </div>
+            <div class="col-md-4">
+                <p style="font-size: 5rem">
+                    <i class="fas fa-exclamation-circle fa-lg"></i>
+                </p>
+                <h4>2. Report</h4>
+                <p class="lead">If you suspect yourself to be positive or if you tested positive, <strong>report your condition</strong> immediately.</p>
+            </div>
+            <div class="col-md-4">
+                <p style="font-size: 5rem">
+                    <i class="fas fa-phone-square fa-lg"></i>
+                </p>
+                <h4>3. Trace</h4>
+                <p class="lead">If you have reported yourself to be a suspect or positive case, you will be <strong>contacted by a UPHS Contact Tracer</strong>. Possible close contacts based on your scanning history will also be contacted.</p>
+            </div>
+        </div>
     </section>
 </div>
 
@@ -42,6 +70,49 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary green-btn" (click)="onSubmit()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Data Privacy Agreement -->
+<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Data Privacy Statement</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>UPTrace is a contact tracing application for a thesis made in partial fulfillment of CS 198/199 in the University of the Philippines Diliman (UPD). UPTrace shall not disclose the personal information of users without their consent and shall only use this data for the purposes of the thesis. These are strictly implemented in compliance with the Philippine <a class="link-label" href="https://www.officialgazette.gov.ph/2012/08/15/republic-act-no-10173/">Data Privacy Act of 2012</a> to protect your right to data privacy.</p>
+
+                <span>
+                    <strong>What information we collect and why we collect it</strong>
+                    <p>UPTrace collects the following personal information upon registration, with the corresponding purpose:</p>
+                    <ul>
+                        <li>Phone number - to prevent fraud through a one-time PIN sent through SMS, and so that a user can be contacted if needed for contact tracing</li>
+                        <li>Password (encrypted) - to secure your account</li>
+                        <li>Email address (only for Health Liaison Officers [HeLOs] and UP Health Service [UPHS] Contact Tracers) - to identify a HeLO or a UPHS Contact Tracer and give them additional privileges in the application</li>
+                        <li>Preferred contact time - to inform UPHS Contact Tracers of the start time and end time that you prefer to be contacted for monitoring and contact tracing </li>
+                        <li>Preferred way of interview - to inform UPHS Contact Tracers of the way you prefer to be asked questions or to be interviewed for monitoring and contact tracing</li>
+                    </ul>
+                    <p>Information about QR code scans are also collected, and this includes the user who scanned, the building and room visited, and the date and time of visit.</p>
+                </span>
+
+                <span>
+                    <strong>How we collect, use, share, and retain your data</strong>
+                    <p>UPTrace collects the following personal information upon registration, with the corresponding purpose:</p>
+                    <ol>
+                        <li>When signing up in UPTrace, we collect information enumerated in the “What information we collect”.</li>
+                        <li>After successfully signing up, you may now scan QR codes in every entrance and exit points of establishments, as well as in every room you enter there. We save your scan logs in a server and these may be used for contact tracing purposes if necessary. These data are used to identify possible close contacts and to identify establishments that require thorough disinfection.</li>
+                        <li>If you suspect yourself to be positive of COVID-19 or if you tested positive, you may report it in the app and you will be prompted to indicate whether you have symptoms or not. If you do have symptoms, you will also be asked when your symptoms started. These information will then be disclosed to UPHS contact tracers so that they may assist you and perform contact tracing.</li>
+                    </ol>
+                    <p>Your data would only be retained and used for the purpose of testing the contact tracing app. It can only be accessed by the developers of UPTrace and by UPHS Contact Tracers. Technical measures are implemented to secure your data.</p>
+                </span>
+
+                <p>By agreeing, you have <strong>carefully read, understood, and agreed to the said conditions, and you express your consent for UPTrace to process the personal data that you may submit</strong> without precluding your rights under the Data Privacy Act of 2012. As provided by law, you may request to access, correct, erase, or block provided information in this form on reasonable grounds.</p>
+
+                <p>For inquiries, suggestions, or any other concerns regarding our privacy practices, please contact us at lbbautista6@up.edu.ph and cyceloso1@up.edu.ph. Thank you!</p>
             </div>
         </div>
     </div>

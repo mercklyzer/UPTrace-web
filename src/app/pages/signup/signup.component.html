@@ -5,7 +5,6 @@
 
     <div class="row">
         <div class="col-md-5 my-form">
-
             <div class="mb-4 signup-text" *ngIf="signupForm.value.role === 'ordinary'">
                 Are you a UPHS Contact Tracer or a HeLO? Signup using GMAIL.
                 <app-google (googleEmit)="updateFromService()" (googleError)="updateGoogleError($event)">Sign Up Using Gmail</app-google>
@@ -87,11 +86,35 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    UPTrace shall not disclose the personal information of users without their consent and shall only use this data for contact tracing. These are strictly implemented in compliance with the Philippine <a href="https://www.officialgazette.gov.ph/2012/08/15/republic-act-no-10173/">Data Privacy Act of 2012</a> to protect your right to data privacy. As provided by law, you may request to access, correct, erase, or block provided information in this form on reasonable grounds. <br><br>
+                    <p>UPTrace is a contact tracing application for a thesis made in partial fulfillment of CS 198/199 in the University of the Philippines Diliman (UPD). UPTrace shall not disclose the personal information of users without their consent and shall only use this data for the purposes of the thesis. These are strictly implemented in compliance with the Philippine <a class="link-label" href="https://www.officialgazette.gov.ph/2012/08/15/republic-act-no-10173/">Data Privacy Act of 2012</a> to protect your right to data privacy.</p>
 
-                    By clicking "I agree," you have carefully read, understood, and agreed to the said conditions, and you express your consent for UPTrace to process the personal data that you may submit without precluding your rights under the Data Privacy Act of 2012. As provided by law, you may request to access, correct, erase, or block provided information in this form on reasonable grounds. <br><br>
+                    <span>
+                        <strong>What information we collect and why we collect it</strong>
+                        <p>UPTrace collects the following personal information upon registration, with the corresponding purpose:</p>
+                        <ul>
+                            <li>Phone number - to prevent fraud through a one-time PIN sent through SMS, and so that a user can be contacted if needed for contact tracing</li>
+                            <li>Password (encrypted) - to secure your account</li>
+                            <li>Email address (only for Health Liaison Officers [HeLOs] and UP Health Service [UPHS] Contact Tracers) - to identify a HeLO or a UPHS Contact Tracer and give them additional privileges in the application</li>
+                            <li>Preferred contact time - to inform UPHS Contact Tracers of the start time and end time that you prefer to be contacted for monitoring and contact tracing </li>
+                            <li>Preferred way of interview - to inform UPHS Contact Tracers of the way you prefer to be asked questions or to be interviewed for monitoring and contact tracing</li>
+                        </ul>
+                        <p>Information about QR code scans are also collected, and this includes the user who scanned, the building and room visited, and the date and time of visit.</p>
+                    </span>
 
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur fringilla eget sapien vel porttitor. Phasellus interdum ex eget ultricies lobortis. Mauris mollis vehicula nisl id euismod. Proin sit amet venenatis lorem, a eleifend tortor. Proin semper tincidunt lacus eget ornare. Morbi porttitor risus ac odio placerat malesuada. In sed vulputate velit. Sed in mauris tincidunt, maximus libero a, faucibus ante. Curabitur quis fermentum mi.
+                    <span>
+                        <strong>How we collect, use, share, and retain your data</strong>
+                        <p>UPTrace collects the following personal information upon registration, with the corresponding purpose:</p>
+                        <ol>
+                            <li>When signing up in UPTrace, we collect information enumerated in the “What information we collect”.</li>
+                            <li>After successfully signing up, you may now scan QR codes in every entrance and exit points of establishments, as well as in every room you enter there. We save your scan logs in a server and these may be used for contact tracing purposes if necessary. These data are used to identify possible close contacts and to identify establishments that require thorough disinfection.</li>
+                            <li>If you suspect yourself to be positive of COVID-19 or if you tested positive, you may report it in the app and you will be prompted to indicate whether you have symptoms or not. If you do have symptoms, you will also be asked when your symptoms started. These information will then be disclosed to UPHS contact tracers so that they may assist you and perform contact tracing.</li>
+                        </ol>
+                        <p>Your data would only be retained and used for the purpose of testing the contact tracing app. It can only be accessed by the developers of UPTrace and by UPHS Contact Tracers. Technical measures are implemented to secure your data.</p>
+                    </span>
+
+                    <p>By clicking "I agree," you have <strong>carefully read, understood, and agreed to the said conditions, and you express your consent for UPTrace to process the personal data that you may submit</strong> without precluding your rights under the Data Privacy Act of 2012. As provided by law, you may request to access, correct, erase, or block provided information in this form on reasonable grounds.</p>
+
+                    <p>For inquiries, suggestions, or any other concerns regarding our privacy practices, please contact us at lbbautista6@up.edu.ph and cyceloso1@up.edu.ph. Thank you!</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary green-btn" data-bs-dismiss="modal" (click)="onAgree()">I agree</button>

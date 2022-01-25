@@ -16,7 +16,7 @@ export class WhereaboutsComponent implements OnInit, OnDestroy {
   patientContactNum: string = "";
   patientDisclosureDate: string = "";
   patientExists: boolean = true;
-  isRefreshing: boolean = false;
+  isLoading: boolean = false;
   whereabouts: Whereabout[] = [];
 
   private subscriptions = new Subscription();
@@ -54,7 +54,7 @@ export class WhereaboutsComponent implements OnInit, OnDestroy {
   }
 
   getWhereabouts(): void {
-    this.isRefreshing = true;
+    this.isLoading = true;
     this.subscriptions.add(this.patientService.getWhereabouts(this.patientContactNum, this.patientDisclosureDate)
     .subscribe((whereabouts) => {
       this.whereabouts = whereabouts;
@@ -66,7 +66,7 @@ export class WhereaboutsComponent implements OnInit, OnDestroy {
       console.error(err);
       this.patientExists = false;
     }));
-    this.isRefreshing = false;
+    this.isLoading = false;
   }
 
   convertDateTime(unixTime: number): any {

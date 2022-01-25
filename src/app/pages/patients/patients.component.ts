@@ -29,7 +29,7 @@ export class PatientsComponent implements OnInit, OnDestroy {
   
   isFilterTabSelected: boolean = true;
   isSearchFormSubmitted: boolean = false;
-  isRefreshing: boolean = false;
+  isLoading: boolean = false;
 
   private subscriptions = new Subscription();
 
@@ -68,7 +68,7 @@ export class PatientsComponent implements OnInit, OnDestroy {
   };
 
   getPatients(): void {
-    this.isRefreshing = true;
+    this.isLoading = true;
     console.log("filter form:", this.filterForm.value);
     this.dateFiltered = this.filterForm.value.date_filter;
     if(this.filterForm.valid) {
@@ -83,7 +83,7 @@ export class PatientsComponent implements OnInit, OnDestroy {
     } else {
       console.log("invalid filter form");
     }
-    this.isRefreshing = false;
+    this.isLoading = false;
   }
 
   searchUser(): void {
@@ -92,6 +92,7 @@ export class PatientsComponent implements OnInit, OnDestroy {
     console.log(this.searchForm.value.contact_num);
 
     if(this.searchForm.valid) {
+      this.isLoading = true;
       this.searchedPatient = null;
       this.subscriptions.add(this.patientService.getPatientByContactNum(this.searchForm.value.contact_num)
       .subscribe((patient) => {
@@ -108,6 +109,7 @@ export class PatientsComponent implements OnInit, OnDestroy {
         // this.patientExists = false;
         console.log("patient doesn't exist");
       }));
+      this.isLoading = false;
     }
   }
 

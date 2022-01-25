@@ -18,6 +18,7 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   @Input() patients: Patient[] = [];
   @Input() searchedPatient!: Patient | null;
   @Input() tabSelected!: string;
+  @Input() isLoading: boolean = false;
   @Output() getPatients: EventEmitter<any> = new EventEmitter();
   @ViewChild('closeConfirmModal') closeConfirmModal!: ElementRef;
   
@@ -139,12 +140,10 @@ export class PatientsListComponent implements OnInit, OnDestroy {
       console.log(response);
       this.closeModalAndRefresh();
     }, (err) => {
-      console.error(err.error.error.message);
       this.errorMessage = err.error.error.message;
       setTimeout(() => {
         this.closeModalAndRefresh();
-     }, 5000);
-      
+      }, 5000);
     }));
   }
 

@@ -22,6 +22,8 @@ export class RoomsComponent implements OnInit, OnDestroy {
   selectedBuildingId: number = 0;
   selectedBuildingName: string = "";
   isRoomFormSubmitted: boolean = false;
+  isLoadingMessage: boolean = false;
+  isLoadingRooms: boolean = false;
 
   addBuildingMessage: string = "";
   addRoomMessage: string = "";
@@ -77,10 +79,15 @@ export class RoomsComponent implements OnInit, OnDestroy {
   }
 
   getAllRooms(buildingId: number) {
+    this.isLoadingRooms = true;
     this.subscriptions.add(this.buildingService.getRooms(buildingId)
     .subscribe((rooms) => {
       this.rooms = rooms;
     }));
+    // this.isLoadingRooms = false;
+    setTimeout(() => {
+      this.isLoadingRooms = false;
+    }, 5000);
   }
 
   setBuildingName(buildingId: number) {
@@ -106,6 +113,7 @@ export class RoomsComponent implements OnInit, OnDestroy {
   }
 
   onSubmitBuilding() {
+    this.isLoadingMessage = true;
     let addBuildingRequestBody = {
       building_name: this.buildingForm.value.newBuilding
     };
@@ -118,6 +126,10 @@ export class RoomsComponent implements OnInit, OnDestroy {
       console.error(err);
       this.addBuildingMessage = `ERROR: ${err.error.error.message}`;
     }));
+    // this.isLoadingMessage = false;
+    setTimeout(() => {
+      this.isLoadingMessage = false;
+    }, 5000);
   }
 
   onSubmitRooms() {
@@ -125,6 +137,7 @@ export class RoomsComponent implements OnInit, OnDestroy {
     console.log("rooms to add:", this.roomForm.value.newRooms);
 
     if(this.roomForm.valid) {
+      this.isLoadingMessage = true;
       this.subscriptions.add(this.buildingService.addRoom(this.roomForm.value.newRooms, this.selectedBuildingId)
       .subscribe((response) => {
         console.log(response);
@@ -133,10 +146,21 @@ export class RoomsComponent implements OnInit, OnDestroy {
         console.error(err);
       this.addRoomMessage = `ERROR: ${err.error.error.message}`;
       }));
+      // this.isLoadingMessage = false;
+      setTimeout(() => {
+        this.isLoadingMessage = false;
+      }, 5000);
     }
   }
 
-  refreshPage() {
-    location.reload();
+  reloadBuildings() {
+    // location.reload();
+    this.getAllBuildings();
+  }
+
+  reloadRooms() {
+    if(this.selectedBuildingId != 0) {
+      this.getAllRooms(this.selectedBuildingId);
+    }
   }
 }
