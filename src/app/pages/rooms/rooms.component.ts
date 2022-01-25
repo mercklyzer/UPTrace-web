@@ -83,11 +83,9 @@ export class RoomsComponent implements OnInit, OnDestroy {
     this.subscriptions.add(this.buildingService.getRooms(buildingId)
     .subscribe((rooms) => {
       this.rooms = rooms;
+      console.log("rooms:", rooms);
     }));
-    // this.isLoadingRooms = false;
-    setTimeout(() => {
-      this.isLoadingRooms = false;
-    }, 5000);
+    this.isLoadingRooms = false;
   }
 
   setBuildingName(buildingId: number) {
@@ -104,6 +102,10 @@ export class RoomsComponent implements OnInit, OnDestroy {
     // }, (err) => {
     //   console.log(err);
     // })
+  }
+
+  downloadSpecificQRCode(buildingId:number, roomId:string){
+    window.open(`http://localhost:3000/buildings/${buildingId}/${roomId}/pdf`)
   }
 
   onSelectBuilding(event: any) {
@@ -126,10 +128,7 @@ export class RoomsComponent implements OnInit, OnDestroy {
       console.error(err);
       this.addBuildingMessage = `ERROR: ${err.error.error.message}`;
     }));
-    // this.isLoadingMessage = false;
-    setTimeout(() => {
-      this.isLoadingMessage = false;
-    }, 5000);
+    this.isLoadingMessage = false;
   }
 
   onSubmitRooms() {
@@ -146,10 +145,7 @@ export class RoomsComponent implements OnInit, OnDestroy {
         console.error(err);
       this.addRoomMessage = `ERROR: ${err.error.error.message}`;
       }));
-      // this.isLoadingMessage = false;
-      setTimeout(() => {
-        this.isLoadingMessage = false;
-      }, 5000);
+      this.isLoadingMessage = false;
     }
   }
 

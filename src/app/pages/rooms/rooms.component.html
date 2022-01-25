@@ -48,7 +48,7 @@
 
     <div *ngIf="buildingForm.value.selectedBuilding">
         <h4 class="mt-5">View/Add Rooms</h4>
-        <button *ngIf="rooms.length > 0 && !isLoadingRooms" class="btn btn-primary mb-3 green-btn" (click)="downloadAllQRCodes(selectedBuildingId)">Download All QR Codes</button>
+        <button *ngIf="rooms.length > 0 && !isLoadingRooms" class="btn btn-primary mb-3 green-btn" (click)="downloadAllQRCodes(selectedBuildingId)"><i class="fas fa-download me-2"></i>Download All QR Codes</button>
         
         <div *ngIf="isLoadingRooms" class="text-center">
             <img  src="../../../assets/images/loading.gif" alt="loading-gif">
@@ -59,15 +59,17 @@
                 <thead>
                     <tr>
                         <th scope="col">Room Name</th>
-                        <th scope="col">QR Code</th>
                         <th scope="col">Added By</th>
+                        <th scope="col">QR Code</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let room of rooms">
                         <td>{{room.room_name}}</td>
-                        <td>{{room.qr_code}}</td>
                         <td>{{room.added_by}}</td>
+                        <td>
+                            <a class="link-label" (click)="downloadSpecificQRCode(selectedBuildingId, room.room_id)"><i class="fas fa-download me-2"></i>Download QR Code</a>
+                        </td>
                     </tr>
                 </tbody>
             </table>
