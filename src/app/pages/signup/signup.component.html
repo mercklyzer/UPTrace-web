@@ -42,6 +42,7 @@
                     <!-- contact time -->
                     <div class="form-group mb-4 mt-md-4">
                         <label>Preferred Contact Time:</label>
+                        <small class="text-muted d-block">Preferred Contact Time is composed of 2 fields: Start Time and End Time. This asks which time of the day do you usually prefer to be contacted by the UPHS Contact Tracers only when necessary.</small>
                         <div class>
                             <label>Start Time:</label>
                             <input type="time" formControlName="start_time" class="form-control my-input">                
@@ -53,6 +54,7 @@
                     <!-- interview -->
                     <div class="form-group mb-4 mt-md-4">
                         <label>Preferred Way of Interview:</label>
+                        <a><i class="fas fa-question-circle float-end" data-bs-toggle="modal" data-bs-target="#interviewModal"></i></a>
                         <select class="form-select my-input" formControlName="way_of_interview">
                             <option value="One at a time" >One at a time</option>
                             <option value="All at once">All at once</option>
@@ -76,8 +78,7 @@
         </div>
     </div>
 
-
-
+    <!-- Modal for data privacy agreement -->
     <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
@@ -118,6 +119,29 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary green-btn" data-bs-dismiss="modal" (click)="onAgree()">I agree</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for preferred way of interview -->
+    <div class="modal fade" id="interviewModal" tabindex="-1" aria-labelledby="interviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title">Preferred Way of Interview</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Preferred Way of Interview asks in which way you prefer to be asked questions by a UPHS Contact Tracer about your condition. You may either choose one at a time or all at once.</p>
+                    <p><strong>One at a time</strong> - A new question will only be asked once you have answered the previous question. A sample conversation between you and a contact tracer looks like this:</p>
+                    <img class="w-100 sample-convo border" src="../../../assets/images/one-at-a-time.png" alt="one-at-a-time-sample">
+                    <p class="mt-3"><strong>All at once</strong> - Questions will be compiled in a single message. A sample conversation between you and a contact tracer looks like this:</p>
+                    <img class="w-100 sample-convo border" src="../../../assets/images/all-at-once.png" alt="all-at-once-sample">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary maroon-btn" data-bs-dismiss="modal">Okay</button>
                 </div>
             </div>
         </div>

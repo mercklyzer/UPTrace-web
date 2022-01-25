@@ -9,6 +9,8 @@ import { DepartmentService } from 'src/app/services/department.service';
 import { UserService } from 'src/app/services/user.service';
 import { getFormValidationErrors } from 'src/app/utils/errorhandling';
 
+declare var bootstrap: any;
+
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -35,6 +37,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    
     this.unregisteredUser = this.cookieService.get('Unregistered User')? JSON.parse(this.cookieService.get('Unregistered User')) : ''
 
 
@@ -51,6 +54,12 @@ export class SignupComponent implements OnInit, OnDestroy {
       way_of_interview: ['One at a time', [Validators.required]],
 
       otp: ['']
+    })
+
+    // Bootstrap tooltip initialization
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
     })
   }
 
