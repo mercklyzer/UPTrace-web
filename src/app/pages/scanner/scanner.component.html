@@ -7,7 +7,7 @@
 
     <div *ngIf="camerasFound">
         <div class="alert alert-danger" role="alert" *ngIf="!isQRCodeValid">
-            Invalid QR code. Please try again.
+            {{errorMessage}}
         </div>
 
         <label class="form-label">Change camera:</label>

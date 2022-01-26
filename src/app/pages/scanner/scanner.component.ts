@@ -25,6 +25,8 @@ export class ScannerComponent implements OnInit, OnDestroy {
   camerasFound: Camera[] = [];
   desiredCamera: any;
 
+  errorMessage:string = ''
+
   // scanned room details
   room: string = ''
   building: string = ''
@@ -107,6 +109,7 @@ export class ScannerComponent implements OnInit, OnDestroy {
       }, 4000);
     }, (err) => {
       console.error(err);
+      this.errorMessage = err.error.error.message
       this.isQRCodeValid = false;
     }));
   }
