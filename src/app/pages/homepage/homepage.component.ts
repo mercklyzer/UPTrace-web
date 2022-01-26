@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { PatientService } from 'src/app/services/patient.service';
@@ -14,6 +14,8 @@ import { CookieService } from 'ngx-cookie';
   styleUrls: ['./homepage.component.css']
 })
 export class HomepageComponent implements OnInit, OnDestroy {
+  @ViewChild('closeReportModal') closeReportModal!: ElementRef;
+
   user!:User
   contactNum: string = "";
 
@@ -21,8 +23,10 @@ export class HomepageComponent implements OnInit, OnDestroy {
 
   isUserPositive: boolean = false;
   isReportFormSubmitted: boolean = false;
+  isLoading: boolean = false; // Used to determine whether response from addPatient is gotten or not
 
   buttonClicked: string = "";
+  errorMessage: string = "";
 
   private subscriptions = new Subscription();
   
@@ -81,12 +85,17 @@ export class HomepageComponent implements OnInit, OnDestroy {
 
     if(this.reportForm.valid) {
       console.log("valid form");
+      this.isLoading = true;
       this.subscriptions.add(this.patientService.addPatient(this.reportForm.value)
       .subscribe((response) => {
         console.log(response);
-        location.reload();
+        this.closeModalAndRefresh();
+        this.isLoading = false;
       }, (err) => {
-        console.error(err);
+        console.error(err.error);
+        this.errorMessage = err.error.error.message;
+        this.closeModalAndRefresh();
+        this.isLoading = false;
       }));
     } else {
       console.log("invalid form");
@@ -105,6 +114,14 @@ export class HomepageComponent implements OnInit, OnDestroy {
     }, (err) => {
       console.error(err);
     }));
+  }
+
+  closeModalAndRefresh(): any {
+    console.log("inside close modal and refresh");
+    let closeReportModal: HTMLElement = this.closeReportModal.nativeElement;
+    closeReportModal.click();
+    this.errorMessage = "";
+    this.checkIfUserIsNegative(this.user.contact_num);
   }
 
 }
