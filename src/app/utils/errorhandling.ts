@@ -44,7 +44,7 @@ export const getErrorMessage = (key:string, keyError:string):string => {
   if(keyError === 'pattern') {
     if(key === 'contact_num')       return ' should be in the format 09XXXXXXXXX.'
     if(key === 'otp')               return ' should be in the format XXXXXX.'
-
+    if(key === 'password')          return ' should be 8-20 alphanumeric or special characters.'
   }
   if(keyError === 'minlength')      return ' should be at least 8 characters'
   if(keyError === 'maxlength')      return ' should be at most 20 characters'

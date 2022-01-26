@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SocialAuthService } from 'angularx-social-login';
 import { CookieService } from 'ngx-cookie';
@@ -49,14 +49,14 @@ export class SignupComponent implements OnInit, OnDestroy {
       email: [this.unregisteredUser['email']],
       role: [this.unregisteredUser['role']? this.unregisteredUser['role'] : 'ordinary', Validators.required],
 
-      contact_num: ['', [Validators.required]],
-      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
-      confirm_password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
+      contact_num: ['', [Validators.required, regexValidator(/^(09)\d{9}$/)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20), regexValidator(/^([a-zA-Z0-9!@#$%^&*()_+\-=\[\]\\;:'",./?]{8,20})$/)]],
+      confirm_password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20), regexValidator(/^([a-zA-Z0-9!@#$%^&*()_+\-=\[\]\\;:'",./?]{8,20})$/)]],
       start_time: ['', [Validators.required]],
       end_time: ['', [Validators.required]],
       way_of_interview: ['One at a time', [Validators.required]],
 
-      otp: ['']
+      otp: ['', []]
     })
 
     // Bootstrap tooltip initialization
@@ -188,4 +188,11 @@ export class SignupComponent implements OnInit, OnDestroy {
       console.log(err);
     }))
   }
+}
+
+function regexValidator(nameRe: RegExp): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const reject = !nameRe.test(control.value);
+    return reject ? {pattern: {value: control.value}} : null;
+  };
 }
