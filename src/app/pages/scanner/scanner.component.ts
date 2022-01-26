@@ -25,6 +25,10 @@ export class ScannerComponent implements OnInit, OnDestroy {
   camerasFound: Camera[] = [];
   desiredCamera: any;
 
+  // scanned room details
+  room: string = ''
+  building: string = ''
+
   // start of debug
   availableDevices: MediaDeviceInfo[] = [];
   deviceCurrent?: MediaDeviceInfo;
@@ -81,12 +85,14 @@ export class ScannerComponent implements OnInit, OnDestroy {
     
     // no need to add email since we will be using contact number which can be derived from the token once sent to the server
     let log = {
-      scan_date: moment().unix(),
       room_id: this.scannedRoomId
     };
 
     this.subscriptions.add(this.logService.addLog(log)
     .subscribe((response) => {
+      this.room = response.room_name
+      this.building = response.building_name
+
       console.log(response);
       this.isQRCodeValid = true;
       this.isScannerEnabled = false;
@@ -98,7 +104,7 @@ export class ScannerComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         this.router.navigate(['/']);
         closeScanSuccessModal.click();
-      }, 3000);
+      }, 4000);
     }, (err) => {
       console.error(err);
       this.isQRCodeValid = false;
