@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { DepartmentService } from 'src/app/services/department.service';
 import { UserService } from 'src/app/services/user.service';
 import { getFormValidationErrors } from 'src/app/utils/errorhandling';
+import * as moment from 'moment'
 
 declare var bootstrap: any;
 
@@ -21,6 +22,8 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   errorMessages:string[] = []
   showOtpForm:boolean = false
+  timeLeft:number = 0
+  countdownInterval:any
 
   signupForm!:FormGroup
 
@@ -65,6 +68,7 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+    clearInterval(this.countdownInterval);
   }
 
   verifyPassword():string{
@@ -96,6 +100,30 @@ export class SignupComponent implements OnInit, OnDestroy {
     return ''
   }
 
+  countdownOtp(res:any, err:any){
+    this.showOtpForm = true
+    this.timeLeft = 0
+    let otpExpiresIn:any 
+
+      this.countdownInterval = setInterval(() => {
+        let timeNow = moment().unix()
+        if(res){
+          otpExpiresIn = res.expiresIn
+        }
+        else if(err){
+          otpExpiresIn = err.error.error.message.expiresIn
+        }
+
+        this.timeLeft = otpExpiresIn - timeNow
+
+        if(this.timeLeft <= 0){
+            clearInterval(this.countdownInterval)
+            return
+        }        
+        console.log("counting down");
+      }, 1000)
+  }
+
   generateOtp(){
     if(this.errorMessages.length !== 0){
       console.log(this.errorMessages);
@@ -105,14 +133,15 @@ export class SignupComponent implements OnInit, OnDestroy {
       this.userService.generateOtp(this.signupForm.value)
       .subscribe(res => {
         this.showOtpForm = true
+        this.countdownOtp(res,null)
         console.log(res);
       }, err => {
-        console.log(err.error.error.message);
-        if(err.error.error.message === 'You can request again after 5 minutes.'){
-          this.showOtpForm = true
+        console.log(err.error.error.message.message);
+        if(err.error.error.message.message === 'You can request again after 5 minutes.'){
+          this.countdownOtp(null, err)
         }
         else{
-          this.errorMessages.push(err.error.error.message)
+          this.errorMessages.push(err.error.error.message.message)
         }
       })
     }

@@ -7,7 +7,7 @@
 
     <div *ngIf="camerasFound">
         <div class="alert alert-danger" role="alert" *ngIf="!isQRCodeValid">
-            Invalid QR code. Please try again.
+            {{errorMessage}}
         </div>
 
         <label class="form-label">Change camera:</label>
@@ -32,7 +32,7 @@
                         <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
                         <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
                     </svg>
-                    <h5 class="successMessage text-center mt-3">Succesfully scanned QR code!</h5>
+                    <h5 class="successMessage text-center mt-3">Succesfully scanned {{building}} - {{room}}</h5>
                 </div>
             </div>
         </div>
