@@ -30,6 +30,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { LogoutGuardService } from './services/guards/logout-guard.service';
 import { DummyComponent } from './dummy/dummy.component';
 import { PatientsListComponent } from './pages/patients/patients-list/patients-list.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { PatientsListComponent } from './pages/patients/patients-list/patients-l
     GoogleComponent,
     LoginComponent,
     DummyComponent,
-    PatientsListComponent
+    PatientsListComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

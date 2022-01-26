@@ -28,11 +28,10 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close" routerLink="/" #closeModal></button>
-                    <svg class="checkmark mt-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-                        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
-                        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-                    </svg>
-                    <h5 class="successMessage text-center mt-3">Succesfully scanned {{building}} - {{room}}</h5>
+                    <div class="text-center">
+                        <img class="w-25 mt-3" src="../../../assets/images/success.gif" alt="success-gif">
+                        <h5 class="successMessage mt-3">Succesfully scanned {{building}} - {{room}}</h5>
+                    </div>
                 </div>
             </div>
         </div>

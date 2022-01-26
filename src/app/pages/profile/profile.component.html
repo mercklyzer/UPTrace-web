@@ -1,0 +1,9 @@
+<div class="container">
+    <h2>Profile Summary</h2>
+     <p><span class="label">Contact Number:</span> {{ user.contact_num }}</p>
+     <p *ngIf="user.email"><span class="label">Email:</span> {{ user.email }}</p>
+     <p *ngIf="user.name"><span class="label">Name:</span> {{ user.name }}</p>
+     <p><span class="label">Preferred Contact Time:</span> {{ convertContactTime(user.contact_start_time) }} to {{ convertContactTime(user.contact_end_time) }}</p>
+     <p><span class="label">Preferred Way of Interview:</span> {{ user.way_of_interview }}</p>
+     <p><span class="label">Role:</span> {{ user.role }}</p>
+</div>

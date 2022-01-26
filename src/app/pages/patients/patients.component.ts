@@ -131,7 +131,9 @@ export class PatientsComponent implements OnInit, OnDestroy {
     // Convert disclosure_date and onset_date from bigint format to readable dates
     patientsCopy.filter((patient: Patient) => {
       patient.disclosure_date = this.convertDateTime(patient.disclosure_date);
-      patient.onset_date = this.convertDate(patient.onset_date);
+      if(patient.onset_date) {
+        patient.onset_date = this.convertDate(patient.onset_date);
+      }
     });
     this.excelService.exportAsExcelFile(patientsCopy, `${this.dateFiltered}_patients`);
   }

@@ -151,7 +151,7 @@
             </div>
             <div class="modal-body">
                 <p><b>Contact Number: </b>{{ patientClicked.contact_num }}</p>
-                <p><b>Preferred Contact Time: </b>{{ patientClicked.contact_start_time }} - {{ patientClicked.contact_end_time }}</p>
+                <p><b>Preferred Contact Time: </b>{{ convertContactTime(patientClicked.contact_start_time) }} to {{ convertContactTime(patientClicked.contact_end_time) }}</p>
                 <p><b>Preferred Way of Interview: </b>{{ patientClicked.way_of_interview }}</p>
                 <p><b>Status: </b>
                     <span *ngIf="!patientClicked.status">Negative</span>
@@ -162,7 +162,8 @@
                     <span *ngIf="patientClicked.status">{{ patientClicked.condition | titlecase }}</span>
                 </p>
                 <p *ngIf="patientClicked.status"><b>Disclosure Date and Time: </b>{{ convertDateTime(patientClicked.disclosure_date) }}</p>
-                <p *ngIf="patientClicked.condition === 'symptomatic'"><b>Onset Date:</b> {{ convertDate(patientClicked.onset_date) }}</p>
+                <!-- <p *ngIf="patientClicked.condition === 'symptomatic'"><b>Onset Date:</b> {{ convertDate(patientClicked.onset_date) }}</p> -->
+                <p *ngIf="patientClicked.onset_date"><b>Onset Date:</b> {{ convertDate(patientClicked.onset_date) }}</p>
                 <p><b>Assigned Contact Tracer: </b><span *ngIf="patientClicked.contact_tracer">{{ patientClicked.contact_tracer }}</span><span *ngIf="!patientClicked.contact_tracer">None</span></p>
             </div>
         </div>

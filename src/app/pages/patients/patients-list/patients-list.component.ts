@@ -155,6 +155,10 @@ export class PatientsListComponent implements OnInit, OnDestroy {
     return moment.unix(unixTime).format("MM/DD/YYYY");
   }
 
+  convertContactTime(contactTime: any): any {
+    return moment(contactTime, "HH:mm").format("hh:mm A");
+  }
+
   setPatientClicked(patient: Patient): any {
     this.patientClicked = patient;
     console.log("set patient clicked to:", this.patientClicked);

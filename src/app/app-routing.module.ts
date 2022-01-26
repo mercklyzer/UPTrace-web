@@ -8,6 +8,7 @@ import { PatientsComponent } from './pages/patients/patients.component';
 import { CloseContactsComponent } from './pages/close-contacts/close-contacts.component';
 import { WhereaboutsComponent } from './pages/whereabouts/whereabouts.component';
 import { LoginComponent } from './pages/login/login.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 import { LogoutGuardService } from './services/guards/logout-guard.service';
 import { DummyComponent } from './dummy/dummy.component';
 import { HeloGuardService } from './services/guards/helo-guard.service';
@@ -24,6 +25,7 @@ const routes: Routes = [
   {path: 'patients', component:PatientsComponent, canActivate:[UphsGuardService], pathMatch: 'full'},
   {path: 'patients/:patientContactNum/dates/:disclosureDate/whereabouts', canActivate:[UphsGuardService], component:WhereaboutsComponent},
   {path: 'patients/:patientContactNum/dates/:disclosureDate/close-contacts', canActivate:[UphsGuardService], component:CloseContactsComponent},
+  {path: 'profile', component:ProfileComponent, canActivate:[LoginGuardService], pathMatch: 'full'},
 ];
 
 @NgModule({
