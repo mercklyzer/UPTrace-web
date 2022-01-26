@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
 import { Subscription } from 'rxjs';
@@ -27,8 +27,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      contact_num: ['', [Validators.required]],
-      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
+      contact_num: ['', [Validators.required, regexValidator(/^(09)\d{9}$/)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20), regexValidator(/^([a-zA-Z0-9!@#$%^&*()_+\-=\[\]\\;:'",./?]{8,20})$/)]],
     })
   }
 
@@ -59,4 +59,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       }))
     }
   }
+}
+
+function regexValidator(nameRe: RegExp): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const reject = !nameRe.test(control.value);
+    return reject ? {pattern: {value: control.value}} : null;
+  };
 }
