@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 import { DepartmentService } from 'src/app/services/department.service';
 import { UserService } from 'src/app/services/user.service';
 import { getFormValidationErrors } from 'src/app/utils/errorhandling';
-import * as moment from 'moment'
+import * as moment from 'moment-timezone'
 
 declare var bootstrap: any;
 
@@ -109,7 +109,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     let otpExpiresIn:any 
 
       this.countdownInterval = setInterval(() => {
-        let timeNow = moment().unix()
+        let timeNow = moment().tz('Asia/Manila').unix()
         if(res){
           otpExpiresIn = res.expiresIn
         }

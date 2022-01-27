@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { LogService } from 'src/app/services/log.service';
 import { Camera } from 'src/app/models/camera.model';
 
-import * as moment from 'moment';
 import { ZXingScannerComponent } from '@zxing/ngx-scanner';
 import { Subscription } from 'rxjs';
 

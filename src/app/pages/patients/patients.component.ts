@@ -6,7 +6,7 @@ import { ExcelService } from 'src/app/services/excel.service';
 import { Patient } from 'src/app/models/patient.model';
 import { User } from 'src/app/models/user.model';
 
-import * as moment from 'moment';
+import * as moment from 'moment-timezone';
 import { Subscription } from 'rxjs';
 import { CookieService } from 'ngx-cookie';
 
@@ -19,7 +19,7 @@ export class PatientsComponent implements OnInit, OnDestroy {
   filterForm!: FormGroup;
   searchForm!: FormGroup;
 
-  datePlaceholder: string = moment().format("YYYY-MM-DD");
+  datePlaceholder: string = moment().tz('Asia/Manila').format("YYYY-MM-DD");
   dateFiltered: string = "";
   patients: Patient[] = [];
   searchedPatient!: Patient | null;
@@ -64,7 +64,7 @@ export class PatientsComponent implements OnInit, OnDestroy {
 
   datePickerConfig = {
     format: "YYYY-MM-DD",
-    max: moment().format("YYYY-MM-DD")
+    max: moment().tz('Asia/Manila').format("YYYY-MM-DD")
   };
 
   getPatients(): void {
