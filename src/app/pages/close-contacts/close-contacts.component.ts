@@ -60,11 +60,12 @@ export class CloseContactsComponent implements OnInit, OnDestroy {
     .subscribe((closeContacts) => {
       this.closeContacts = closeContacts;
       console.log("close contacts:", this.closeContacts);
+      this.isLoading = false;
     }, (err) => {
       console.error(err);
       this.patientExists = false;
+      this.isLoading = false;
     }));
-    this.isLoading = false;
   }
 
   exportAsXLSX(): void {

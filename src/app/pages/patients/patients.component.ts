@@ -77,13 +77,14 @@ export class PatientsComponent implements OnInit, OnDestroy {
       .subscribe((patients) => {
         console.log("patients:", patients);
         this.patients = patients;
+        this.isLoading = false;
       }, (err) => {
         console.error(err);
+        this.isLoading = false;
       }));
     } else {
       console.log("invalid filter form");
     }
-    this.isLoading = false;
   }
 
   searchUser(): void {
@@ -104,12 +105,13 @@ export class PatientsComponent implements OnInit, OnDestroy {
           console.log("patient exists");
           this.searchedPatient = patient;
         }
+        this.isLoading = false;
       }, (err) => {
         console.error(err);
         // this.patientExists = false;
         console.log("patient doesn't exist");
+        this.isLoading = false;
       }));
-      this.isLoading = false;
     }
   }
 

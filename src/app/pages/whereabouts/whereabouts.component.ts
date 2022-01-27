@@ -62,11 +62,12 @@ export class WhereaboutsComponent implements OnInit, OnDestroy {
         whereabout.scan_date = this.convertDateTime(whereabout.scan_date);
       });
       console.log("whereabouts:", this.whereabouts);
+      this.isLoading = false;
     }, (err) => {
       console.error(err);
       this.patientExists = false;
+      this.isLoading = false;
     }));
-    this.isLoading = false;
   }
 
   convertDateTime(unixTime: number): any {
