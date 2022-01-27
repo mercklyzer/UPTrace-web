@@ -1,7 +1,5 @@
 <div class="container">
-    <div class="alert alert-danger mt-4"  *ngIf="errorMessages.length !== 0" role="alert">
-        {{errorMessages[0]}}
-    </div>
+    
 
     <div class="row">
         <div class="col-md-5 my-form">
@@ -9,6 +7,9 @@
             <div class="mb-4 login-text">
                 Are you a UPHS Contact Tracer or a HeLO? Login using GMAIL.
                 <app-google (googleError)="updateGoogleError($event)">Log In Using Gmail</app-google>
+            </div>
+            <div class="alert alert-danger mt-4"  *ngIf="errorMessages.length !== 0" role="alert">
+                {{errorMessages[0]}}
             </div>
 
             <form [formGroup]="loginForm" enctype="multipart/form-data" (submit)="onSubmit()">

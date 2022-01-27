@@ -20,10 +20,12 @@ declare var bootstrap: any;
 export class SignupComponent implements OnInit, OnDestroy {
   @ViewChild('triggerModal') triggerModal!: ElementRef;
 
+  otpErrorMessages:string[] = ['OTP does not match.', 'OTP already expired.']
   errorMessages:string[] = []
   showOtpForm:boolean = false
   timeLeft:number = 0
   countdownInterval:any
+
 
   signupForm!:FormGroup
 
@@ -101,6 +103,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   countdownOtp(res:any, err:any){
+    clearInterval(this.countdownInterval)
     this.showOtpForm = true
     this.timeLeft = 0
     let otpExpiresIn:any 
@@ -129,7 +132,7 @@ export class SignupComponent implements OnInit, OnDestroy {
       console.log(this.errorMessages);
     }
 
-    if(this.errorMessages.length === 0){
+    if(this.errorMessages.length === 0 || (this.errorMessages.length === 1 && this.otpErrorMessages.includes(this.errorMessages[0]))){
       this.userService.generateOtp(this.signupForm.value)
       .subscribe(res => {
         this.showOtpForm = true
@@ -142,6 +145,11 @@ export class SignupComponent implements OnInit, OnDestroy {
         }
         else{
           this.errorMessages.push(err.error.error.message.message)
+          window.scroll({ 
+            top: 0, 
+            left: 0, 
+            behavior: 'smooth' 
+          });
         }
       })
     }
@@ -155,6 +163,11 @@ export class SignupComponent implements OnInit, OnDestroy {
     
     if(this.errorMessages.length !== 0){
       console.log(this.errorMessages);
+      window.scroll({ 
+        top: 0, 
+        left: 0, 
+        behavior: 'smooth' 
+      });
     }
     if(this.errorMessages.length === 0){
 

@@ -1,7 +1,7 @@
 <div class="container">
-    <div class="alert alert-danger mt-4"  *ngIf="errorMessages.length !== 0" role="alert">
+    <!-- <div class="alert alert-danger mt-4"  *ngIf="errorMessages.length !== 0" role="alert">
         {{errorMessages[0]}}
-    </div>
+    </div> -->
 
     <div class="row">
         <div class="col-md-5 my-form">
@@ -11,10 +11,12 @@
             </div>
 
             <form [formGroup]="signupForm" enctype="multipart/form-data" (submit)="onSubmit()">
-
+                <div class="alert alert-danger mt-4"  *ngIf="errorMessages.length !== 0" role="alert">
+                    {{errorMessages[0]}}
+                </div>
 
                 <ng-container *ngIf="!showOtpForm">
-                    
+                                        
                     <!-- name -->
                     <div class="form-group mb-4 mt-md-4" *ngIf="signupForm.value.name">
                         <input type="text" formControlName="name" class="form-control my-input" [value]="signupForm.value.name" [attr.disabled]="true">                    
