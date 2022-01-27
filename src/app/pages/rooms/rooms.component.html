@@ -63,6 +63,9 @@
                         <th scope="col">QR Code</th>
                     </tr>
                 </thead>
+
+                <p *ngIf="rooms.length === 0" class="mt-2">No rooms.</p>
+
                 <tbody>
                     <tr *ngFor="let room of rooms">
                         <td>{{room.room_name}}</td>
@@ -107,7 +110,7 @@
                     <tr *ngIf="roomForm.value.newRooms.length > 0">
                         <td></td>
                         <td>
-                            <button type="submit" class="btn btn-primary float-end green-btn" data-bs-toggle="modal" data-bs-target="#addRoomModal">Submit</button>
+                            <button type="submit" class="btn btn-primary float-end green-btn" data-bs-toggle="modal" data-bs-target="#addRoomModal" [disabled]="!roomForm.valid">Submit</button>
                         </td>
                     </tr>
                 </tbody>

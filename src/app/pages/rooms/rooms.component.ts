@@ -84,8 +84,8 @@ export class RoomsComponent implements OnInit, OnDestroy {
     .subscribe((rooms) => {
       this.rooms = rooms;
       console.log("rooms:", rooms);
+      this.isLoadingRooms = false;
     }));
-    this.isLoadingRooms = false;
   }
 
   setBuildingName(buildingId: number) {
@@ -124,11 +124,13 @@ export class RoomsComponent implements OnInit, OnDestroy {
     .subscribe((response) => {
       console.log(response);
       this.addBuildingMessage = "Successfully added building.";
+      this.isLoadingMessage = false;
+
     }, (err) => {
       console.error(err);
       this.addBuildingMessage = `ERROR: ${err.error.error.message}`;
+      this.isLoadingMessage = false;
     }));
-    this.isLoadingMessage = false;
   }
 
   onSubmitRooms() {
@@ -141,11 +143,15 @@ export class RoomsComponent implements OnInit, OnDestroy {
       .subscribe((response) => {
         console.log(response);
         this.addRoomMessage = response;
+        this.isLoadingMessage = false;
+
       }, (err) => {
         console.error(err);
-      this.addRoomMessage = `ERROR: ${err.error.error.message}`;
+        this.addRoomMessage = `ERROR: ${err.error.error.message}`;
+        this.isLoadingMessage = false;
       }));
-      this.isLoadingMessage = false;
+      this.newRooms().clear();
+      this.isRoomFormSubmitted = false;
     }
   }
 
