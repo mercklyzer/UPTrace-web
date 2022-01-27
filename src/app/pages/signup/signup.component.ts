@@ -25,7 +25,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   showOtpForm:boolean = false
   timeLeft:number = 0
   countdownInterval:any
-
+  isLoading:boolean = false
 
   signupForm!:FormGroup
 
@@ -133,11 +133,13 @@ export class SignupComponent implements OnInit, OnDestroy {
     }
 
     if(this.errorMessages.length === 0 || (this.errorMessages.length === 1 && this.otpErrorMessages.includes(this.errorMessages[0]))){
+      this.isLoading = true;
       this.userService.generateOtp(this.signupForm.value)
       .subscribe(res => {
         this.showOtpForm = true
         this.countdownOtp(res,null)
         console.log(res);
+        this.isLoading = false;
       }, err => {
         console.log(err.error.error.message.message);
         if(err.error.error.message.message === 'You can request again after 5 minutes.'){
@@ -151,6 +153,7 @@ export class SignupComponent implements OnInit, OnDestroy {
             behavior: 'smooth' 
           });
         }
+        this.isLoading = false;
       })
     }
 
@@ -188,6 +191,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   onAgree() {
+    this.isLoading = true;
     this.subscriptions.add(this.userService.signupUser(this.signupForm.value)
     .subscribe((userResponse) => {
       console.log(userResponse);
@@ -196,9 +200,11 @@ export class SignupComponent implements OnInit, OnDestroy {
       this.cookieService.remove('Unregisterd User')
 
       this.router.navigate(['/']);
+      this.isLoading = false;
     }, (err) => {
       this.errorMessages.push(err.error.error.message)
       console.log(err);
+      this.isLoading = false;
     }))
   }
 }

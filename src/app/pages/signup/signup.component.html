@@ -71,8 +71,8 @@
                     <a style="display: block" class="link-primary" *ngIf="timeLeft === 0" (click)="generateOtp()" >Resend OTP.</a>
                 </div>
                 
-
-                <button type="submit" class="btn btn-primary my-btn">Sign Up</button>
+                <button type="submit" class="btn btn-primary my-btn" [disabled]="isLoading">Sign Up</button>
+                <img *ngIf="isLoading" src="../../../assets/images/loading.gif" alt="loading-gif" class="ms-2">
             </form>
             
             <button type="submit" class="btn btn-primary float-end" id="triggerModal" #triggerModal data-bs-toggle="modal" data-bs-target="#signupModal" hidden>Submit</button>
@@ -120,9 +120,8 @@
                     <p>By clicking "I agree," you have <strong>carefully read, understood, and agreed to the said conditions, and you express your consent for UPTrace to process the personal data that you may submit</strong> without precluding your rights under the Data Privacy Act of 2012. As provided by law, you may request to access, correct, erase, or block provided information in this form on reasonable grounds.</p>
 
                     <p>For inquiries, suggestions, or any other concerns regarding our privacy practices, please contact us at lbbautista6@up.edu.ph and cyceloso1@up.edu.ph. Thank you!</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary green-btn" data-bs-dismiss="modal" (click)="onAgree()">I agree</button>
+
+                    <button type="button" class="btn btn-primary green-btn float-end" data-bs-dismiss="modal" (click)="onAgree()">I agree</button>
                 </div>
             </div>
         </div>
