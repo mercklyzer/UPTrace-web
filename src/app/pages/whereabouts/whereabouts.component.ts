@@ -39,17 +39,20 @@ export class WhereaboutsComponent implements OnInit, OnDestroy {
   }
 
   checkIfPatientExists(): void {
+    this.isLoading = true;
     this.subscriptions.add(this.patientService.getPatientByContactNumAndDisclosureDate(this.patientContactNum, this.patientDisclosureDate)
     .subscribe((patient) => {
       if(patient === null) {
         this.patientExists = false;
         console.log("patient doesn't exist");
+        this.isLoading = false;
       } else {
         this.getWhereabouts();
       }
     }, (err) => {
       console.error(err);
       this.patientExists = false;
+      this.isLoading = false;
     }));
   }
 
@@ -71,7 +74,7 @@ export class WhereaboutsComponent implements OnInit, OnDestroy {
   }
 
   convertDateTime(unixTime: number): any {
-    return moment.unix(unixTime).format("MM/DD/YYYY HH:mm");
+    return moment.unix(unixTime).format("MM/DD/YYYY hh:mm A");
   }
 
   exportAsXLSX():void {
