@@ -31,7 +31,7 @@
                 </tr>
             </thead>
 
-            <p *ngIf="whereabouts.length" class='mt-2'>No whereabouts.</p>
+            <p *ngIf="whereabouts.length === 0" class='mt-2'>No whereabouts.</p>
 
             <tbody>
                 <tr *ngFor="let whereabout of whereabouts">

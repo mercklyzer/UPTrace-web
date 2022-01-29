@@ -148,7 +148,7 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   }
 
   convertDateTime(unixTime: number): any {
-    return moment.unix(unixTime).format("MM/DD/YYYY HH:mm");
+    return moment.unix(unixTime).format("MM/DD/YYYY hh:mm A");
   }
 
   convertDate(unixTime: number): any {
