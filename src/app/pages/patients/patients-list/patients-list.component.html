@@ -60,7 +60,8 @@
                         <option value="confirmed positive" [hidden]="searchedPatient.status == 'confirmed positive' || searchedPatient.status == 'confirmed negative'">Confirmed Positive</option>
                         <option value="confirmed negative" [hidden]="searchedPatient.status == 'confirmed negative'">Confirmed Negative</option>
                     </select>
-                    <a [hidden]="searchedPatient.status == 'suspected' || searchedPatient.status == 'disclosed positive' || searchedPatient.status == 'confirmed positive'" class="link-label" data-bs-toggle="modal" data-bs-target="#reportModal"><i class="fas fa-edit me-1"></i>Set as Positive</a>
+                    <a *ngIf="!searchedPatient.status || searchedPatient.status === 'confirmed negative'" class="link-label d-block" data-bs-toggle="modal" data-bs-target="#reportModal" [routerLink]="" (click)="setIsSuspected(true)"><i class="fas fa-edit me-1"></i>Set as Suspected Positive</a>
+                    <a *ngIf="!searchedPatient.status || searchedPatient.status === 'confirmed negative'" class="link-label d-block" data-bs-toggle="modal" data-bs-target="#reportModal" [routerLink]="" (click)="setIsSuspected(false)"><i class="fas fa-edit me-1"></i>Set as Positive</a>
                 </td>
                 <td>
                     <span *ngIf="!searchedPatient.status">N/A</span>
@@ -90,8 +91,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title">Set user as positive</h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h6 class="modal-title">Set user as <span *ngIf="isSuspected">suspected </span>positive</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeReportModal" #closeReportModal></button>
             </div>
             <div class="modal-body">
                 <form [formGroup]="reportForm">

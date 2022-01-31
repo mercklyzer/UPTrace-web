@@ -20,7 +20,9 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   @Input() tabSelected!: string;
   @Input() isLoading: boolean = false;
   @Output() getPatients: EventEmitter<any> = new EventEmitter();
+  @Output() searchUser: EventEmitter<any> = new EventEmitter();
   @ViewChild('closeConfirmModal') closeConfirmModal!: ElementRef;
+  @ViewChild('closeReportModal') closeReportModal!: ElementRef;
   
   reportForm!: FormGroup;
 
@@ -33,6 +35,7 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   datePlaceholder: string = moment().format("YYYY-MM-DD");
   
   isReportFormSubmitted: boolean = false;
+  isSuspected: boolean = false;
 
   private subscriptions = new Subscription();
 
@@ -90,11 +93,16 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   onChangeContactTracer(event: any) {
     console.log("on change contact tracer clicked");
     const formData = {
-      // contactTracer: event.target.value
       contactTracer: this.contactTracer
     };
 
     this.editPatient(this.patientClicked, formData);
+  }
+
+  setIsSuspected(isSuspected: boolean): any {
+    this.isSuspected = isSuspected;
+    console.log("passed value:", isSuspected);
+    console.log("changed isSuspected to:", this.isSuspected);
   }
 
   addPatient() {
@@ -109,6 +117,10 @@ export class PatientsListComponent implements OnInit, OnDestroy {
       status: "confirmed positive"
     });
 
+    if(this.isSuspected) {
+      this.reportForm.controls['status'].setValue("suspected");
+    }
+
     if(this.reportForm.value.condition == "asymptomatic") {
       this.reportForm.controls['onset_date'].setValue(moment().format("YYYY-MM-DD"));
     }
@@ -120,7 +132,8 @@ export class PatientsListComponent implements OnInit, OnDestroy {
       this.subscriptions.add(this.patientService.addPatient(this.reportForm.value)
       .subscribe((response) => {
         console.log(response);
-        location.reload();
+        // location.reload();
+        this.closeModalAndRefresh("report");
       }, (err) => {
         console.error(err);
       }));
@@ -138,11 +151,11 @@ export class PatientsListComponent implements OnInit, OnDestroy {
     this.subscriptions.add(this.patientService.editPatient(patient.contact_num, patient.disclosure_date, formData)
     .subscribe((response) => {
       console.log(response);
-      this.closeModalAndRefresh();
+      this.closeModalAndRefresh("confirm");
     }, (err) => {
       this.errorMessage = err.error.error.message;
       setTimeout(() => {
-        this.closeModalAndRefresh();
+        this.closeModalAndRefresh("confirm");
       }, 5000);
     }));
   }
@@ -164,12 +177,20 @@ export class PatientsListComponent implements OnInit, OnDestroy {
     console.log("set patient clicked to:", this.patientClicked);
   }
 
-  closeModalAndRefresh(): any {
+  closeModalAndRefresh(modal: string): any {
     console.log("inside close modal and refresh");
-    let closeConfirmModal: HTMLElement = this.closeConfirmModal.nativeElement;
-    closeConfirmModal.click();
-    this.errorMessage = "";
-    // location.reload(); // Do not refresh whole page, just update the table using the event emitter below
-    this.getPatients.emit();
+    if(modal === "confirm") {
+      let closeConfirmModal: HTMLElement = this.closeConfirmModal.nativeElement;
+      closeConfirmModal.click();
+      this.errorMessage = "";
+      // location.reload(); // Do not refresh whole page, just update the table using the event emitter below
+      this.getPatients.emit();
+    } else if(modal === "report") {
+      let closeReportModal: HTMLElement = this.closeReportModal.nativeElement;
+      closeReportModal.click();
+      this.searchUser.emit();
+      this.getPatients.emit();
+    }
   }
+
 }

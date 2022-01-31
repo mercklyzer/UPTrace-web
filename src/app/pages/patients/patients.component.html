@@ -72,6 +72,6 @@
         </form>
 
         <h4 class="mt-3">Result</h4>
-        <app-patients-list [isLoading]="isLoading" [searchedPatient]="searchedPatient" [tabSelected]="'search'"></app-patients-list>
+        <app-patients-list [isLoading]="isLoading" [searchedPatient]="searchedPatient" [tabSelected]="'search'" (searchUser)="searchUser()" (getPatients)="getPatients()"></app-patients-list>
     </div>
 </div>
