@@ -69,10 +69,19 @@ export class CloseContactsComponent implements OnInit, OnDestroy {
   }
 
   exportAsXLSX(): void {
-    let closeContactsCopy = this.closeContacts;
-    closeContactsCopy.forEach((close_contact) => {
-      close_contact.exposure_details = close_contact.exposure_details.join(', ');
+    // let closeContactsCopy = this.closeContacts;
+    let closeContactsCopy:any = []
+    this.closeContacts.forEach((close_contact) => {
+      // close_contact.exposure_details = close_contact.exposure_details.map(log => log.detail)
+
+      let temp = ''
+      close_contact.exposure_details.forEach(expo_detail => {
+        temp += expo_detail.detail + ", "
+      })
+      closeContactsCopy.push({...close_contact, exposure_details: temp})
     });
+
+    
 
     this.excelService.exportAsExcelFile(closeContactsCopy, `${this.patientContactNum}_close_contacts`);
   }

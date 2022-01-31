@@ -41,7 +41,7 @@
                     <td [class.high-exposure]="closeContact.exposure_type == 'same room'">{{ closeContact.exposure_type | titlecase }}</td>
                     <td>
                         <ul *ngFor="let entry of closeContact.exposure_details">
-                            <li>{{ entry }}</li>
+                            <li [ngStyle]="{color: entry.exposure_type === 'same room' && entry.is_entrance === 0? 'red': 'black'}">{{ entry.detail }}</li>
                         </ul>
                     </td>
                 </tr>
