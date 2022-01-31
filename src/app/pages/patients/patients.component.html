@@ -15,7 +15,7 @@
         <form [formGroup]="filterForm">
             <div class="row">
                 <div class="col-md-3 mb-2">
-                    <select class="form-select" formControlName="status_filter">
+                    <select class="form-select" formControlName="status_filter" (change)="getPatients()">
                         <option value="all" selected>All</option>
                         <option value="suspected">Suspected</option>
                         <option value="disclosed positive">Disclosed Positive</option>
@@ -24,18 +24,18 @@
                     </select>
                 </div>
                 <div class="col-md-3 mb-2">
-                    <dp-date-picker theme="dp-material" formControlName="date_filter" [config]="datePickerConfig" [placeholder]="datePlaceholder"></dp-date-picker>
+                    <dp-date-picker theme="dp-material" formControlName="date_filter" (ngModelChange)="getPatients()" [config]="datePickerConfig" [placeholder]="datePlaceholder"></dp-date-picker>
                 </div>
                 
             </div>
             <div class="row">
                 <div class="col-md-6 mb-2">
-                    <input class="form-check-input me-2" type="checkbox" id="show-assigned-patients" formControlName="show_assigned_patients_filter">
+                    <input class="form-check-input me-2" type="checkbox" id="show-assigned-patients" (change)="getPatients()" formControlName="show_assigned_patients_filter">
                     <label class="form-check-label" for="show-assigned-patients">Only show patients assigned to me</label>
                 </div>
-                <div class="col-md-6 mb-2">
+                <!-- <div class="col-md-6 mb-2">
                     <button type="button" class="btn btn-primary green-btn float-end" (click)="getPatients()">Submit Filter</button>
-                </div>
+                </div> -->
             </div>
         </form>
 
