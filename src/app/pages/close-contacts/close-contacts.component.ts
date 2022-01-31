@@ -75,8 +75,13 @@ export class CloseContactsComponent implements OnInit, OnDestroy {
       // close_contact.exposure_details = close_contact.exposure_details.map(log => log.detail)
 
       let temp = ''
-      close_contact.exposure_details.forEach(expo_detail => {
-        temp += expo_detail.detail + ", "
+      close_contact.exposure_details.forEach((expo_detail, key, arr) => {
+        // Only add comma if it is the last element in the array
+        if(Object.is(arr.length - 1, key)) {
+          temp += expo_detail.detail
+        } else {
+          temp += expo_detail.detail + ", "
+        }
       })
       closeContactsCopy.push({...close_contact, exposure_details: temp})
     });
