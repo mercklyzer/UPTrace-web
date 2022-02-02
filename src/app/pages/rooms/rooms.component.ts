@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { Building } from 'src/app/models/building.model';
 import { Room } from 'src/app/models/room.model';
 import { BuildingService } from 'src/app/services/building.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-rooms',
@@ -94,7 +95,7 @@ export class RoomsComponent implements OnInit, OnDestroy {
   }
 
   downloadAllQRCodes(buildingId:number){
-    window.open(`http://localhost:3000/buildings/${buildingId}/rooms-pdf`)
+    window.open(`${environment.apiUrl}/buildings/${buildingId}/rooms-pdf`)
 
     // this.buildingService.getRoomsPdf(buildingId)
     // .subscribe((res) => {
@@ -105,7 +106,7 @@ export class RoomsComponent implements OnInit, OnDestroy {
   }
 
   downloadSpecificQRCode(buildingId:number, roomId:string){
-    window.open(`http://localhost:3000/buildings/${buildingId}/${roomId}/pdf`)
+    window.open(`${environment.apiUrl}/buildings/${buildingId}/${roomId}/pdf`)
   }
 
   onSelectBuilding(event: any) {
