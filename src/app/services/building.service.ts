@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Building } from '../models/building.model';
 import { Room } from '../models/room.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class BuildingService {
     private http: HttpClient
   ) { }
 
-  private url = "http://localhost:3000";
+  private url = environment.apiUrl;
 
   getBuildings():Observable<Building[]>{
     return this.http.get<Building[]>(`${this.url}/buildings`);
