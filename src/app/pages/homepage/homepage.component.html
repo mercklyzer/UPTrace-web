@@ -6,6 +6,10 @@
         <button *ngIf="user" type="button" class="btn btn-primary me-2 maroon-btn" data-bs-toggle="modal" data-bs-target="#reportModal" (click)="onClickButton('suspected')" [disabled]="isUserPositive">I suspect to be positive</button>
         <button *ngIf="user" type="button" class="btn btn-primary maroon-btn" data-bs-toggle="modal" data-bs-target="#reportModal" (click)="onClickButton('disclosed positive')" [disabled]="isUserPositive">I tested positive</button>
         <small *ngIf="isUserPositive" class="d-block text-muted mt-2">The buttons above will only be enabled once a contact tracer has confirmed that you are negative for COVID-19.</small>
+        <div *ngIf="showSuccessfulDiscloseMessage" class="alert alert-success alert-dismissible fade show mt-1" role="alert">
+            Thank you for disclosing your status. Please self-isolate or quarantine at home, and wait for a UPHS contact tracer to communicate with you for further instructions.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         <div *ngIf="errorMessage" class="alert alert-danger mt-1" role="alert"><i class="fas fa-exclamation-triangle me-1"></i>{{ errorMessage }}</div>
     </div>
     <section class="mt-4 mb-5 text-center">

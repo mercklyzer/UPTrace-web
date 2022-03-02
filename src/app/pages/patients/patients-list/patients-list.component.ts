@@ -185,6 +185,9 @@ export class PatientsListComponent implements OnInit, OnDestroy {
       this.errorMessage = "";
       // location.reload(); // Do not refresh whole page, just update the table using the event emitter below
       this.getPatients.emit();
+      if(this.tabSelected === "search") {
+        this.searchUser.emit();
+      }
     } else if(modal === "report") {
       let closeReportModal: HTMLElement = this.closeReportModal.nativeElement;
       closeReportModal.click();

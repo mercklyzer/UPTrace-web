@@ -24,6 +24,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
   isUserPositive: boolean = false;
   isReportFormSubmitted: boolean = false;
   isLoading: boolean = false; // Used to determine whether response from addPatient is gotten or not
+  showSuccessfulDiscloseMessage: boolean = false; // This will only be true if a user has just disclosed their status
 
   buttonClicked: string = "";
   errorMessage: string = "";
@@ -120,6 +121,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
     console.log("inside close modal and refresh");
     let closeReportModal: HTMLElement = this.closeReportModal.nativeElement;
     closeReportModal.click();
+    this.showSuccessfulDiscloseMessage = true;
     this.errorMessage = "";
     this.checkIfUserIsNegative(this.user.contact_num);
   }
