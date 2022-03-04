@@ -35,7 +35,7 @@
                     </div>
                     <div class="modal-body">
                         <div *ngIf="isLoadingMessage" class="text-center">
-                            <img  src="../../../assets/images/loading.gif" alt="loading-gif">
+                            <img  src="/assets/images/loading.gif" alt="loading-gif">
                         </div>
                         <div *ngIf="!isLoadingMessage">
                             {{ addBuildingMessage }}
@@ -51,7 +51,7 @@
         <button *ngIf="rooms.length > 0 && !isLoadingRooms" class="btn btn-primary mb-3 green-btn" (click)="downloadAllQRCodes(selectedBuildingId)"><i class="fas fa-download me-2"></i>Download All QR Codes</button>
         
         <div *ngIf="isLoadingRooms" class="text-center">
-            <img  src="../../../assets/images/loading.gif" alt="loading-gif">
+            <img  src="/assets/images/loading.gif" alt="loading-gif">
         </div>
         
         <div *ngIf="!isLoadingRooms" class="table-responsive">
@@ -126,7 +126,7 @@
                     </div>
                     <div class="modal-body">
                         <div *ngIf="isLoadingMessage" class="text-center">
-                            <img  src="../../../assets/images/loading.gif" alt="loading-gif">
+                            <img  src="/assets/images/loading.gif" alt="loading-gif">
                         </div>
                         <div *ngIf="!isLoadingMessage">
                             {{ addRoomMessage }}
