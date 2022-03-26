@@ -46,7 +46,7 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.user = JSON.parse(this.cookieService.get('User'));
+    this.user = JSON.parse(localStorage.getItem('User')!);
     console.log(this.user);
     this.contactTracer = this.user.name;
 

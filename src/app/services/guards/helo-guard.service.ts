@@ -13,7 +13,7 @@ export class HeloGuardService {
   ) { }
 
   canActivate():boolean {
-    if((JSON.parse(this.cookieService.get('User')).role === 'helo')){
+    if((JSON.parse(localStorage.getItem('User')!).role === 'helo')){
       return true
     }
     else{

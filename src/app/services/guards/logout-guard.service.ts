@@ -13,7 +13,7 @@ export class LogoutGuardService implements CanActivate {
   ) { }
 
   canActivate():boolean {
-    if(!this.cookieService.get('User')){
+    if(!localStorage.getItem('User')){
       return true
     }
     else{

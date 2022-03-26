@@ -43,7 +43,7 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     
-    this.unregisteredUser = this.cookieService.get('Unregistered User')? JSON.parse(this.cookieService.get('Unregistered User')) : ''
+    this.unregisteredUser = localStorage.getItem('Unregistered User')? JSON.parse(localStorage.getItem('Unregistered User')!) : ''
 
 
     this.signupForm = this.fb.group({
@@ -81,7 +81,8 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   updateFromService(){
-    this.unregisteredUser = JSON.parse(this.cookieService.get('Unregistered User'))
+    // this.unregisteredUser = JSON.parse(this.cookieService.get('Unregistered User'))
+    this.unregisteredUser = JSON.parse(localStorage.getItem('Unregistered User')!)
 
     this.signupForm.patchValue({
       role: this.unregisteredUser['role'],
@@ -195,9 +196,11 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.subscriptions.add(this.userService.signupUser(this.signupForm.value)
     .subscribe((userResponse) => {
       console.log(userResponse);
-      this.cookieService.put('Token', userResponse.token);
-      this.cookieService.put('User', JSON.stringify(userResponse.user))
-      this.cookieService.remove('Unregisterd User')
+      // this.cookieService.put('Token', userResponse.token);
+      // this.cookieService.put('User', JSON.stringify(userResponse.user))
+      localStorage.setItem('Token', userResponse.token);
+      localStorage.setItem('User', JSON.stringify(userResponse.user))
+      localStorage.removeItem('Unregisterd User')
 
       this.router.navigate(['/']);
       this.isLoading = false;

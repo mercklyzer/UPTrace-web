@@ -42,7 +42,7 @@ export class GoogleComponent implements OnInit {
               name: socialUser.firstName + ' ' + socialUser.lastName
             }
 
-            this.cookieService.put('Unregistered User', JSON.stringify(unregisteredUser))
+            localStorage.setItem('Unregistered User', JSON.stringify(unregisteredUser))
 
             console.log(res);
             this.googleEmit.emit();
@@ -51,8 +51,8 @@ export class GoogleComponent implements OnInit {
 
           else if(res.message === 'login'){
             console.log("GO TO LOGIN PAGE")
-            this.cookieService.put('Token', res.token);
-            this.cookieService.put('User', JSON.stringify(res.user))
+            localStorage.setItem('Token', res.token);
+            localStorage.setItem('User', JSON.stringify(res.user))
 
             this.router.navigate(['/']);
           }

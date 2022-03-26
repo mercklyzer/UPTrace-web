@@ -33,7 +33,7 @@ export class NavbarComponent implements OnInit {
       .subscribe((receivedEvent) => {
         if(receivedEvent instanceof NavigationEnd){
           this.url = receivedEvent.url;
-          this.user = this.cookieService.get('User')? JSON.parse(this.cookieService.get('User')) : ''
+          this.user = localStorage.getItem('User')? JSON.parse(localStorage.getItem('User')!) : ''
         }
       });
   }
@@ -46,7 +46,8 @@ export class NavbarComponent implements OnInit {
 
   onLogOut():void{
     this.collapse.nativeElement.click()
-    this.cookieService.removeAll()
+    localStorage.clear()
+    // this.cookieService.removeAll()
 
     if(this.url === '/'){
       this.redirectTo('/')

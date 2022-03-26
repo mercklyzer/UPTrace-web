@@ -14,7 +14,7 @@ export class UphsGuardService {
 
 
   canActivate():boolean {
-    if(JSON.parse(this.cookieService.get('User')).role === 'uphs'){
+    if(JSON.parse(localStorage.getItem('User')!).role === 'uphs'){
       return true
     }
     else{

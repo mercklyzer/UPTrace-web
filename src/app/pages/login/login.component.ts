@@ -50,8 +50,10 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.subscriptions.add(this.userService.loginUser(this.loginForm.value)
       .subscribe((userResponse) => {
         console.log(userResponse);
-        this.cookieService.put('Token', userResponse.token);
-        this.cookieService.put('User', JSON.stringify(userResponse.user))
+        // this.cookieService.put('Token', userResponse.token);
+        // this.cookieService.put('User', JSON.stringify(userResponse.user))
+        localStorage.setItem('Token', userResponse.token);
+        localStorage.setItem('User', JSON.stringify(userResponse.user))
         this.router.navigate(['/']);
       }, (err) => {
         this.errorMessages.push(err.error.error.message)

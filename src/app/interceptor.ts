@@ -15,7 +15,7 @@ export class Interceptor implements HttpInterceptor {
         // add the authorization headers
         const cloneReq = req.clone({
             setHeaders: {
-                Authorization: this.cookieService.get('Token')
+                Authorization: localStorage.getItem('Token')!
             }
         })
 

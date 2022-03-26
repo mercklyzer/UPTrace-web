@@ -18,7 +18,7 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.user = JSON.parse(this.cookieService.get('User'));
+    this.user = JSON.parse(localStorage.getItem('User')!);
     console.log(this.user);
   }
 
