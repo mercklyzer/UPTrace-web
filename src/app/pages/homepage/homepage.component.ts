@@ -38,7 +38,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.user = this.cookieService.get('User')? JSON.parse(this.cookieService.get('User')) : ''
+    this.user = localStorage.getItem('User')? JSON.parse(localStorage.getItem('User')!) : ''
 
     if(this.user) {
       this.checkIfUserIsNegative(this.user.contact_num);
