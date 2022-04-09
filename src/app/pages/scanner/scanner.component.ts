@@ -63,7 +63,7 @@ export class ScannerComponent implements OnInit, OnDestroy {
 
     // Start of adding code to select back/rear camera by default if it exists
     console.log("available devices:", this.availableDevices);
-    this.backCamera = this.availableDevices.find(device => device.label.toLowerCase().includes("source") || device.label.toLowerCase().includes("rear"));
+    this.backCamera = this.availableDevices.find(device => device.label.toLowerCase().includes("back") || device.label.toLowerCase().includes("rear"));
     console.log("back camera:", this.backCamera);
   }
 
