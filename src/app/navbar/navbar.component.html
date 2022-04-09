@@ -1,8 +1,8 @@
-<nav class="navbar navbar-expand-md navbar-light bg-light">
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
     <div class="container-fluid navbar-container">
       <span class="navbar-brand mb-0 h1 brand" routerLink="/"><img src="assets/images/uptrace-logo.png"></span>
 
-      <button class="navbar-toggler" #collapseBtn type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" *ngIf="user.role !== 'ordinary'" #collapseBtn type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 

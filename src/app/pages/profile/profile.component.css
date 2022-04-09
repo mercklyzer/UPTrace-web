@@ -1,4 +1,21 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
 .label {
     color: var(--dark-green);
     font-weight: bold;
+}
+
+.logout{
+    background-color: var(--maroon);
+    padding: 0.5rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-bottom: 0.75rem;
 }

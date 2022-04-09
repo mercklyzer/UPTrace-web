@@ -31,6 +31,7 @@ import { LogoutGuardService } from './services/guards/logout-guard.service';
 import { DummyComponent } from './dummy/dummy.component';
 import { PatientsListComponent } from './pages/patients/patients-list/patients-list.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { TabsComponent } from './tabs/tabs.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
     LoginComponent,
     DummyComponent,
     PatientsListComponent,
-    ProfileComponent
+    ProfileComponent,
+    TabsComponent
   ],
   imports: [
     BrowserModule,
