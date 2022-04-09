@@ -35,6 +35,10 @@ export class ScannerComponent implements OnInit, OnDestroy {
   deviceCurrent?: MediaDeviceInfo;
   deviceSelected:string = ''
 
+  // Added to use back/rear camera by default
+  scannerJustLoaded: boolean = true;
+  backCamera?: MediaDeviceInfo;
+
   private subscriptions = new Subscription();
 
   constructor(
@@ -56,21 +60,42 @@ export class ScannerComponent implements OnInit, OnDestroy {
 
   onCamerasFound(devices: MediaDeviceInfo[]) {
     this.availableDevices = devices
+
+    // Start of adding code to select back/rear camera by default if it exists
+    console.log("available devices:", this.availableDevices);
+    this.backCamera = this.availableDevices.find(device => device.label.toLowerCase().includes("source") || device.label.toLowerCase().includes("rear"));
+    console.log("back camera:", this.backCamera);
   }
 
   onDeviceSelectChange(selected: any) {
-    const selectedStr = selected.target.value || '';
-    if (this.deviceSelected === selectedStr) { return; }
-    this.deviceSelected = selectedStr;
-    const device = this.availableDevices.find(x => x.deviceId === selected.target.value);
-    this.deviceCurrent = device || undefined;
+    if(this.scannerJustLoaded && this.backCamera) {
+      console.log("inside if scannerJustLoaded and backCamera is not undefined");
+      this.deviceSelected = this.backCamera.deviceId;
+      this.deviceCurrent = this.backCamera;
+      this.scannerJustLoaded = false;
+    } else {
+      const selectedStr = selected.target.value || '';
+      if (this.deviceSelected === selectedStr) { return; }
+      this.deviceSelected = selectedStr;
+      const device = this.availableDevices.find(x => x.deviceId === selected.target.value);
+      this.deviceCurrent = device || undefined;
+    }
   }
 
   onDeviceChange(device: MediaDeviceInfo) {
-    const selectedStr = device?.deviceId || '';
-    if (this.deviceSelected === selectedStr) { return; }
-    this.deviceSelected = selectedStr;
-    this.deviceCurrent = device || undefined;
+    if(this.scannerJustLoaded && this.backCamera) {
+      console.log("inside if scannerJustLoaded and backCamera is not undefined");
+      this.deviceSelected = this.backCamera.deviceId;
+      this.deviceCurrent = this.backCamera;
+      this.scannerJustLoaded = false;
+    } else {
+      const selectedStr = device?.deviceId || '';
+      if (this.deviceSelected === selectedStr) { return; }
+      this.deviceSelected = selectedStr;
+      this.deviceCurrent = device || undefined;
+      console.log("deviceSelected:", this.deviceSelected);
+      console.log("deviceCurrent:", this.deviceCurrent);
+    }
   }
 
   changeCamera(event: any) {
