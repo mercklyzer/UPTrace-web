@@ -8,7 +8,7 @@
         <p><span class="label">Preferred Way of Interview:</span> {{ user.way_of_interview }}</p>
         <p><span class="label">Role:</span> {{ user.role }}</p>
     </div>
-     <div class="logout">
+     <div class="logout" (click)="onLogOut()" style="cursor: pointer;">
          LOG OUT
      </div>
 </div>

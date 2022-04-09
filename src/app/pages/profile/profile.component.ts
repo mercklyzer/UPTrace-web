@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { User } from 'src/app/models/user.model';
 
@@ -15,6 +16,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private cookieService:CookieService,
+    private router:Router
   ) { }
 
   ngOnInit(): void {
@@ -24,6 +26,11 @@ export class ProfileComponent implements OnInit {
 
   convertContactTime(contactTime: any): any {
     return moment(contactTime, "HH:mm").format("hh:mm A");
+  }
+
+  onLogOut():void{
+    localStorage.clear();
+    this.router.navigate(['/']);
   }
 
 }
